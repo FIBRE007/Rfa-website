@@ -1,0 +1,41 @@
+/* ==========================================================================
+   Royal Family Academy — Scroll reveal system
+   Driven by shared/js/reveal.js (IntersectionObserver). Kept CSS-only /
+   dependency-free by design (see brief §35: avoid heavy animation libraries
+   when IO can do it). Everything here is inert for prefers-reduced-motion.
+   ========================================================================== */
+
+[data-reveal] {
+  opacity: 0;
+  transition: opacity var(--dur-slow) var(--ease-editorial), transform var(--dur-slow) var(--ease-editorial);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+[data-reveal="up"] { transform: translateY(38px); }
+[data-reveal="down"] { transform: translateY(-30px); }
+[data-reveal="left"] { transform: translateX(38px); }
+[data-reveal="right"] { transform: translateX(-38px); }
+[data-reveal="scale"] { transform: scale(0.94); }
+[data-reveal="clip"] { clip-path: inset(0 0 100% 0); transform: none; transition-property: clip-path; }
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+  clip-path: inset(0 0 0% 0);
+}
+
+[data-reveal-group] > * { transition-delay: calc(var(--reveal-index, 0) * 90ms); }
+
+.counter[data-count] { font-variant-numeric: tabular-nums; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    transition: none !important;
+  }
+  .hero__title .line span { transform: none !important; }
+  .hero__sub, .hero__ctas, .scroll-cue { opacity: 1 !important; transform: none !important; }
+  html { scroll-behavior: auto; }
+  * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; }
+}
