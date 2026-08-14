@@ -33,9 +33,11 @@
       tab.addEventListener('click', () => {
         const key = tab.getAttribute('data-facility-tab');
         tabs.forEach((t) => t.classList.toggle('is-active', t === tab));
-        panelsEl.forEach((p) =>
-          p.classList.toggle('is-active', p.getAttribute('data-facility-panel') === key)
-        );
+        panelsEl.forEach((p) => {
+          const isMatch = p.getAttribute('data-facility-panel') === key;
+          p.classList.toggle('is-active', isMatch);
+          p.style.display = isMatch ? '' : 'none';
+        });
       });
     });
   }

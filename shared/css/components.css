@@ -61,6 +61,15 @@
 .media-slot--21-9 { aspect-ratio: 21 / 9; }
 .media-slot--full { position: absolute; inset: 0; aspect-ratio: auto; }
 
+/* Full-bleed backdrops carry bottom-anchored headline copy on top — keep
+   the placeholder label near the top so the two never collide. */
+.hero__media .media-slot__label,
+.cta-banner__media .media-slot__label,
+.school-panel__media .media-slot__label {
+  top: 12%;
+  transform: translateX(-50%);
+}
+
 /* ---- Site header / nav ------------------------------------------------------ */
 
 .site-header {
@@ -129,15 +138,17 @@
   .site-nav__links {
     display: flex;
     align-items: center;
-    gap: var(--space-md);
+    gap: clamp(0.9rem, 1.6vw, 1.75rem);
+    flex-wrap: nowrap;
   }
 }
 .site-nav__link {
   font-size: var(--fs-xs);
   font-weight: 600;
-  letter-spacing: var(--tracking-wider);
+  letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
   color: var(--rfa-warm-white);
+  white-space: nowrap;
   transition: color var(--dur-fast);
 }
 
@@ -223,12 +234,20 @@
   display: block;
   font-size: var(--fs-display-xl);
   line-height: 0.98;
+  overflow-wrap: break-word;
   transform: translateY(110%);
   transition: transform 900ms var(--ease-editorial);
 }
 .hero.is-revealed .hero__title .line span { transform: translateY(0); }
 .hero__title .line:nth-child(2) span { transition-delay: 90ms; }
 .hero__title .line:nth-child(3) span { transition-delay: 180ms; }
+
+/* Small phones: the desktop clamp still overshoots for long single words
+   (e.g. "Distinguished") at these widths — cap it explicitly rather than
+   let it overflow the viewport. */
+@media (max-width: 480px) {
+  .hero__title .line span { font-size: clamp(2.1rem, 11vw, 3rem); }
+}
 
 .hero__sub {
   margin-top: var(--space-md);
