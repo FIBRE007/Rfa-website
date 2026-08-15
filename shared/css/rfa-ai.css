@@ -1,0 +1,184 @@
+/* ==========================================================================
+   RFA AI — discreet assistant launcher (bottom-right, all properties)
+   ========================================================================== */
+
+.rfa-ai {
+  position: fixed;
+  right: var(--space-sm);
+  bottom: var(--space-sm);
+  z-index: var(--z-overlay);
+  font-family: var(--font-body);
+}
+
+.rfa-ai__launcher {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: 0.85em 1.3em;
+  border-radius: 999px;
+  background: var(--rfa-purple-900);
+  color: var(--rfa-warm-white);
+  box-shadow: 0 14px 34px -14px rgba(14,12,18,0.55);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  transition: transform var(--dur-fast) var(--ease-out-soft), box-shadow var(--dur-fast);
+}
+.rfa-ai__launcher:hover, .rfa-ai__launcher:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px -14px rgba(14,12,18,0.65);
+}
+.rfa-ai__launcher-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--rfa-gold-500);
+  animation: rfa-ai-pulse 2.4s ease-in-out infinite;
+}
+@keyframes rfa-ai-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.7); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rfa-ai__launcher-dot { animation: none; }
+}
+.rfa-ai.is-open .rfa-ai__launcher { opacity: 0; pointer-events: none; }
+
+.rfa-ai__panel {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + var(--space-2xs));
+  width: min(360px, calc(100vw - 2 * var(--space-sm)));
+  max-height: min(560px, 70vh);
+  display: flex;
+  flex-direction: column;
+  background: var(--rfa-warm-white);
+  color: var(--rfa-charcoal);
+  border-radius: var(--radius-md);
+  box-shadow: 0 30px 70px -20px rgba(14,12,18,0.5);
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(12px) scale(0.98);
+  pointer-events: none;
+  transition: opacity var(--dur-fast) var(--ease-out-soft), transform var(--dur-fast) var(--ease-out-soft);
+}
+.rfa-ai.is-open .rfa-ai__panel {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.rfa-ai__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--gradient-royal);
+  color: var(--rfa-warm-white);
+}
+.rfa-ai__title { font-family: var(--font-display); font-size: 1.3rem; }
+.rfa-ai__close { font-size: 1.4rem; line-height: 1; color: var(--rfa-warm-white); }
+
+.rfa-ai__messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-sm) var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+.rfa-ai__msg {
+  font-size: var(--fs-sm);
+  line-height: var(--lh-body);
+  padding: 0.6em 0.85em;
+  border-radius: var(--radius-sm);
+  max-width: 88%;
+}
+.rfa-ai__msg--bot { background: var(--rfa-ivory); align-self: flex-start; }
+.rfa-ai__msg--user { background: var(--rfa-purple-100); align-self: flex-end; }
+.rfa-ai__msg ul { margin: 0.4em 0 0; padding-left: 1.1em; list-style: disc; }
+
+.rfa-ai__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3xs);
+  padding: 0 var(--space-md) var(--space-2xs);
+}
+.rfa-ai__chip {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  padding: 0.45em 0.8em;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  color: var(--rfa-purple-700);
+  transition: background var(--dur-fast), color var(--dur-fast);
+}
+.rfa-ai__chip:hover { background: var(--rfa-purple-700); color: var(--rfa-warm-white); }
+
+.rfa-ai__form {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-sm) var(--space-md);
+  border-top: 1px solid var(--color-border);
+}
+.rfa-ai__input {
+  flex: 1;
+  border: none;
+  font-size: var(--fs-sm);
+  background: transparent;
+}
+.rfa-ai__input:focus { outline: none; }
+.rfa-ai__send {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--rfa-purple-700);
+  color: var(--rfa-warm-white);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+  .rfa-ai { right: var(--space-xs); bottom: var(--space-xs); }
+  .rfa-ai__launcher-label { display: none; }
+  .rfa-ai__launcher { padding: 0.9em; }
+}
+
+/* ==========================================================================
+   ACSI badge — the main-domain centrepiece
+   ========================================================================== */
+
+.acsi-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+}
+.acsi-badge__logo {
+  width: clamp(120px, 16vw, 200px);
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  background: var(--rfa-warm-white);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 30px 60px -20px rgba(14,12,18,0.5);
+}
+.acsi-badge__logo img { width: 72%; height: auto; }
+.acsi-badge__logo-fallback {
+  font-family: var(--font-accent-serif);
+  font-size: 0.85rem;
+  letter-spacing: var(--tracking-widest);
+  color: var(--rfa-purple-700);
+  text-align: center;
+  line-height: 1.3;
+}
+.acsi-badge__status {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--rfa-warm-white);
+}
