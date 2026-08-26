@@ -10,11 +10,28 @@ royalfamilyacademy.org                              — main/                (si
 nurseryandprimaryschool.royalfamilyacademy.org       — nurseryandprimaryschool/   (Crèche – Grade 6)
 highschool.royalfamilyacademy.org                    — highschool/          (Junior High 1 – Senior High 3)
 sixthform.royalfamilyacademy.org                     — sixthform/           (Age 17+, verified shell only)
+assets.royalfamilyacademy.org                        — shared/              (design tokens, base styles, components,
+                                                                              animation/interaction JS, RFA AI +
+                                                                              knowledge base — loaded by all four sites)
+media.royalfamilyacademy.org                         — Cloudflare R2 bucket (all real photography/video — see
+                                                                              images/README.md; nothing to commit here)
 
-shared/    design tokens, base styles, components, animation/interaction JS, RFA AI + knowledge base — used by all four sites
-images/    the real-photography asset system (see images/README.md)
+images/    documentation only — the taxonomy R2 object keys follow (see images/README.md)
 robots.txt, sitemap.xml
 ```
+
+Five Cloudflare origins in total, all served from this one repository: four
+Pages projects for the sites above (each with its own root directory —
+`main/`, `nurseryandprimaryschool/`, `highschool/`, `sixthform/`) plus a
+fifth Pages project whose root directory is the **repo root**, giving every
+site's `<link>`/`<script>` tags a stable cross-origin path at
+`https://assets.royalfamilyacademy.org/shared/...`. This exists because each
+site's Pages project only has access to files inside its own root directory
+— a page can't reach a sibling folder like `../shared/` once it's deployed
+as its own domain, only as a plain local static-file preview. Real
+photography/video are kept off git entirely, in R2, for the same reason
+images shouldn't bloat a git history and because R2 has no per-file build
+step to keep in sync — it's just uploaded once and referenced by URL.
 
 ## Source governance (read this before editing content)
 
@@ -56,7 +73,10 @@ originating specification).
   section, so the page still never scrolls), the three school links (using
   real production subdomain URLs), social placeholders, and the RFA AI
   launcher. No conventional navigation, no long-form content — that's by
-  design (see spec §4.1).
+  design (see spec §4.1). The cinematic backdrop optionally plays a looping
+  background video over the photo once one is supplied (see "Background
+  video" in `images/README.md`) — muted/looping, skipped for
+  reduced-motion/Data Saver, and the photo remains the permanent fallback.
 - **Nursery & Primary** (`nurseryandprimaryschool/`): full verified content
   — Early Years age table, Primary age table + curriculum, both weekly
   timetables, clubs/events/sports/houses, Christian formation, Discovery
@@ -106,25 +126,44 @@ details instead of guessing. Swap in a real backend later by replacing the
   on-brand placeholder until a real file lands at the documented path —
   nothing else needs to change.
 
-## Deploying as four real (sub)domains
+## Deploying as five real (sub)domains + one R2 bucket
 
-This repo currently serves all four sites as sibling folders with relative
-links so the whole ecosystem can be previewed from one static file server,
-except the **main gateway's three school links and every subdomain's
-cross-links to sibling subdomains**, which already use real absolute
-production URLs (`https://nurseryandprimaryschool.royalfamilyacademy.org/`,
-etc.) since these are genuinely separate origins once deployed. To go live:
+Every cross-reference in this repo — the main gateway's three school links,
+every subdomain's cross-links to its siblings, every `<link>`/`<script>` tag
+under `shared/`, and every photo/video `data-src`/`data-video-*` — already
+uses a real absolute production URL. There is nothing to rewrite before
+going live; the only remaining work is provisioning the five Cloudflare
+Pages projects and the one R2 bucket those URLs point at, all from this same
+repo/branch:
 
-1. Point `royalfamilyacademy.org` at `main/`.
-2. Point `nurseryandprimaryschool.royalfamilyacademy.org` at
-   `nurseryandprimaryschool/`.
-3. Point `highschool.royalfamilyacademy.org` at `highschool/`.
-4. Point `sixthform.royalfamilyacademy.org` at `sixthform/`.
-5. Each subdomain's pages still reference `../shared/` and `../images/` —
-   either deploy those two folders to each subdomain host, or (recommended)
-   rewrite those paths to a shared CDN/asset-host URL before going live.
-   Search for `../shared/` and `../images/` to find every reference.
-6. Update canonical/OG URLs if final hosting differs from what's declared.
+1. Cloudflare Pages project, root directory `main/` → custom domain
+   `royalfamilyacademy.org`.
+2. Cloudflare Pages project, root directory `nurseryandprimaryschool/` →
+   custom domain `nurseryandprimaryschool.royalfamilyacademy.org`.
+3. Cloudflare Pages project, root directory `highschool/` → custom domain
+   `highschool.royalfamilyacademy.org`.
+4. Cloudflare Pages project, root directory `sixthform/` → custom domain
+   `sixthform.royalfamilyacademy.org`.
+5. Cloudflare Pages project, root directory `/` (the **repo root**, so
+   `shared/` is reachable) → custom domain `assets.royalfamilyacademy.org`.
+   This project's own `main/`, `nurseryandprimaryschool.html` etc. output is
+   simply unused dead weight at that domain — nothing references it there.
+6. Cloudflare R2 bucket named e.g. `rfa-media` → public custom domain
+   `media.royalfamilyacademy.org`. Upload real photography/video here
+   following `images/README.md`'s taxonomy as the object key prefix (e.g.
+   `academy/gateway-cinematic-backdrop.jpg`). Nothing else to configure —
+   no build, no redeploy; a page picks up a newly uploaded file on its next
+   load.
+
+All six get a free build (no build command needed — every site here is
+plain static HTML/CSS/JS) and auto-redeploy on every push to this repo's
+default branch, except the R2 bucket, which is uploaded to directly and
+isn't tied to git at all.
+
+If final hosting ever differs from what's declared above, update the
+canonical/OG URLs and the `RFA_MEDIA_BASE` constant in
+`shared/js/media-config.js` accordingly — those are the only two places a
+host name is hardcoded.
 
 ## What's built vs. what the full specification describes
 

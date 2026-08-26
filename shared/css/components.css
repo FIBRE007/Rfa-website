@@ -4,10 +4,12 @@
 
 /* ---- Media slot -----------------------------------------------------------
    Every photograph on the site renders through this component. Until real
-   RFA photography is dropped into /rfa/images/<category>/<file>, it shows an
-   on-brand placeholder that clearly states which image belongs there.
-   shared/js/media.js progressively swaps the placeholder for the real photo
-   the instant a file matching data-src is found — no markup changes needed. */
+   RFA photography is uploaded to the Cloudflare R2 bucket at
+   <category>/<file> (see images/README.md), it shows an on-brand
+   placeholder that clearly states which image belongs there. shared/js/
+   media.js progressively swaps the placeholder for the real photo the
+   instant a file matching data-src is found there — no markup changes
+   needed. */
 
 .media-slot {
   position: relative;
@@ -53,6 +55,23 @@
 }
 .media-slot img.is-loaded { opacity: 1; }
 .media-slot img.is-loaded ~ .media-slot__label { display: none; }
+
+/* Optional background video: layers over the photo (which stays as the
+   instant poster/fallback) and only ever appears once a real file is
+   confirmed to load — see shared/js/video-bg.js. Explicit z-index so paint
+   order never depends on DOM insertion timing between media.js and
+   video-bg.js mounting independently into the same slot. */
+.media-slot video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: var(--focal, 50% 50%);
+  opacity: 0;
+  z-index: 1;
+  transition: opacity var(--dur-slow) var(--ease-editorial);
+}
+.media-slot video.is-loaded { opacity: 1; }
+.media-slot video.is-loaded ~ .media-slot__label { display: none; }
 
 .media-slot--16-9 { aspect-ratio: 16 / 9; }
 .media-slot--4-5 { aspect-ratio: 4 / 5; }
@@ -313,6 +332,12 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .scroll-cue__line::after { animation: none; }
+}
+
+/* Hard CSS-level stop for background video, in addition to the JS check in
+   video-bg.js (which skips mounting it at all) — belt and suspenders. */
+@media (prefers-reduced-motion: reduce) {
+  .media-slot video { display: none; }
 }
 
 /* ---- Pillars (Why RFA) --------------------------------------------------------- */

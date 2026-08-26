@@ -19,8 +19,8 @@ body[data-site="main"] {
 }
 .gateway__media { position: absolute; inset: 0; z-index: -2; }
 .gateway__media .media-slot { position: absolute; inset: 0; height: 100%; }
-.gateway__media img { transform: scale(1.06); transition: transform 2.2s var(--ease-editorial); }
-.gateway.is-revealed .gateway__media img { transform: scale(1); }
+.gateway__media img, .gateway__media video { transform: scale(1.06); transition: transform 2.2s var(--ease-editorial); }
+.gateway.is-revealed .gateway__media img, .gateway.is-revealed .gateway__media video { transform: scale(1); }
 .gateway__scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(14,12,18,0.55) 0%, rgba(14,12,18,0.35) 40%, rgba(14,12,18,0.75) 100%); z-index: -1; }
 
 .gateway__reveal {
