@@ -57,10 +57,59 @@ body[data-site="main"] {
   padding-inline: clamp(1.25rem, 6vw, 3rem);
 }
 
+/* Make the ACSI mark a more prominent, editorial feature rather than a
+   small badge. The uneven corner radii keep the card rectangular while
+   giving it a more dynamic silhouette. */
+.acsi-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+}
+.acsi-badge__logo {
+  width: clamp(240px, 34vw, 360px);
+  min-height: clamp(118px, 15vw, 170px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1rem, 2.2vw, 1.65rem);
+  background: rgba(255,252,247,0.96);
+  border: 1px solid rgba(216,188,116,0.75);
+  border-radius: 34px 12px 34px 12px;
+  box-shadow: 0 18px 42px rgba(8,6,12,0.34), inset 0 1px 0 rgba(255,255,255,0.8);
+  overflow: hidden;
+}
+.acsi-badge__logo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: 130px;
+  object-fit: contain;
+}
+.acsi-badge__status {
+  margin: 0;
+  max-width: 32ch;
+  font-size: clamp(0.68rem, 1.05vw, 0.82rem);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: rgba(255,252,247,0.94);
+  text-shadow: 0 2px 12px rgba(0,0,0,0.65);
+}
+
 .gateway__statement {
-  max-width: 46ch;
+  max-width: 52ch;
   font-size: clamp(0.85rem, 1.4vw, 1rem);
-  color: rgba(255,252,247,0.82);
+  line-height: 1.55;
+  color: rgba(255,252,247,0.98);
+  background: rgba(8,7,12,0.78);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 18px 8px 18px 8px;
+  padding: clamp(0.9rem, 1.8vw, 1.25rem) clamp(1rem, 2.4vw, 1.6rem);
+  box-shadow: 0 14px 36px rgba(0,0,0,0.28);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  text-shadow: 0 1px 8px rgba(0,0,0,0.55);
 }
 .gateway__statement[data-pending] { position: relative; }
 .gateway__statement .pending-tag {
@@ -148,6 +197,23 @@ body[data-site="main"] {
 .visit-modal__list { margin-top: var(--space-md); display: flex; flex-direction: column; gap: var(--space-sm); }
 .visit-modal__list a { font-weight: 600; }
 
+@media (max-width: 640px) {
+  .acsi-badge__logo {
+    width: min(78vw, 310px);
+    min-height: 112px;
+    border-radius: 26px 10px 26px 10px;
+  }
+  .gateway__statement {
+    max-width: min(92vw, 52ch);
+    background: rgba(8,7,12,0.84);
+  }
+}
+
 @media (max-height: 620px) {
   .gateway__logo-sub, .gateway__statement { display: none; }
+  .acsi-badge__logo {
+    width: clamp(190px, 25vw, 250px);
+    min-height: 90px;
+    padding: 0.8rem;
+  }
 }
