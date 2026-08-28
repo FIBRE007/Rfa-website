@@ -1,4 +1,4 @@
-/* ==========================================================================
+/* ========================================================================== 
    Main-domain gateway — single, non-scrolling cinematic viewport.
    No sticky nav, no long-form content: see brief §4.1/§4.3.
    ========================================================================== */
@@ -21,7 +21,7 @@ body[data-site="main"] {
 .gateway__media .media-slot { position: absolute; inset: 0; height: 100%; }
 .gateway__media img, .gateway__media video { transform: scale(1.06); transition: transform 2.2s var(--ease-editorial); }
 .gateway.is-revealed .gateway__media img, .gateway.is-revealed .gateway__media video { transform: scale(1); }
-.gateway__scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(14,12,18,0.55) 0%, rgba(14,12,18,0.35) 40%, rgba(14,12,18,0.75) 100%); z-index: -1; }
+.gateway__scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(14,12,18,0.58) 0%, rgba(14,12,18,0.42) 40%, rgba(14,12,18,0.78) 100%); z-index: -1; }
 
 .gateway__reveal {
   opacity: 0;
@@ -42,7 +42,23 @@ body[data-site="main"] {
   align-items: flex-start;
   padding: clamp(1rem, 3vh, 2rem) clamp(1.25rem, 4vw, 3rem) 0;
 }
-.gateway__logo { display: flex; flex-direction: column; line-height: 1; }
+.gateway__logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.72rem;
+  line-height: 1;
+}
+.gateway__brand-mark {
+  width: clamp(42px, 4.8vw, 64px);
+  height: clamp(42px, 4.8vw, 64px);
+  object-fit: contain;
+  flex: 0 0 auto;
+  filter: drop-shadow(0 3px 12px rgba(0,0,0,0.35));
+}
+.gateway__brand-copy {
+  display: flex;
+  flex-direction: column;
+}
 .gateway__logo-word { font-family: var(--font-display); font-size: clamp(1.1rem, 2.4vw, 1.6rem); }
 .gateway__logo-sub { margin-top: 0.2rem; font-size: 0.6rem; letter-spacing: var(--tracking-widest); text-transform: uppercase; color: var(--rfa-gold-400); }
 
@@ -52,14 +68,11 @@ body[data-site="main"] {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: clamp(0.6rem, 1.8vh, 1.25rem);
+  gap: clamp(0.5rem, 1.4vh, 0.95rem);
   text-align: center;
   padding-inline: clamp(1.25rem, 6vw, 3rem);
 }
 
-/* Make the ACSI mark a more prominent, editorial feature rather than a
-   small badge. The uneven corner radii keep the card rectangular while
-   giving it a more dynamic silhouette. */
 .acsi-badge {
   display: flex;
   flex-direction: column;
@@ -67,49 +80,51 @@ body[data-site="main"] {
   gap: 0.55rem;
 }
 .acsi-badge__logo {
-  width: clamp(240px, 34vw, 360px);
-  min-height: clamp(118px, 15vw, 170px);
+  width: clamp(360px, 39vw, 520px);
+  height: clamp(128px, 13vw, 176px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(1rem, 2.2vw, 1.65rem);
-  background: rgba(255,252,247,0.96);
-  border: 1px solid rgba(216,188,116,0.75);
-  border-radius: 34px 12px 34px 12px;
-  box-shadow: 0 18px 42px rgba(8,6,12,0.34), inset 0 1px 0 rgba(255,255,255,0.8);
+  padding: clamp(0.55rem, 1.25vw, 0.85rem) clamp(1rem, 2vw, 1.4rem);
+  background: rgba(255,252,247,0.98);
+  border: 1px solid rgba(216,188,116,0.82);
+  border-radius: 22px;
+  box-shadow: 0 18px 42px rgba(8,6,12,0.34), inset 0 1px 0 rgba(255,255,255,0.86);
   overflow: hidden;
 }
 .acsi-badge__logo img {
   display: block;
-  width: 100%;
-  height: 100%;
-  max-height: 130px;
+  width: 88%;
+  height: 88%;
+  max-width: none;
+  max-height: none;
   object-fit: contain;
+  transform: scale(1.45);
+  transform-origin: center;
 }
 .acsi-badge__status {
   margin: 0;
-  max-width: 32ch;
-  font-size: clamp(0.68rem, 1.05vw, 0.82rem);
-  font-weight: 700;
+  font-size: clamp(0.74rem, 1.12vw, 0.9rem);
+  font-weight: 800;
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
-  color: rgba(255,252,247,0.94);
-  text-shadow: 0 2px 12px rgba(0,0,0,0.65);
+  color: rgba(255,252,247,0.98);
+  text-shadow: 0 2px 12px rgba(0,0,0,0.72);
 }
 
 .gateway__statement {
-  max-width: 52ch;
-  font-size: clamp(0.85rem, 1.4vw, 1rem);
+  max-width: 58ch;
+  font-size: clamp(0.84rem, 1.32vw, 1rem);
   line-height: 1.55;
-  color: rgba(255,252,247,0.98);
-  background: rgba(8,7,12,0.78);
+  color: rgba(255,252,247,0.99);
+  background: rgba(5,5,8,0.86);
   border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 18px 8px 18px 8px;
-  padding: clamp(0.9rem, 1.8vw, 1.25rem) clamp(1rem, 2.4vw, 1.6rem);
-  box-shadow: 0 14px 36px rgba(0,0,0,0.28);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  text-shadow: 0 1px 8px rgba(0,0,0,0.55);
+  border-radius: 16px;
+  padding: clamp(0.9rem, 1.6vw, 1.2rem) clamp(1rem, 2.2vw, 1.5rem);
+  box-shadow: 0 14px 36px rgba(0,0,0,0.35);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  text-shadow: 0 1px 8px rgba(0,0,0,0.65);
 }
 .gateway__statement[data-pending] { position: relative; }
 .gateway__statement .pending-tag {
@@ -124,7 +139,7 @@ body[data-site="main"] {
 }
 
 .gateway__visit {
-  margin-top: clamp(0.25rem, 1vh, 0.5rem);
+  margin-top: clamp(0.15rem, 0.7vh, 0.4rem);
 }
 
 .gateway__schools {
@@ -132,7 +147,7 @@ body[data-site="main"] {
   flex-wrap: wrap;
   justify-content: center;
   gap: clamp(0.75rem, 2.5vw, 2.5rem);
-  padding: clamp(0.75rem, 2vh, 1.5rem) clamp(1.25rem, 4vw, 3rem);
+  padding: clamp(0.65rem, 1.7vh, 1.2rem) clamp(1.25rem, 4vw, 3rem);
 }
 .gateway__school-link {
   font-size: clamp(0.68rem, 1.1vw, 0.8rem);
@@ -153,7 +168,7 @@ body[data-site="main"] {
   align-items: center;
   justify-content: center;
   gap: clamp(0.75rem, 2vw, 1.5rem);
-  padding: 0 clamp(1.25rem, 4vw, 3rem) clamp(1rem, 3vh, 2rem);
+  padding: 0 clamp(1.25rem, 4vw, 3rem) clamp(0.8rem, 2.3vh, 1.5rem);
 }
 .gateway__socials {
   display: flex;
@@ -198,22 +213,59 @@ body[data-site="main"] {
 .visit-modal__list a { font-weight: 600; }
 
 @media (max-width: 640px) {
+  .gateway__brand-mark {
+    width: 42px;
+    height: 42px;
+  }
   .acsi-badge__logo {
-    width: min(78vw, 310px);
-    min-height: 112px;
-    border-radius: 26px 10px 26px 10px;
+    width: min(88vw, 420px);
+    height: clamp(116px, 31vw, 150px);
+    border-radius: 18px;
+    padding: 0.45rem 0.8rem;
+  }
+  .acsi-badge__logo img {
+    width: 90%;
+    height: 90%;
+    transform: scale(1.38);
   }
   .gateway__statement {
-    max-width: min(92vw, 52ch);
-    background: rgba(8,7,12,0.84);
+    max-width: min(92vw, 58ch);
+    background: rgba(5,5,8,0.9);
+  }
+}
+
+@media (max-height: 700px) {
+  .gateway__top {
+    padding-top: 0.7rem;
+  }
+  .gateway__center {
+    gap: 0.42rem;
+  }
+  .acsi-badge__logo {
+    width: clamp(300px, 31vw, 410px);
+    height: clamp(104px, 10vw, 136px);
+  }
+  .gateway__statement {
+    padding-block: 0.65rem;
+    font-size: clamp(0.76rem, 1.05vw, 0.9rem);
+  }
+  .gateway__schools {
+    padding-block: 0.55rem;
+  }
+  .gateway__bottom {
+    padding-bottom: 0.55rem;
   }
 }
 
 @media (max-height: 620px) {
-  .gateway__logo-sub, .gateway__statement { display: none; }
+  .gateway__logo-sub { display: none; }
   .acsi-badge__logo {
-    width: clamp(190px, 25vw, 250px);
-    min-height: 90px;
-    padding: 0.8rem;
+    width: clamp(260px, 29vw, 360px);
+    height: 96px;
+  }
+  .gateway__statement {
+    font-size: 0.75rem;
+    line-height: 1.4;
+    padding: 0.55rem 0.8rem;
   }
 }
