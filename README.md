@@ -77,23 +77,29 @@ originating specification).
   background video over the photo once one is supplied (see "Background
   video" in `images/README.md`) — muted/looping, skipped for
   reduced-motion/Data Saver, and the photo remains the permanent fallback.
-- **Nursery & Primary** (`nurseryandprimaryschool/`): full verified content
-  — Early Years age table, Primary age table + curriculum, both weekly
-  timetables, clubs/events/sports/houses, Christian formation, Discovery
-  Centre/AAS support, campus facilities, school-day/parent info, transport
-  routes, shared leadership roster, policies list. Plus `admissions.html`
-  and `contact.html`.
-- **High School** (`highschool/`): full verified content — age table,
-  Junior High + Senior High subject lists, academic assessment, the
-  Leadership/Innovation/Discipline philosophy passages, MUN + Duke of
-  Edinburgh, spiritual formation, safety/conduct, policies. Plus
+- **Nursery & Primary** (`nurseryandprimaryschool/`): full verified content,
+  split into a trimmed `index.html` landing (hero + page-teaser links) plus
+  dedicated pages — `about.html` (vision/mission/aims/leadership),
+  `early-years.html`, `primary.html`, `learning.html` (Discovery Centre +
+  AAS), `student-life.html` (clubs/events/sports/houses), `campus.html`
+  (facilities), `parents.html` (school day/policies/transport),
   `admissions.html` and `contact.html`.
-- **Sixth Form College** (`sixthform/`): deliberately a **shell**. Only the
-  verified positioning is published (17+, advanced academic programmes,
-  tailored support, university prep and leadership, Head of Sixth Form Mrs
-  Adebola Oluboyo); every other section is a clearly labelled placeholder
-  per spec §20.2. Do not fill these in without a current RFA-approved
-  source — that's the one subdomain where under-building is correct.
+- **High School** (`highschool/`): full verified content, split the same
+  way — trimmed `index.html` plus `about.html` (vision/age structure/
+  leadership), `academics.html` (subjects + assessment), `leadership.html`
+  (Leadership/Innovation/Discipline philosophy), `student-life.html` (MUN,
+  Duke of Edinburgh, clubs, events), `safety.html` (conduct/policies),
+  `admissions.html` and `contact.html`.
+- **Sixth Form College** (`sixthform/`): deliberately a **shell**, now
+  spread across the same multi-page shape (`about.html`, `programmes.html`,
+  `university.html`, `leadership.html`, `student-life.html`,
+  `admissions.html`, `contact.html`) so it is ready for direct editing —
+  but the content itself is unchanged: only the verified positioning is
+  published (17+, advanced academic programmes, tailored support,
+  university prep and leadership, Head of Sixth Form Mrs Adebola Oluboyo);
+  every other page/section is a clearly labelled placeholder per spec
+  §20.2. Do not fill these in without a current RFA-approved source —
+  that's the one subdomain where under-building is correct.
 
 ## RFA AI
 
@@ -167,19 +173,20 @@ host name is hardcoded.
 
 ## What's built vs. what the full specification describes
 
-The specification's IA table lists many more subdomain pages (curriculum,
-facilities, parents, news/media as standalone URLs) than exist as separate
-files today. To keep the build real rather than a skeleton of empty pages,
-Nursery & Primary and High School each ship as one content-complete home
-page (all IA sections present as anchored sections, matching the nav)
-plus dedicated `admissions.html` and `contact.html` — the two pages worth
-splitting out for direct linking/SEO. Splitting any anchored section into
-its own physical page later is a copy-paste of that section into the
-existing header/footer scaffold; no new components are needed.
+Nursery & Primary and High School are each split into standalone,
+directly-editable pages per IA section (see "Site-by-site summary" above)
+rather than one long anchored home page — every page shares the same
+header/nav/footer scaffold from `shared/css`/`shared/js`, so adding another
+page later is a copy of that scaffold plus the new section's real copy; no
+new components are needed. Sixth Form is split the same way, but every page
+still carries only the verified positioning plus explicit placeholders —
+splitting it did not add or remove any content, per its own governance note
+above.
 
 Not yet built: a shared news/events/gallery/media system (spec §25), a full
-masonry gallery with lightbox, and Sixth Form's remaining pages (all
-intentionally deferred pending RFA-approved content, per §20.2).
+masonry gallery with lightbox, and any Sixth Form content beyond the
+verified positioning (intentionally deferred pending RFA-approved content,
+per §20.2).
 
 ## Typography & colour quick reference
 

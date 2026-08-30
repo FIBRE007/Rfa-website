@@ -35,8 +35,8 @@
     revealTargets.forEach((el) => el.classList.add('is-visible'));
   }
 
-  // Hero: reveal immediately on load (it's above the fold, no IO needed).
-  const hero = document.querySelector('.hero');
+  // Hero / sub-page hero: reveal immediately on load (above the fold, no IO needed).
+  const hero = document.querySelector('.hero, .subhero');
   if (hero) requestAnimationFrame(() => requestAnimationFrame(() => hero.classList.add('is-revealed')));
 
   // Number counters — only fires on elements carrying real, supplied numbers.
