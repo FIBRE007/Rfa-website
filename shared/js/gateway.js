@@ -20,7 +20,7 @@
  */
 (function () {
   var statement = document.getElementById('gateway-statement');
-  var toggle = statement && statement.querySelector('[data-statement-toggle]');
+  var toggle = document.querySelector('[data-statement-toggle]');
   if (!statement || !toggle) return;
 
   function measure() {
