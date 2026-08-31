@@ -125,10 +125,6 @@ body[data-site="main"] {
   -webkit-backdrop-filter: blur(6px);
   text-shadow: 0 1px 8px rgba(0,0,0,0.65);
 }
-.gateway__statement.is-clamped {
-  overflow: hidden;
-  max-height: var(--statement-clamp-height, 4.65em);
-}
 .gateway__statement-toggle {
   margin-top: -0.3rem;
   color: var(--rfa-gold-400);
@@ -143,10 +139,6 @@ body[data-site="main"] {
 }
 .gateway__statement-toggle:hover, .gateway__statement-toggle:focus-visible {
   color: var(--rfa-gold-500);
-}
-.gateway__statement.is-expanded.is-clamped {
-  overflow: visible;
-  max-height: none;
 }
 .gateway__statement[data-pending] { position: relative; }
 .gateway__statement .pending-tag {
