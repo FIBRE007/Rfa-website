@@ -45,12 +45,16 @@
 
 <main id="main" class="gateway">
   <div class="gateway__media">
+    <!-- Background video temporarily disabled: the uploaded .mp4 shows a
+         different scene than the .jpg poster, so visitors saw inconsistent
+         backdrops depending on whether their browser played the video or
+         fell back to the photo. Re-add data-video-mp4 (and data-video-webm)
+         once a video matching gateway-cinematic-backdrop.jpg is uploaded. -->
     <div class="media-slot media-slot--full"
          data-src="academy/gateway-cinematic-backdrop.jpg"
          data-alt="Royal Family Academy campus, Abuja"
-         data-eager
-         data-video-mp4="academy/gateway-cinematic-backdrop.mp4">
-      <span class="media-slot__label">Cinematic campus photograph / video still<small>academy/gateway-cinematic-backdrop.jpg (or .mp4/.webm for background video)</small></span>
+         data-eager>
+      <span class="media-slot__label">Cinematic campus photograph<small>academy/gateway-cinematic-backdrop.jpg</small></span>
     </div>
   </div>
   <div class="gateway__scrim"></div>
