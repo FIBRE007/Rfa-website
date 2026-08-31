@@ -126,10 +126,8 @@ body[data-site="main"] {
   text-shadow: 0 1px 8px rgba(0,0,0,0.65);
 }
 .gateway__statement.is-clamped {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
   overflow: hidden;
+  max-height: var(--statement-clamp-height, 4.65em);
 }
 .gateway__statement-toggle {
   margin-top: -0.3rem;
@@ -147,8 +145,8 @@ body[data-site="main"] {
   color: var(--rfa-gold-500);
 }
 .gateway__statement.is-expanded.is-clamped {
-  display: block;
   overflow: visible;
+  max-height: none;
 }
 .gateway__statement[data-pending] { position: relative; }
 .gateway__statement .pending-tag {
