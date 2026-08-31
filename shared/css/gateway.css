@@ -124,9 +124,17 @@ body[data-site="main"] {
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   text-shadow: 0 1px 8px rgba(0,0,0,0.65);
+  overflow: hidden;
+}
+.gateway__statement.has-height-transition {
+  transition: height 320ms var(--ease-editorial);
+}
+@media (prefers-reduced-motion: reduce) {
+  .gateway__statement.has-height-transition { transition: none; }
 }
 .gateway__statement-toggle {
-  margin-top: -0.3rem;
+  display: inline;
+  margin-left: 0.35em;
   color: var(--rfa-gold-400);
   font: inherit;
   font-size: clamp(0.74rem, 1.05vw, 0.85rem);
@@ -136,6 +144,7 @@ body[data-site="main"] {
   cursor: pointer;
   text-decoration: underline;
   text-underline-offset: 2px;
+  white-space: nowrap;
 }
 .gateway__statement-toggle:hover, .gateway__statement-toggle:focus-visible {
   color: var(--rfa-gold-500);
