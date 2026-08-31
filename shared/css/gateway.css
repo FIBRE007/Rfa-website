@@ -205,20 +205,22 @@ body[data-site="main"] {
   inset: 0;
   z-index: var(--z-overlay);
   display: none;
-  align-items: center;
-  justify-content: center;
   padding: var(--space-md);
   background: rgba(14,12,18,0.72);
+  overflow-y: auto;
 }
 .visit-modal.is-open { display: flex; }
 .visit-modal__panel {
   background: var(--rfa-warm-white);
   color: var(--rfa-charcoal);
   border-radius: var(--radius-md);
-  max-width: 460px;
+  max-width: min(460px, 100%);
   width: 100%;
+  margin: auto;
   padding: var(--space-lg);
   position: relative;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 .visit-modal__close {
   position: absolute;
