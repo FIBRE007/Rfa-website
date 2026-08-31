@@ -14,39 +14,25 @@
 })();
 
 /**
- * "…Read more" toggle for the gateway statement: clamps to 3 lines only
- * when the full text is actually taller than that, so short text (or a
- * future rewrite) never shows a pointless toggle.
+ * "…Read more" toggle for the gateway statement: swaps the element's text
+ * content between a fixed short snippet (already in the markup) and the
+ * full statement (in data-full-text). Plain text substitution — no CSS
+ * line-height/overflow measuring involved — so there's no browser-specific
+ * clipping behavior to get wrong.
  */
 (function () {
   var statement = document.getElementById('gateway-statement');
   var toggle = document.querySelector('[data-statement-toggle]');
   if (!statement || !toggle) return;
 
-  function measure() {
-    if (statement.classList.contains('is-expanded')) return;
-    statement.classList.remove('is-clamped');
-    var cs = getComputedStyle(statement);
-    var lineHeight = parseFloat(cs.lineHeight);
-    if (isNaN(lineHeight)) lineHeight = statement.scrollHeight; // last resort
-    var verticalPadding = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
-    var threshold = lineHeight * 3 + verticalPadding;
-    var overflows = statement.scrollHeight > threshold + 1;
-    statement.style.setProperty('--statement-clamp-height', threshold + 'px');
-    statement.classList.toggle('is-clamped', overflows);
-    toggle.hidden = !overflows;
-  }
+  var shortText = statement.textContent;
+  var fullText = statement.getAttribute('data-full-text');
+  if (!fullText) return;
 
   toggle.addEventListener('click', function () {
-    var expanded = statement.classList.toggle('is-expanded');
-    toggle.textContent = expanded ? 'Show less' : '… Read more';
-    toggle.setAttribute('aria-expanded', String(expanded));
-  });
-
-  measure();
-  var resizeTimer;
-  window.addEventListener('resize', function () {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(measure, 150);
+    var expanded = toggle.getAttribute('aria-expanded') === 'true';
+    statement.textContent = expanded ? shortText : fullText;
+    toggle.textContent = expanded ? '… Read more' : 'Show less';
+    toggle.setAttribute('aria-expanded', String(!expanded));
   });
 })();
