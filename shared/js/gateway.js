@@ -25,11 +25,14 @@
 
   function measure() {
     if (statement.classList.contains('is-expanded')) return;
-    // Applying the clamp first lets us compare its clientHeight against the
-    // full unclamped scrollHeight — the standard way to detect whether
-    // line-clamp actually truncated anything.
-    statement.classList.add('is-clamped');
-    var overflows = statement.scrollHeight > statement.clientHeight + 1;
+    statement.classList.remove('is-clamped');
+    var cs = getComputedStyle(statement);
+    var lineHeight = parseFloat(cs.lineHeight);
+    if (isNaN(lineHeight)) lineHeight = statement.scrollHeight; // last resort
+    var verticalPadding = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+    var threshold = lineHeight * 3 + verticalPadding;
+    var overflows = statement.scrollHeight > threshold + 1;
+    statement.style.setProperty('--statement-clamp-height', threshold + 'px');
     statement.classList.toggle('is-clamped', overflows);
     toggle.hidden = !overflows;
   }
