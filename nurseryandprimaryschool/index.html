@@ -15,7 +15,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23431677'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='34' fill='%23c6a24e' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://assets.royalfamilyacademy.org/shared/css/tokens.css">
 <link rel="stylesheet" href="https://assets.royalfamilyacademy.org/shared/css/base.css">
 <link rel="stylesheet" href="https://assets.royalfamilyacademy.org/shared/css/components.css?v=hero-overlay-20260901">
@@ -60,21 +60,36 @@
   .parent-trust-banner__mark img { width: 100%; height: auto; display: block; background: transparent; }
   .parent-trust-banner__eyebrow {
     color: #6fc2ff;
-    font-size: clamp(.9rem, 1.25vw, 1.12rem);
-    letter-spacing: .14em;
+    font-size: clamp(1.05rem, 1.7vw, 1.55rem);
+    letter-spacing: .08em;
     text-transform: uppercase;
-    font-weight: 800;
+    font-weight: 900;
+    line-height: 1.1;
   }
   .parent-trust-banner__title {
-    margin-top: .3rem;
+    margin-top: .45rem;
     max-width: 30ch;
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: clamp(1.75rem, 3.25vw, 3.1rem);
     font-weight: 500;
-    line-height: 1.02;
-    letter-spacing: .015em;
-    text-transform: uppercase;
+    line-height: 1.04;
+    letter-spacing: .005em;
+    text-transform: none;
     color: #fff;
+  }
+  .letter-reveal .letter {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(.12em) rotate(-1deg);
+    filter: blur(1.5px);
+    transition: opacity .18s ease, transform .22s ease, filter .22s ease;
+    transition-delay: calc(var(--i) * 38ms);
+  }
+  .letter-reveal .letter.space { width: .3em; }
+  .letter-reveal.is-writing .letter {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+    filter: blur(0);
   }
   @media (min-width: 1024px) {
     .parent-trust-banner__inner {
@@ -92,8 +107,11 @@
       gap: .9rem;
     }
     .parent-trust-banner__mark { max-width: 76px; }
-    .parent-trust-banner__eyebrow { font-size: .78rem; letter-spacing: .1em; }
+    .parent-trust-banner__eyebrow { font-size: .9rem; letter-spacing: .06em; }
     .parent-trust-banner__title { font-size: clamp(1.35rem, 6.8vw, 1.9rem); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .letter-reveal .letter { opacity: 1; transform: none; filter: none; transition: none; }
   }
 </style>
 <script type="application/ld+json">
@@ -131,8 +149,8 @@
       <img src="https://media.royalfamilyacademy.org/acsi/acsi-accredited-logo.jpg" alt="ACSI Accredited School logo">
     </div>
     <div data-reveal="up">
-      <p class="parent-trust-banner__eyebrow">ACSI Accredited School</p>
-      <h2 class="parent-trust-banner__title" id="parent-trust-title">Christian education, held to a recognised standard.</h2>
+      <p class="parent-trust-banner__eyebrow letter-reveal" data-letter-reveal>ACSI Accredited School</p>
+      <h2 class="parent-trust-banner__title letter-reveal" id="parent-trust-title" data-letter-reveal>Christian education, held to a recognised standard.</h2>
     </div>
   </div>
 </section>
@@ -141,6 +159,43 @@
 </main>
 <footer class="site-footer"><div class="container footer-grid"><div><p class="footer-mark">RFA Nursery &amp; Primary</p><p class="footer-tag">Raising Distinguished Leaders</p></div><nav class="footer-col" aria-label="RFA"><h4>Royal Family Academy</h4><ul><li><a class="link-underline" href="https://royalfamilyacademy.org/">Main Gateway</a></li><li><a class="link-underline" href="https://highschool.royalfamilyacademy.org/">High School</a></li><li><a class="link-underline" href="https://sixthform.royalfamilyacademy.org/">Sixth Form College</a></li></ul></nav><nav class="footer-col" aria-label="Explore"><h4>Explore</h4><ul><li><a class="link-underline" href="early-years.html">Early Years</a></li><li><a class="link-underline" href="primary.html">Primary</a></li><li><a class="link-underline" href="student-life.html">Student Life</a></li></ul></nav><nav class="footer-col" aria-label="Contact"><h4>Contact</h4><ul><li>+234 818 253 5981</li><li>info@royalfamilyacademy.org</li><li><a class="link-underline" href="contact.html">Contact &amp; Visit</a></li></ul></nav></div><div class="container footer-bottom"><p>&copy; <span id="year"></span> Royal Family Academy. All rights reserved.</p></div></footer>
 <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script>
+(function () {
+  const targets = document.querySelectorAll('[data-letter-reveal]');
+  targets.forEach((el) => {
+    const text = el.textContent;
+    el.setAttribute('aria-label', text);
+    el.textContent = '';
+    Array.from(text).forEach((char, i) => {
+      const span = document.createElement('span');
+      span.className = 'letter' + (char === ' ' ? ' space' : '');
+      span.style.setProperty('--i', i);
+      span.setAttribute('aria-hidden', 'true');
+      span.textContent = char === ' ' ? '\u00A0' : char;
+      el.appendChild(span);
+    });
+  });
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    targets.forEach((el) => el.classList.add('is-writing'));
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      const group = entry.target.closest('.parent-trust-banner');
+      const groupTargets = group ? group.querySelectorAll('[data-letter-reveal]') : [entry.target];
+      groupTargets.forEach((el, index) => {
+        window.setTimeout(() => el.classList.add('is-writing'), index * 220);
+      });
+      groupTargets.forEach((el) => obs.unobserve(el));
+    });
+  }, { threshold: 0.35 });
+
+  targets.forEach((el) => observer.observe(el));
+})();
+</script>
 <script src="https://assets.royalfamilyacademy.org/shared/js/rfa-knowledge.js"></script>
 <script src="https://assets.royalfamilyacademy.org/shared/js/nav.js"></script>
 <script src="https://assets.royalfamilyacademy.org/shared/js/media-config.js"></script>
