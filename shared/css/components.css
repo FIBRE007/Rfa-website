@@ -741,3 +741,19 @@
 
 /* Scroll cue removed site-wide */
 .scroll-cue { display: none !important; }
+
+
+/* Mobile navigation: keep the first item visible and scroll from the top. */
+@media (max-width: 979px) {
+  .mobile-nav {
+    justify-content: flex-start;
+    padding-top: max(7rem, calc(env(safe-area-inset-top, 0px) + 6.25rem));
+    padding-bottom: max(var(--space-lg), env(safe-area-inset-bottom, 0px));
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+  .mobile-nav__links {
+    flex: 0 0 auto;
+    padding-bottom: var(--space-lg);
+  }
+}
