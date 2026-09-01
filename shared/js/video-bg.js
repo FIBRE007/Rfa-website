@@ -44,6 +44,7 @@
     video.loop = true;
     video.playsInline = true;
     video.setAttribute('muted', '');
+    video.setAttribute('loop', '');
     video.setAttribute('playsinline', '');
     video.setAttribute('webkit-playsinline', '');
     video.setAttribute('aria-hidden', 'true');
@@ -85,6 +86,17 @@
     // or dropped, which reads to a visitor as "the video stopped playing".
     // Revealing only once frames are actually advancing avoids that.
     video.addEventListener('playing', reveal);
+
+    // Belt-and-suspenders for the `loop` attribute above: some mobile
+    // WebKit builds have been known to drop out of a JS-created video's
+    // native loop under memory/power pressure, leaving the last frame
+    // frozen (or, once paused, the photo underneath showing through).
+    // Explicitly restarting playback on `ended` costs nothing when native
+    // looping already handled it, since `ended` then never fires.
+    video.addEventListener('ended', function () {
+      video.currentTime = 0;
+      video.play().catch(function () {});
+    });
 
     // When resource selection uses child <source> elements (our case), a
     // failed candidate fires `error` on that *source*, not on the <video> —

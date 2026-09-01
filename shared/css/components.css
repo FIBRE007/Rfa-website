@@ -55,7 +55,7 @@
   transform: scale(1.06);
   transition: opacity var(--dur-slow) var(--ease-editorial), transform 1.8s var(--ease-editorial);
 }
-.media-slot img.is-loaded { opacity: 1; transform: scale(1); z-index: 1; }
+.media-slot img.is-loaded { opacity: 1; transform: scale(1); }
 .media-slot.is-loaded .media-slot__label { display: none; }
 
 /* Optional background video: layers over the photo (which stays as the
