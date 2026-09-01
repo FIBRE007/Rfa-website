@@ -45,14 +45,17 @@
     max-width: var(--container-max);
     margin: 0 auto;
     display: grid;
-    gap: 1.25rem;
+    grid-template-columns: clamp(90px, 18vw, 150px) minmax(0, 1fr);
+    gap: clamp(1rem, 3vw, 2.75rem);
     align-items: center;
   }
   .parent-trust-banner__mark {
-    width: clamp(105px, 12vw, 150px);
+    width: 100%;
+    max-width: 150px;
     background: transparent;
     padding: 0;
     box-shadow: none;
+    justify-self: start;
   }
   .parent-trust-banner__mark img { width: 100%; height: auto; display: block; background: transparent; }
   .parent-trust-banner__eyebrow {
@@ -73,17 +76,14 @@
     text-transform: uppercase;
     color: #fff;
   }
-    margin-top: .55rem;
-    max-width: 82ch;
-    color: rgba(255,252,247,0.86);
-    font-family: 'Inter', sans-serif;
-    font-size: clamp(.95rem, 1.2vw, 1.08rem);
-    line-height: 1.55;
-    text-align: justify;
-    text-justify: inter-word;
-  }
-  @media (min-width: 760px) {
-    .parent-trust-banner__inner { grid-template-columns: minmax(115px, 150px) 1fr; gap: clamp(1.5rem, 3vw, 2.75rem); }
+  @media (max-width: 480px) {
+    .parent-trust-banner__inner {
+      grid-template-columns: 76px minmax(0, 1fr);
+      gap: .9rem;
+    }
+    .parent-trust-banner__mark { max-width: 76px; }
+    .parent-trust-banner__eyebrow { font-size: .78rem; letter-spacing: .1em; }
+    .parent-trust-banner__title { font-size: clamp(1.35rem, 6.8vw, 1.9rem); }
   }
 </style>
 <script type="application/ld+json">
