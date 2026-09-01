@@ -1,4 +1,4 @@
-name: Fix mobile nav top clipping
+name: Finish mobile nav fix
 on:
   push:
     paths:
@@ -10,13 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Add viewport-safe mobile nav override
+      - name: Version shared navigation CSS
         run: >-
-          python3 -c "from pathlib import Path; p=Path('shared/css/components.css'); s=p.read_text(); marker='/* Mobile navigation: keep the first item visible and scroll from the top. */'; block='\n\n'+marker+'\n@media (max-width: 979px) {\n  .mobile-nav {\n    justify-content: flex-start;\n    padding-top: max(7rem, calc(env(safe-area-inset-top, 0px) + 6.25rem));\n    padding-bottom: max(var(--space-lg), env(safe-area-inset-bottom, 0px));\n    overscroll-behavior: contain;\n    -webkit-overflow-scrolling: touch;\n  }\n  .mobile-nav__links {\n    flex: 0 0 auto;\n    padding-bottom: var(--space-lg);\n  }\n}\n'; p.write_text(s if marker in s else s+block)"
+          python3 -c "from pathlib import Path; import re; files=list(Path('nurseryandprimaryschool').glob('*.html')); [p.write_text(re.sub(r'https://assets\.royalfamilyacademy\.org/shared/css/components\.css(?:\?v=[^\"\']*)?', 'https://assets.royalfamilyacademy.org/shared/css/components.css?v=mobile-nav-top-20260901', p.read_text())) for p in files]"
       - name: Commit update
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add shared/css/components.css
-          git diff --cached --quiet || git commit -m "Fix mobile navigation top clipping"
+          git add nurseryandprimaryschool/*.html
+          git diff --cached --quiet || git commit -m "Refresh mobile navigation CSS across nursery site"
           git push
