@@ -19,10 +19,13 @@
       @media(max-width:979px){
         .site-header.menu-open .site-nav{visibility:hidden!important;opacity:0!important;pointer-events:none!important}
         .site-header.menu-open::before{opacity:0!important}
-        .site-header.menu-open .mobile-nav{
+        .mobile-nav{
           z-index:2147483000!important;
-          padding:max(5.5rem,calc(env(safe-area-inset-top) + 4.5rem)) var(--gutter,1.25rem) 2rem!important;
           background:var(--rfa-warm-white,#fffdf8)!important;
+        }
+        .mobile-nav.is-open{
+          transform:translateY(0)!important;
+          padding:max(5.5rem,calc(env(safe-area-inset-top) + 4.5rem)) var(--gutter,1.25rem) 2rem!important;
         }
         .mobile-nav__close{
           position:fixed;
@@ -34,11 +37,11 @@
           display:none;align-items:center;justify-content:center;
           padding:0;cursor:pointer;
         }
-        .site-header.menu-open .mobile-nav__close{display:flex}
+        .mobile-nav.is-open .mobile-nav__close{display:flex}
         .mobile-nav__close span{position:absolute;width:34px;height:2px;background:#17131b;display:block;transform-origin:center}
         .mobile-nav__close span:first-child{transform:rotate(45deg)}
         .mobile-nav__close span:last-child{transform:rotate(-45deg)}
-        .site-header.menu-open .mobile-nav__links{padding-top:0!important;margin-top:0!important}
+        .mobile-nav.is-open .mobile-nav__links{padding-top:0!important;margin-top:0!important}
       }
       @media(min-width:980px){.mobile-nav__close{display:none!important}}
     `;
@@ -51,6 +54,7 @@
 
   function closeMenu() {
     header.classList.remove('menu-open');
+    if (mobileNav) mobileNav.classList.remove('is-open');
     if (toggle) {
       toggle.setAttribute('aria-expanded', 'false');
       toggle.setAttribute('aria-label', 'Open menu');
@@ -61,6 +65,7 @@
 
   function openMenu() {
     header.classList.add('menu-open');
+    if (mobileNav) mobileNav.classList.add('is-open');
     if (toggle) {
       toggle.setAttribute('aria-expanded', 'true');
       toggle.setAttribute('aria-label', 'Close menu');
@@ -75,8 +80,7 @@
   if (toggle && mobileNav) {
     ensureMobileMenuStyles();
 
-    /* Move the overlay outside the header stacking context. This prevents
-       the fixed site header/brand from painting over the open menu. */
+    /* Move the overlay outside the header stacking context. */
     document.body.appendChild(mobileNav);
 
     closeButton = document.createElement('button');
@@ -89,19 +93,19 @@
 
     closeButton.addEventListener('click', closeMenu);
     toggle.addEventListener('click', function () {
-      header.classList.contains('menu-open') ? closeMenu() : openMenu();
+      mobileNav.classList.contains('is-open') ? closeMenu() : openMenu();
     });
     mobileNav.querySelectorAll('a').forEach(function (link) {
       link.addEventListener('click', closeMenu);
     });
     document.addEventListener('keydown', function (event) {
-      if (event.key === 'Escape' && header.classList.contains('menu-open')) {
+      if (event.key === 'Escape' && mobileNav.classList.contains('is-open')) {
         closeMenu();
         toggle.focus();
       }
     });
     window.addEventListener('resize', function () {
-      if (window.innerWidth >= DESKTOP_BREAKPOINT && header.classList.contains('menu-open')) closeMenu();
+      if (window.innerWidth >= DESKTOP_BREAKPOINT && mobileNav.classList.contains('is-open')) closeMenu();
     }, { passive: true });
   }
 })();
