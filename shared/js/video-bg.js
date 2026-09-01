@@ -68,6 +68,7 @@
       if (revealed || gaveUp) return;
       revealed = true;
       video.classList.add('is-loaded');
+      slot.classList.add('is-loaded');
     }
     function giveUp() {
       if (revealed || gaveUp) return;
@@ -78,7 +79,13 @@
       // <video> parked over it.
       if (video.parentNode) video.parentNode.removeChild(video);
     }
-    video.addEventListener('loadeddata', reveal);
+    // Bound to `playing`, not `loadeddata` — loadeddata only means a frame
+    // is buffered, not that playback actually started. Revealing on
+    // loadeddata would fade in a paused, frozen first frame (permanently
+    // covering the animated photo underneath) whenever autoplay is blocked
+    // or dropped, which reads to a visitor as "the video stopped playing".
+    // Revealing only once frames are actually advancing avoids that.
+    video.addEventListener('playing', reveal);
 
     // Belt-and-suspenders for the `loop` attribute above: some mobile
     // WebKit builds have been known to drop out of a JS-created video's
@@ -104,6 +111,15 @@
     setTimeout(function () {
       if (!revealed) giveUp();
     }, 8000);
+
+    // If playback pauses unexpectedly while the tab is visible — a network
+    // stall, a battery-saver policy, anything other than our own
+    // visibilitychange-driven pause below — try once to resume rather than
+    // leaving a revealed video frozen on whatever frame it stopped on.
+    video.addEventListener('pause', function () {
+      if (!revealed || document.hidden) return;
+      video.play().catch(function () {});
+    });
 
     document.addEventListener('visibilitychange', function () {
       if (!revealed) return;

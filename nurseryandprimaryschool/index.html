@@ -21,6 +21,18 @@
 <link rel="stylesheet" href="https://assets.royalfamilyacademy.org/shared/css/components.css">
 <link rel="stylesheet" href="https://assets.royalfamilyacademy.org/shared/css/animations.css">
 <link rel="stylesheet" href="https://assets.royalfamilyacademy.org/shared/css/rfa-ai.css">
+<style>
+  /* Crop hint for nursery/joyful-early-learning-hero.jpg: the source photo
+     is landscape with the teacher positioned toward the left. The hero
+     fills 100svh, so on narrow/tall mobile viewports a default centered
+     crop pushes the teacher almost entirely out of frame -- shift the
+     visible window left, more aggressively on narrow screens where the
+     crop is tightest. */
+  .hero__media .media-slot { --focal: 30% 42%; }
+  @media (max-width: 640px) {
+    .hero__media .media-slot { --focal: 12% 42%; }
+  }
+</style>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",

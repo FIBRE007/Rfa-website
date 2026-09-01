@@ -24,7 +24,7 @@
     repeating-linear-gradient(45deg, rgba(255,255,255,0.05) 0 2px, transparent 2px 14px);
   mix-blend-mode: overlay;
 }
-.media-slot:has(img.is-loaded)::before, .media-slot:has(video.is-loaded)::before { display: none; }
+.media-slot.is-loaded::before { display: none; }
 .media-slot__label {
   position: absolute;
   left: 50%; top: 50%;
@@ -56,7 +56,7 @@
   transition: opacity var(--dur-slow) var(--ease-editorial), transform 1.8s var(--ease-editorial);
 }
 .media-slot img.is-loaded { opacity: 1; transform: scale(1); }
-.media-slot__label:has(~ img.is-loaded) { display: none; }
+.media-slot.is-loaded .media-slot__label { display: none; }
 
 /* Optional background video: layers over the photo (which stays as the
    instant poster/fallback) and only ever appears once a real file is
@@ -73,7 +73,6 @@
   transition: opacity var(--dur-slow) var(--ease-editorial);
 }
 .media-slot video.is-loaded { opacity: 1; }
-.media-slot__label:has(~ video.is-loaded) { display: none; }
 
 .media-slot--16-9 { aspect-ratio: 16 / 9; }
 .media-slot--4-5 { aspect-ratio: 4 / 5; }
