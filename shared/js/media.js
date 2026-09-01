@@ -45,6 +45,18 @@
     });
   }
 
+  function shouldLoadEagerly(slot) {
+    if (slot.hasAttribute('data-eager')) return true;
+
+    // Landing-page teaser cards are intentionally high-priority photography.
+    // Treat them as eager even when older page markup omitted data-eager.
+    // This also avoids browser-specific native lazy-loading stalls inside
+    // positioned/aspect-ratio teaser cards.
+    if (slot.closest && slot.closest('.page-teaser')) return true;
+
+    return false;
+  }
+
   function mount(slot) {
     if (!slot || slot.getAttribute('data-media-mounted') === 'true') return;
 
@@ -55,13 +67,14 @@
     var img = new Image();
     img.decoding = 'async';
     img.alt = slot.getAttribute('data-alt') || '';
-    img.loading = slot.hasAttribute('data-eager') ? 'eager' : 'lazy';
+    img.loading = shouldLoadEagerly(slot) ? 'eager' : 'lazy';
 
     img.onload = function () {
       reveal(slot, img);
     };
 
     img.onerror = function () {
+      if (img.parentNode === slot) slot.removeChild(img);
       slot.removeAttribute('data-media-mounted');
       if (window.console && typeof window.console.warn === 'function') {
         window.console.warn('[RFA media] Image failed to load:', resolveUrl(src));
@@ -87,10 +100,9 @@
   function start() {
     var slots = document.querySelectorAll('.media-slot[data-src]');
 
-    // Mount every slot immediately. Non-eager images still use the browser's
-    // native loading="lazy" behaviour, but are no longer blocked behind a
-    // custom IntersectionObserver that was preventing some repeated/lower-page
-    // images from ever being mounted on certain browsers.
+    // Mount every slot immediately. Genuine below-the-fold images use the
+    // browser's native loading="lazy" behaviour; high-priority teaser cards
+    // and explicit data-eager slots load immediately.
     Array.prototype.forEach.call(slots, mount);
   }
 
