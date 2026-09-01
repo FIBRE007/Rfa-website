@@ -15,6 +15,38 @@
 <link rel="stylesheet" href="https://assets.royalfamilyacademy.org/shared/css/components.css?v=hero-overlay-20260901">
 <link rel="stylesheet" href="https://assets.royalfamilyacademy.org/shared/css/animations.css">
 <link rel="stylesheet" href="https://assets.royalfamilyacademy.org/shared/css/rfa-ai.css">
+<style>
+  /* Keep the Early Years layout inside the mobile viewport. The age and
+     timetable tables may scroll horizontally without widening the page. */
+  .pillar > *,
+  .section .container > * { min-width: 0; }
+  .data-table-wrap {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  @media (max-width: 979px) {
+    .site-nav { min-width: 0; gap: var(--space-sm); }
+    .site-nav__mark {
+      min-width: 0;
+      max-width: calc(100% - 52px);
+      overflow: hidden;
+    }
+    .site-nav__mark-word {
+      font-size: clamp(1.05rem, 5vw, 1.35rem);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .site-nav__mark-sub {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .lede { max-width: 100%; }
+  }
+</style>
 </head>
 <body data-site="nurseryandprimaryschool">
 <a class="skip-link" href="#main">Skip to content</a>
