@@ -11,16 +11,21 @@
   const DESKTOP_BREAKPOINT = 980;
   let closeButton = null;
 
-  function ensureCloseButtonStyles() {
-    if (document.getElementById('rfa-mobile-close-styles')) return;
+  function ensureMobileMenuStyles() {
+    if (document.getElementById('rfa-mobile-menu-fix-styles')) return;
     const style = document.createElement('style');
-    style.id = 'rfa-mobile-close-styles';
+    style.id = 'rfa-mobile-menu-fix-styles';
     style.textContent = `
-      .mobile-nav__close{position:fixed;top:max(1rem,env(safe-area-inset-top));right:var(--gutter,1.25rem);width:50px;height:50px;border-radius:999px;background:#fffdf8;border:1px solid rgba(14,12,18,.16);box-shadow:0 10px 30px rgba(14,12,18,.18);z-index:2147483647;display:none;align-items:center;justify-content:center;padding:0}
-      .site-header.menu-open .mobile-nav__close{display:flex}
-      .mobile-nav__close span{position:absolute;width:25px;height:2px;background:#17131b;display:block}
-      .mobile-nav__close span:first-child{transform:rotate(45deg)}
-      .mobile-nav__close span:last-child{transform:rotate(-45deg)}
+      @media(max-width:979px){
+        .site-header.menu-open .site-nav{visibility:hidden;pointer-events:none}
+        .site-header.menu-open .mobile-nav{z-index:20;padding-top:max(5.75rem,calc(env(safe-area-inset-top) + 4.75rem))}
+        .mobile-nav__close{position:fixed;top:max(1rem,env(safe-area-inset-top));right:var(--gutter,1.25rem);width:52px;height:52px;border:0;background:transparent;z-index:2147483647;display:none;align-items:center;justify-content:center;padding:0;cursor:pointer}
+        .site-header.menu-open .mobile-nav__close{display:flex}
+        .mobile-nav__close span{position:absolute;width:34px;height:2px;background:#17131b;display:block;transform-origin:center}
+        .mobile-nav__close span:first-child{transform:rotate(45deg)}
+        .mobile-nav__close span:last-child{transform:rotate(-45deg)}
+        .mobile-nav__links{padding-top:0}
+      }
       @media(min-width:980px){.mobile-nav__close{display:none!important}}
     `;
     document.head.appendChild(style);
@@ -54,7 +59,7 @@
   window.addEventListener('scroll', setScrolledState, { passive: true });
 
   if (toggle && mobileNav) {
-    ensureCloseButtonStyles();
+    ensureMobileMenuStyles();
     closeButton = document.createElement('button');
     closeButton.type = 'button';
     closeButton.className = 'mobile-nav__close';
