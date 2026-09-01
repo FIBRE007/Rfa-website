@@ -76,6 +76,16 @@
     text-transform: uppercase;
     color: #fff;
   }
+  @media (min-width: 1024px) {
+    .parent-trust-banner__inner {
+      grid-template-columns: minmax(360px, 450px) minmax(0, 1fr);
+      gap: clamp(2rem, 4vw, 4rem);
+    }
+    .parent-trust-banner__mark {
+      width: 450px;
+      max-width: 100%;
+    }
+  }
   @media (max-width: 480px) {
     .parent-trust-banner__inner {
       grid-template-columns: 76px minmax(0, 1fr);
