@@ -77,20 +77,25 @@
     text-transform: none;
     color: #fff;
   }
-  .letter-reveal .letter {
+  .letter-reveal {
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphenate-character: '-';
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+  .letter-reveal.is-typing::after {
+    content: '';
     display: inline-block;
-    opacity: 0;
-    transform: translateY(.12em) rotate(-1deg);
-    filter: blur(1.5px);
-    transition: opacity .18s ease, transform .22s ease, filter .22s ease;
-    transition-delay: calc(var(--i) * 38ms);
+    width: .06em;
+    height: .85em;
+    margin-left: .06em;
+    background: currentColor;
+    opacity: .7;
+    vertical-align: -.05em;
+    animation: acsi-caret .7s steps(1) infinite;
   }
-  .letter-reveal .letter.space { width: .3em; }
-  .letter-reveal.is-writing .letter {
-    opacity: 1;
-    transform: translateY(0) rotate(0deg);
-    filter: blur(0);
-  }
+  @keyframes acsi-caret { 50% { opacity: 0; } }
   @media (min-width: 1024px) {
     .parent-trust-banner__inner {
       grid-template-columns: minmax(360px, 450px) minmax(0, 1fr);
@@ -110,11 +115,11 @@
       width: clamp(110px, 34vw, 145px);
       max-width: none;
     }
-    .parent-trust-banner__eyebrow { font-size: .9rem; letter-spacing: .06em; }
-    .parent-trust-banner__title { font-size: clamp(1.35rem, 6.8vw, 1.9rem); }
+    .parent-trust-banner__eyebrow { font-size: .9rem; letter-spacing: .06em; hyphens: auto; -webkit-hyphens: auto; }
+    .parent-trust-banner__title { font-size: clamp(1.35rem, 6.8vw, 1.9rem); hyphens: auto; -webkit-hyphens: auto; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .letter-reveal .letter { opacity: 1; transform: none; filter: none; transition: none; }
+    .letter-reveal.is-typing::after { display: none; }
   }
 </style>
 <script type="application/ld+json">
@@ -164,34 +169,40 @@
 <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 <script>
 (function () {
-  const targets = document.querySelectorAll('[data-letter-reveal]');
+  const targets = Array.from(document.querySelectorAll('[data-letter-reveal]'));
+  const source = new Map();
+
   targets.forEach((el) => {
     const text = el.textContent;
+    source.set(el, text);
     el.setAttribute('aria-label', text);
-    el.textContent = '';
-    Array.from(text).forEach((char, i) => {
-      const span = document.createElement('span');
-      span.className = 'letter' + (char === ' ' ? ' space' : '');
-      span.style.setProperty('--i', i);
-      span.setAttribute('aria-hidden', 'true');
-      span.textContent = char === ' ' ? '\u00A0' : char;
-      el.appendChild(span);
-    });
   });
 
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    targets.forEach((el) => el.classList.add('is-writing'));
-    return;
-  }
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const typeText = (el, delay = 0) => {
+    const text = source.get(el) || '';
+    window.setTimeout(() => {
+      let i = 0;
+      el.textContent = '';
+      el.classList.add('is-typing');
+      const timer = window.setInterval(() => {
+        i += 1;
+        el.textContent = text.slice(0, i);
+        if (i >= text.length) {
+          window.clearInterval(timer);
+          el.classList.remove('is-typing');
+        }
+      }, 38);
+    }, delay);
+  };
 
   const observer = new IntersectionObserver((entries, obs) => {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
       const group = entry.target.closest('.parent-trust-banner');
-      const groupTargets = group ? group.querySelectorAll('[data-letter-reveal]') : [entry.target];
-      groupTargets.forEach((el, index) => {
-        window.setTimeout(() => el.classList.add('is-writing'), index * 220);
-      });
+      const groupTargets = group ? Array.from(group.querySelectorAll('[data-letter-reveal]')) : [entry.target];
+      groupTargets.forEach((el, index) => typeText(el, index * 220));
       groupTargets.forEach((el) => obs.unobserve(el));
     });
   }, { threshold: 0.35 });
