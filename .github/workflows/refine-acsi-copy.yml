@@ -1,48 +1,22 @@
 name: Refine ACSI copy
-
 on:
   push:
     paths:
-      - '.github/workflows/refine-acsi-copy.yml'
-
+      - .github/workflows/refine-acsi-copy.yml
 permissions:
   contents: write
-
 jobs:
-  refine-acsi-copy:
+  refine:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Update ACSI banner copy hierarchy
-        shell: bash
+      - name: Refine banner
         run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          p = Path('nurseryandprimaryschool/index.html')
-          s = p.read_text()
-
-          s = s.replace("""  .parent-trust-banner__eyebrow {
-    color: #6fc2ff;
-    font-size: .72rem;
-    letter-spacing: .18em;
-    text-transform: uppercase;
-    font-weight: 700;
-  }
-""", """  .parent-trust-banner__eyebrow {
-    color: #6fc2ff;
-    font-size: clamp(.9rem, 1.25vw, 1.12rem);
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    font-weight: 800;
-  }
-""", 1)
-
-          s = s.replace("""      <p class=\"parent-trust-banner__copy\">Royal Family Academy combines intentional Christian formation with academic excellence, giving parents confidence in the foundation shaping their child.</p>\n""", "", 1)
-
-          p.write_text(s)
-          PY
-      - name: Commit change
-        shell: bash
+          sed -i '/parent-trust-banner__copy/d' nurseryandprimaryschool/index.html
+          sed -i 's/font-size: \.72rem;/font-size: clamp(.9rem, 1.25vw, 1.12rem);/' nurseryandprimaryschool/index.html
+          sed -i '0,/letter-spacing: \.18em;/s//letter-spacing: .14em;/' nurseryandprimaryschool/index.html
+          sed -i '0,/font-weight: 700;/s//font-weight: 800;/' nurseryandprimaryschool/index.html
+      - name: Commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
