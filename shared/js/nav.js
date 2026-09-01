@@ -17,14 +17,28 @@
     style.id = 'rfa-mobile-menu-fix-styles';
     style.textContent = `
       @media(max-width:979px){
-        .site-header.menu-open .site-nav{visibility:hidden;pointer-events:none}
-        .site-header.menu-open .mobile-nav{z-index:20;padding-top:max(5.75rem,calc(env(safe-area-inset-top) + 4.75rem))}
-        .mobile-nav__close{position:fixed;top:max(1rem,env(safe-area-inset-top));right:var(--gutter,1.25rem);width:52px;height:52px;border:0;background:transparent;z-index:2147483647;display:none;align-items:center;justify-content:center;padding:0;cursor:pointer}
+        .site-header.menu-open .site-nav{visibility:hidden!important;opacity:0!important;pointer-events:none!important}
+        .site-header.menu-open::before{opacity:0!important}
+        .site-header.menu-open .mobile-nav{
+          z-index:2147483000!important;
+          padding:max(5.5rem,calc(env(safe-area-inset-top) + 4.5rem)) var(--gutter,1.25rem) 2rem!important;
+          background:var(--rfa-warm-white,#fffdf8)!important;
+        }
+        .mobile-nav__close{
+          position:fixed;
+          top:max(1rem,env(safe-area-inset-top));
+          right:var(--gutter,1.25rem);
+          width:52px;height:52px;
+          border:0;background:transparent;
+          z-index:2147483647;
+          display:none;align-items:center;justify-content:center;
+          padding:0;cursor:pointer;
+        }
         .site-header.menu-open .mobile-nav__close{display:flex}
         .mobile-nav__close span{position:absolute;width:34px;height:2px;background:#17131b;display:block;transform-origin:center}
         .mobile-nav__close span:first-child{transform:rotate(45deg)}
         .mobile-nav__close span:last-child{transform:rotate(-45deg)}
-        .mobile-nav__links{padding-top:0}
+        .site-header.menu-open .mobile-nav__links{padding-top:0!important;margin-top:0!important}
       }
       @media(min-width:980px){.mobile-nav__close{display:none!important}}
     `;
@@ -60,6 +74,11 @@
 
   if (toggle && mobileNav) {
     ensureMobileMenuStyles();
+
+    /* Move the overlay outside the header stacking context. This prevents
+       the fixed site header/brand from painting over the open menu. */
+    document.body.appendChild(mobileNav);
+
     closeButton = document.createElement('button');
     closeButton.type = 'button';
     closeButton.className = 'mobile-nav__close';
