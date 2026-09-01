@@ -103,10 +103,13 @@
   }
   @media (max-width: 480px) {
     .parent-trust-banner__inner {
-      grid-template-columns: 76px minmax(0, 1fr);
-      gap: .9rem;
+      grid-template-columns: clamp(110px, 34vw, 145px) minmax(0, 1fr);
+      gap: .75rem;
     }
-    .parent-trust-banner__mark { max-width: 76px; }
+    .parent-trust-banner__mark {
+      width: clamp(110px, 34vw, 145px);
+      max-width: none;
+    }
     .parent-trust-banner__eyebrow { font-size: .9rem; letter-spacing: .06em; }
     .parent-trust-banner__title { font-size: clamp(1.35rem, 6.8vw, 1.9rem); }
   }
@@ -150,7 +153,7 @@
     </div>
     <div data-reveal="up">
       <p class="parent-trust-banner__eyebrow letter-reveal" data-letter-reveal>ACSI Accredited School</p>
-      <h2 class="parent-trust-banner__title letter-reveal" id="parent-trust-title" data-letter-reveal>Christian education, held to a recognised standard.</h2>
+      <h2 class="parent-trust-banner__title letter-reveal" id="parent-trust-title" data-letter-reveal>Christian Education, Held To A Recognised Standard.</h2>
     </div>
   </div>
 </section>
