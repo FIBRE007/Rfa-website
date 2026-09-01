@@ -1,0 +1,66 @@
+name: Mobile nav close fix
+
+on:
+  push:
+    paths:
+      - '.github/workflows/mobile-nav-close-fix.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add close-button styles and bust caches
+        shell: bash
+        run: |
+          cat >> shared/css/components.css <<'CSS'
+
+/* Dedicated mobile menu close control */
+.mobile-nav__close {
+  position: fixed;
+  top: max(1rem, env(safe-area-inset-top));
+  right: var(--gutter);
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  background: var(--rfa-warm-white);
+  border: 1px solid rgba(14,12,18,0.14);
+  box-shadow: 0 10px 30px rgba(14,12,18,0.14);
+  z-index: 10002;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+.site-header.menu-open .mobile-nav__close { display: flex; }
+.mobile-nav__close span {
+  position: absolute;
+  width: 24px;
+  height: 2px;
+  background: var(--rfa-charcoal);
+}
+.mobile-nav__close span:first-child { transform: rotate(45deg); }
+.mobile-nav__close span:last-child { transform: rotate(-45deg); }
+@media (min-width: 980px) { .mobile-nav__close { display: none !important; } }
+CSS
+          python3 <<'PY'
+          from pathlib import Path
+          import re
+          for p in Path('.').rglob('*.html'):
+              s = p.read_text()
+              s2 = re.sub(r'https://assets\.royalfamilyacademy\.org/shared/css/components\.css(?:\?v=[^"\']+)?',
+                          'https://assets.royalfamilyacademy.org/shared/css/components.css?v=mobile-close-20260901', s)
+              s2 = re.sub(r'https://assets\.royalfamilyacademy\.org/shared/js/nav\.js(?:\?v=[^"\']+)?',
+                          'https://assets.royalfamilyacademy.org/shared/js/nav.js?v=mobile-close-20260901', s2)
+              if s2 != s:
+                  p.write_text(s2)
+          PY
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add shared/css/components.css '*.html' 'main/*.html' 'nurseryandprimaryschool/*.html' 'highschool/*.html' 'sixthform/*.html' 2>/dev/null || true
+          git commit -m "Make mobile menu closable on all pages"
+          git push
