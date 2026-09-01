@@ -35,10 +35,6 @@
     if (img.parentNode !== slot) slot.appendChild(img);
     img.classList.add('is-loaded');
     slot.classList.add('is-loaded');
-
-    // Do not rely only on shared CSS being fresh. These inline values make a
-    // successfully loaded image visible even if an older components.css is
-    // temporarily served by the asset CDN.
     img.style.opacity = '1';
     img.style.transform = 'scale(1)';
 
@@ -72,9 +68,6 @@
       }
     };
 
-    // Append before assigning src. This avoids browser-specific timing issues
-    // with cached cross-origin images and ensures the element is already in the
-    // media slot when the load event fires.
     slot.appendChild(img);
 
     if (slot.hasAttribute('data-srcset')) {
@@ -83,38 +76,22 @@
     if (slot.hasAttribute('data-sizes')) {
       img.sizes = slot.getAttribute('data-sizes');
     }
+
     img.src = resolveUrl(src);
 
-    // A cached image can be complete immediately in some browsers. Handle that
-    // path explicitly instead of depending exclusively on the load callback.
-    if (img.complete && img.naturalWidth > 0) reveal(slot, img);
+    if (img.complete && img.naturalWidth > 0) {
+      reveal(slot, img);
+    }
   }
 
   function start() {
     var slots = document.querySelectorAll('.media-slot[data-src]');
-    var lazy = [];
 
-    Array.prototype.forEach.call(slots, function (slot) {
-      if (slot.hasAttribute('data-eager')) mount(slot);
-      else lazy.push(slot);
-    });
-
-    if (!lazy.length) return;
-
-    if ('IntersectionObserver' in window) {
-      var io = new IntersectionObserver(function (entries, observer) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            mount(entry.target);
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { rootMargin: '400px 0px' });
-
-      lazy.forEach(function (slot) { io.observe(slot); });
-    } else {
-      lazy.forEach(mount);
-    }
+    // Mount every slot immediately. Non-eager images still use the browser's
+    // native loading="lazy" behaviour, but are no longer blocked behind a
+    // custom IntersectionObserver that was preventing some repeated/lower-page
+    // images from ever being mounted on certain browsers.
+    Array.prototype.forEach.call(slots, mount);
   }
 
   if (document.readyState === 'loading') {
