@@ -1,0 +1,61 @@
+name: ACSI left-right layout
+
+on:
+  push:
+    paths:
+      - '.github/workflows/acsi-left-layout.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update-layout:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Keep ACSI logo left and text right
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('nurseryandprimaryschool/index.html')
+          s = p.read_text()
+          s = s.replace("""    display: grid;
+    gap: 1.25rem;
+    align-items: center;
+""", """    display: grid;
+    grid-template-columns: clamp(90px, 22vw, 150px) minmax(0, 1fr);
+    gap: clamp(1rem, 3vw, 2.75rem);
+    align-items: center;
+""", 1)
+          s = s.replace("""  @media (min-width: 760px) {
+    .parent-trust-banner__inner { grid-template-columns: minmax(115px, 150px) 1fr; gap: clamp(1.5rem, 3vw, 2.75rem); }
+  }
+""", """  @media (max-width: 480px) {
+    .parent-trust-banner__inner { grid-template-columns: 82px minmax(0, 1fr); gap: 1rem; }
+    .parent-trust-banner__mark { width: 82px; }
+  }
+""", 1)
+          # Remove orphaned CSS left behind when the paragraph style selector was removed.
+          orphan = """    margin-top: .55rem;
+    max-width: 82ch;
+    color: rgba(255,252,247,0.86);
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(.95rem, 1.2vw, 1.08rem);
+    line-height: 1.55;
+    text-align: justify;
+    text-justify: inter-word;
+  }
+"""
+          s = s.replace(orphan, '', 1)
+          p.write_text(s)
+          PY
+      - name: Commit change
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add nurseryandprimaryschool/index.html
+          git diff --cached --quiet && exit 0
+          git commit -m "Keep ACSI logo left and copy right"
+          git push
