@@ -13,6 +13,7 @@
   const mobileNav = header.querySelector('.mobile-nav');
   const SCROLL_THRESHOLD = 40;
   const DESKTOP_BREAKPOINT = 980;
+  let closeButton = null;
 
   function setScrolledState() {
     header.classList.toggle('is-scrolled', window.scrollY > SCROLL_THRESHOLD);
@@ -24,6 +25,7 @@
       toggle.setAttribute('aria-expanded', 'false');
       toggle.setAttribute('aria-label', 'Open menu');
     }
+    if (closeButton) closeButton.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
   }
 
@@ -33,6 +35,7 @@
       toggle.setAttribute('aria-expanded', 'true');
       toggle.setAttribute('aria-label', 'Close menu');
     }
+    if (closeButton) closeButton.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
   }
 
@@ -40,6 +43,19 @@
   window.addEventListener('scroll', setScrolledState, { passive: true });
 
   if (toggle && mobileNav) {
+    // A dedicated close control lives inside the menu itself. This remains
+    // reachable even if a device/browser paints the full-screen menu above
+    // the normal header toggle.
+    closeButton = document.createElement('button');
+    closeButton.type = 'button';
+    closeButton.className = 'mobile-nav__close';
+    closeButton.setAttribute('aria-label', 'Close menu');
+    closeButton.setAttribute('aria-hidden', 'true');
+    closeButton.innerHTML = '<span></span><span></span>';
+    mobileNav.prepend(closeButton);
+
+    closeButton.addEventListener('click', closeMenu);
+
     toggle.addEventListener('click', function () {
       header.classList.contains('menu-open') ? closeMenu() : openMenu();
     });
