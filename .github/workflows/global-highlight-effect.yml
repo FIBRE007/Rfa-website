@@ -1,0 +1,80 @@
+name: Global highlight effect
+
+on:
+  push:
+    paths:
+      - '.github/workflows/global-highlight-effect.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply full animated highlight site-wide
+        shell: bash
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+          import re
+
+          components = Path('shared/css/components.css')
+          s = components.read_text()
+
+          old = re.compile(r"\.highlight \{\n\s*background-image: linear-gradient\(var\(--rfa-gold-400\), var\(--rfa-gold-400\)\);\n\s*background-repeat: no-repeat;\n\s*background-position: 0 100%;\n\s*background-size: 0% 2px;\n\s*padding-bottom: 0\.05em;\n\s*transition: background-size 900ms var\(--ease-editorial\) 250ms;\n\}\n(?:\[data-reveal\]\.is-visible \.highlight \{[^}]*\}\n)?")
+
+          new = '''.highlight {
+            display: inline;
+            color: inherit;
+            padding: 0.08em 0.14em 0.12em;
+            text-decoration: none;
+            background-image: linear-gradient(90deg, rgba(198,162,78,0.42), rgba(198,162,78,0.62));
+            background-repeat: no-repeat;
+            background-position: 0 0;
+            background-size: 0% 100%;
+            box-decoration-break: clone;
+            -webkit-box-decoration-break: clone;
+            transition: background-size 1.15s var(--ease-editorial) 0.5s;
+          }
+          [data-reveal].is-visible .highlight,
+          .is-visible .highlight {
+            background-size: 100% 100%;
+          }
+'''
+
+          s2, n = old.subn(new, s, count=1)
+          if n != 1:
+              raise SystemExit('Could not find the global .highlight block to replace')
+          components.write_text(s2)
+
+          animations = Path('shared/css/animations.css')
+          a = animations.read_text()
+          a2 = a.replace('.highlight { transition: none !important; background-size: 100% 2px !important; }',
+                         '.highlight { transition: none !important; background-size: 100% 100% !important; }')
+          if a2 == a:
+              raise SystemExit('Could not update reduced-motion highlight fallback')
+          animations.write_text(a2)
+
+          for p in Path('.').rglob('*.html'):
+              text = p.read_text()
+              text2 = re.sub(
+                  r'https://assets\.royalfamilyacademy\.org/shared/css/components\.css(?:\?v=[^"\']+)?',
+                  'https://assets.royalfamilyacademy.org/shared/css/components.css?v=full-highlight-20260901',
+                  text
+              )
+              if text2 != text:
+                  p.write_text(text2)
+          PY
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add shared/css/components.css shared/css/animations.css '*.html' 'main/*.html' 'nurseryandprimaryschool/*.html' 'highschool/*.html' 'sixthform/*.html' 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 1
+          fi
+          git commit -m "Apply full animated highlights site-wide"
+          git push
