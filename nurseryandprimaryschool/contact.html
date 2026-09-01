@@ -15,6 +15,15 @@
 <link rel="stylesheet" href="https://assets.royalfamilyacademy.org/shared/css/components.css?v=mobile-nav-top-20260901">
 <link rel="stylesheet" href="https://assets.royalfamilyacademy.org/shared/css/animations.css">
 <link rel="stylesheet" href="https://assets.royalfamilyacademy.org/shared/css/rfa-ai.css">
+<style>
+/* Contact page has no photographic hero, so keep the sticky header readable from initial load. */
+.site-header::before { opacity: 1; }
+.site-header .site-nav__link,
+.site-header .site-nav__mark-word,
+.site-header .site-nav__mark-sub { color: var(--rfa-charcoal); }
+.site-header .nav-toggle span { background: var(--rfa-charcoal); }
+.site-header .btn--ghost-dark { color: var(--rfa-purple-800); border-color: var(--rfa-purple-800); }
+</style>
 </head>
 <body data-site="nurseryandprimaryschool">
 <a class="skip-link" href="#main">Skip to content</a>
