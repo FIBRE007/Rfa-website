@@ -27,6 +27,25 @@
 
 .counter[data-count] { font-variant-numeric: tabular-nums; }
 
+/* Full-height animated key-phrase highlight used site-wide.
+   This intentionally replaces the former thin underline treatment. */
+.highlight {
+  display: inline;
+  padding: 0.08em 0.14em 0.12em;
+  text-decoration: none;
+  background-image: linear-gradient(90deg, rgba(198,162,78,0.42), rgba(198,162,78,0.62));
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  background-size: 0% 100%;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  transition: background-size 1.15s var(--ease-editorial) 0.5s;
+}
+[data-reveal].is-visible .highlight,
+.is-visible .highlight {
+  background-size: 100% 100%;
+}
+
 /* Hover lift for interactive cards/tiles (page teasers, facility tiles) */
 .hover-lift { transition: transform var(--dur-fast) var(--ease-out-soft), box-shadow var(--dur-fast) var(--ease-out-soft); }
 .hover-lift:hover, .hover-lift:focus-visible { transform: translateY(-6px); box-shadow: 0 24px 46px -20px rgba(14,12,18,0.38); }
@@ -41,7 +60,7 @@
   .hero__title .line span { transform: none !important; }
   .hero__sub, .hero__ctas, .scroll-cue { opacity: 1 !important; transform: none !important; }
   .subhero__body > * { opacity: 1 !important; transform: none !important; }
-  .highlight { transition: none !important; background-size: 100% 2px !important; }
+  .highlight { transition: none !important; background-size: 100% 100% !important; }
   .hover-lift:hover, .hover-lift:focus-visible { transform: none !important; }
   html { scroll-behavior: auto; }
   * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; }
