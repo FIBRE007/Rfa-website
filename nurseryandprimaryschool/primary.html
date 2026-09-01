@@ -23,31 +23,34 @@
   .parent-note__title { margin: 0 0 0.45rem; color: var(--rfa-purple-800); font-size: var(--fs-sm); font-weight: 700; letter-spacing: var(--tracking-wide); text-transform: uppercase; }
   .parent-note__text { margin: 0; color: var(--color-text-muted); line-height: var(--lh-body); overflow-wrap: anywhere; }
 
-  /* Primary-page emphasis: the key phrase draws its underline, receives one
-     restrained gold wash, then settles. This keeps the motion editorial,
-     rather than turning the sentence into a looping attention effect. */
+  /* Primary-page emphasis: larger, stronger editorial phrase with no underline. */
   .highlight--attention {
-    font-weight: 500;
+    display: inline;
+    color: var(--rfa-purple-700);
+    font-family: var(--font-display);
+    font-size: 1.24em;
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    background-image: none !important;
+    background-size: 0 0 !important;
+    padding: 0;
+    text-decoration: none;
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;
-    border-radius: 0.12em;
-    padding-inline: 0.03em;
-    background-size: 0% 3px;
   }
   [data-reveal].is-visible .highlight--attention {
-    background-size: 100% 3px;
-    animation: key-phrase-emphasis 1.55s var(--ease-editorial) 1.05s 1 both;
+    background-image: none !important;
+    background-size: 0 0 !important;
+    animation: key-phrase-emphasis 1.35s var(--ease-editorial) 0.55s 1 both;
   }
   @keyframes key-phrase-emphasis {
-    0%, 100% { background-color: transparent; text-shadow: none; }
-    42% { background-color: rgba(198, 162, 78, 0.16); text-shadow: 0 0 0.55em rgba(198, 162, 78, 0.18); }
-    72% { background-color: rgba(198, 162, 78, 0.08); text-shadow: 0 0 0.25em rgba(198, 162, 78, 0.10); }
+    0% { color: var(--rfa-purple-700); text-shadow: none; }
+    45% { color: var(--rfa-purple-800); text-shadow: 0 0 0.55em rgba(67,22,119,0.16); }
+    100% { color: var(--rfa-purple-700); text-shadow: none; }
   }
   @media (prefers-reduced-motion: reduce) {
-    [data-reveal].is-visible .highlight--attention {
-      animation: none;
-      background-size: 100% 3px;
-    }
+    [data-reveal].is-visible .highlight--attention { animation: none; }
   }
 
   .site-header { position: fixed !important; inset-block-start: 0 !important; inset-inline: 0 !important; z-index: 1000 !important; visibility: visible !important; opacity: 1 !important; transform: none !important; pointer-events: auto !important; }
