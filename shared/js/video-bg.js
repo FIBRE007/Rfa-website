@@ -67,6 +67,7 @@
       if (revealed || gaveUp) return;
       revealed = true;
       video.classList.add('is-loaded');
+      slot.classList.add('is-loaded');
     }
     function giveUp() {
       if (revealed || gaveUp) return;

@@ -49,6 +49,7 @@
 
     img.onload = () => {
       img.classList.add('is-loaded');
+      slot.classList.add('is-loaded');
       slot.appendChild(img);
     };
     img.onerror = () => {
