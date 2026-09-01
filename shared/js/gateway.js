@@ -108,6 +108,17 @@
 
   refresh();
 
+  // The initial refresh() above can run before the real web fonts finish
+  // downloading (font-display: swap shows a fallback font first) — on a
+  // slower mobile connection the fallback-vs-real-font metrics can differ
+  // enough to change how many words fit per line, leaving the clamp
+  // slightly off once the swap happens. Re-measure once fonts are ready.
+  if (window.document && document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () {
+      if (!expanded) refresh();
+    });
+  }
+
   var resizeTimer;
   window.addEventListener('resize', function () {
     clearTimeout(resizeTimer);
