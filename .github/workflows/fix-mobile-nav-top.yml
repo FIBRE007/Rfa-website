@@ -1,0 +1,38 @@
+name: Fix mobile nav top clipping
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-mobile-nav-top.yml'
+permissions:
+  contents: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add mobile nav viewport-safe override
+        run: |
+          cat >> shared/css/components.css <<'EOF'
+
+/* Mobile navigation: keep the first item visible and scroll from the top. */
+@media (max-width: 979px) {
+  .mobile-nav {
+    justify-content: flex-start;
+    padding-top: max(7rem, calc(env(safe-area-inset-top, 0px) + 6.25rem));
+    padding-bottom: max(var(--space-lg), env(safe-area-inset-bottom, 0px));
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+  .mobile-nav__links {
+    flex: 0 0 auto;
+    padding-bottom: var(--space-lg);
+  }
+}
+EOF
+      - name: Commit update
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add shared/css/components.css
+          git commit -m "Fix mobile navigation top clipping"
+          git push
