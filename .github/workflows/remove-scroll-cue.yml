@@ -1,0 +1,25 @@
+name: Remove hero scroll cue
+
+on:
+  push:
+    paths:
+      - '.github/workflows/remove-scroll-cue.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  remove-scroll-cue:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Hide hero scroll cue site-wide
+        run: |
+          printf '\n/* Scroll cue removed site-wide */\n.scroll-cue { display: none !important; }\n' >> shared/css/components.css
+      - name: Commit change
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add shared/css/components.css
+          git commit -m "Remove hero scroll cue across site"
+          git push
