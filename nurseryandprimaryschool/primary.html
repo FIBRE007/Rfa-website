@@ -22,10 +22,38 @@
   .parent-note { margin-top: 1rem; padding: 1.2rem 1.25rem; background: rgba(67, 22, 119, 0.08); border-left: 4px solid var(--rfa-gold-500); border-radius: var(--radius-md); }
   .parent-note__title { margin: 0 0 0.45rem; color: var(--rfa-purple-800); font-size: var(--fs-sm); font-weight: 700; letter-spacing: var(--tracking-wide); text-transform: uppercase; }
   .parent-note__text { margin: 0; color: var(--color-text-muted); line-height: var(--lh-body); overflow-wrap: anywhere; }
-  .highlight--attention { display: inline; color: var(--rfa-purple-700); font-family: var(--font-display); font-size: 1.24em; font-weight: 700; line-height: 0.95; letter-spacing: -0.02em; background-image: none !important; background-size: 0 0 !important; padding: 0; text-decoration: none; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
-  [data-reveal].is-visible .highlight--attention { background-image: none !important; background-size: 0 0 !important; animation: key-phrase-emphasis 1.35s var(--ease-editorial) 0.55s 1 both; }
-  @keyframes key-phrase-emphasis { 0% { color: var(--rfa-purple-700); text-shadow: none; } 45% { color: var(--rfa-purple-800); text-shadow: 0 0 0.55em rgba(67,22,119,0.16); } 100% { color: var(--rfa-purple-700); text-shadow: none; } }
-  @media (prefers-reduced-motion: reduce) { [data-reveal].is-visible .highlight--attention { animation: none; } }
+
+  .highlight--attention {
+    display: inline;
+    color: var(--rfa-purple-800);
+    font-family: var(--font-display);
+    font-size: 1.24em;
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    padding: 0 0.08em;
+    text-decoration: none;
+    background-image: linear-gradient(90deg, rgba(198,162,78,0.34), rgba(198,162,78,0.52));
+    background-repeat: no-repeat;
+    background-position: 0 78%;
+    background-size: 0% 72%;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+  [data-reveal].is-visible .highlight--attention {
+    animation: key-phrase-highlight 1.15s var(--ease-editorial) 0.5s 1 forwards;
+  }
+  @keyframes key-phrase-highlight {
+    from { background-size: 0% 72%; }
+    to { background-size: 100% 72%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal].is-visible .highlight--attention {
+      animation: none;
+      background-size: 100% 72%;
+    }
+  }
+
   .site-header { position: fixed !important; inset-block-start: 0 !important; inset-inline: 0 !important; z-index: 1000 !important; visibility: visible !important; opacity: 1 !important; transform: none !important; pointer-events: auto !important; }
   .site-header .site-nav, .site-header .nav-toggle, .site-header .site-nav__mark { visibility: visible !important; opacity: 1 !important; }
   @media (max-width: 979px) {
