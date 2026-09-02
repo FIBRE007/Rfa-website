@@ -1,6 +1,6 @@
 import { connect } from "cloudflare:sockets";
 
-const SMTP_HOST = "mail.royalfamilyacademy.org";
+const SMTP_HOST = "mx1.royalfamilyacademy.org";
 const SMTP_PORT = 465;
 const SMTP_USER = "info@royalfamilyacademy.org";
 const ADMISSIONS_TO = "info@royalfamilyacademy.org";
@@ -168,7 +168,6 @@ export async function onRequestPost(context) {
     return json({ ok: false, message: "Invalid form submission." }, 400);
   }
 
-  // Honeypot: bots commonly fill hidden fields. Return success without sending.
   if (clean(form.get("_honey"), 200)) {
     return json({ ok: true, message: "Thank you. Your enquiry has been received." });
   }
