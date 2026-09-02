@@ -12,9 +12,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://assets.royalfamilyacademy.org/shared/css/tokens.css">
 <link rel="stylesheet" href="https://assets.royalfamilyacademy.org/shared/css/base.css">
-<link rel="stylesheet" href="https://assets.royalfamilyacademy.org/shared/css/components.css?v=hero-overlay-20260901">
-<link rel="stylesheet" href="https://assets.royalfamilyacademy.org/shared/css/animations.css">
+<link rel="stylesheet" href="https://assets.royalfamilyacademy.org/shared/css/components.css?v=mobile-nav-top-20260901">
+<link rel="stylesheet" href="https://assets.royalfamilyacademy.org/shared/css/animations.css?v=scroll-sync-20260902">
 <link rel="stylesheet" href="https://assets.royalfamilyacademy.org/shared/css/rfa-ai.css">
+<style>.form-status{margin-top:.8rem;font-weight:600}</style>
 </head>
 <body data-site="highschool">
 <a class="skip-link" href="#main">Skip to content</a>
@@ -102,7 +103,7 @@
           </tbody>
         </table>
       </div>
-      <p class="placeholder-note" style="margin-top:var(--space-lg);" data-reveal="up"><strong>Content note:</strong> current registration dates, entrance-assessment format and required documents should be added here once confirmed with RFA High School admissions.</p>
+      <!-- Registration dates, assessment format and required documents should be added only after High School admissions confirms them. -->
       <p class="lede" style="margin-top:var(--space-md);" data-reveal="up">High School admissions line: <a class="link-underline" href="tel:+2348116055399">+234 811 605 5399</a> · <a class="link-underline" href="mailto:info@royalfamilyacademy.org">info@royalfamilyacademy.org</a></p>
     </div>
   </section>
@@ -111,19 +112,21 @@
     <div class="container container--narrow">
       <p class="eyebrow" data-reveal="up">Enquire</p>
       <h2 class="display-lg" data-reveal="up">Start a conversation with admissions.</h2>
-      <form class="form-grid" data-reveal="up" action="#" method="post">
+      <form id="admissions-enquiry-form" class="form-grid" data-reveal="up" action="/api/admissions" method="post">
+        <input type="hidden" name="school" value="High School">
+        <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
         <div class="form-field"><label for="p-name">Parent / Guardian name</label><input id="p-name" name="name" type="text" required></div>
         <div class="form-field"><label for="c-age">Student's age</label><input id="c-age" name="age" type="text" required></div>
         <div class="form-field"><label for="p-email">Email</label><input id="p-email" name="email" type="email" required></div>
         <div class="form-field"><label for="p-phone">Phone</label><input id="p-phone" name="phone" type="tel" required></div>
         <div class="form-field form-field--full"><label for="p-stage">Class of interest</label>
-          <select id="p-stage" name="stage">
+          <select id="p-stage" name="stage" required>
             <option>Junior High 1</option><option>Junior High 2</option><option>Junior High 3</option>
             <option>Senior High 1</option><option>Senior High 2</option><option>Senior High 3</option>
           </select>
         </div>
         <div class="form-field form-field--full"><label for="p-msg">Message</label><textarea id="p-msg" name="message" rows="4"></textarea></div>
-        <div class="form-field--full"><button class="btn btn--primary" type="submit">Submit Enquiry</button><p class="form-note">This form is presentational; wire it to RFA's real admissions inbox/CRM endpoint before launch.</p></div>
+        <div class="form-field--full"><button class="btn btn--primary" type="submit">Submit Enquiry</button><p class="form-note">Your enquiry will be sent securely to the Royal Family Academy admissions team.</p><p id="admissions-form-status" class="form-status" role="status" aria-live="polite"></p></div>
       </form>
     </div>
   </section>
@@ -138,13 +141,43 @@
   </div>
   <div class="container footer-bottom"><p>&copy; <span id="year"></span> Royal Family Academy. All rights reserved.</p></div>
 </footer>
-<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+const admissionsForm = document.getElementById('admissions-enquiry-form');
+const admissionsStatus = document.getElementById('admissions-form-status');
+if (admissionsForm) {
+  admissionsForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const button = admissionsForm.querySelector('button[type="submit"]');
+    const originalText = button.textContent;
+    button.disabled = true;
+    button.textContent = 'Sending…';
+    admissionsStatus.textContent = 'Sending your enquiry…';
+    try {
+      const response = await fetch(admissionsForm.action, {
+        method: 'POST',
+        body: new FormData(admissionsForm),
+        headers: { 'Accept': 'application/json' }
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok || !result.ok) throw new Error(result.message || 'Unable to send enquiry.');
+      admissionsStatus.textContent = result.message || 'Thank you. Your admissions enquiry has been sent successfully.';
+      admissionsForm.reset();
+    } catch (error) {
+      admissionsStatus.textContent = error.message || 'We could not send your enquiry right now. Please try again shortly.';
+    } finally {
+      button.disabled = false;
+      button.textContent = originalText;
+    }
+  });
+}
+</script>
 <script src="https://assets.royalfamilyacademy.org/shared/js/rfa-knowledge.js"></script>
 <script src="https://assets.royalfamilyacademy.org/shared/js/nav.js"></script>
 <script src="https://assets.royalfamilyacademy.org/shared/js/media-config.js"></script>
 <script src="https://assets.royalfamilyacademy.org/shared/js/media.js?v=5c15b4b"></script>
 <script src="https://assets.royalfamilyacademy.org/shared/js/video-bg.js"></script>
-<script src="https://assets.royalfamilyacademy.org/shared/js/reveal.js"></script>
+<script src="https://assets.royalfamilyacademy.org/shared/js/reveal.js?v=scroll-sync-20260902"></script>
 <script src="https://assets.royalfamilyacademy.org/shared/js/rfa-ai.js"></script>
 </body>
 </html>
