@@ -1,5 +1,5 @@
 const EMAIL_API_URL = "https://api.resend.com/emails";
-const EMAIL_FROM = "Royal Family Academy Admissions <info@royalfamilyacademy.org>";
+const EMAIL_FROM = "Royal Family Academy Admissions <admissions@mail.royalfamilyacademy.org>";
 const ADMISSIONS_TO = "info@royalfamilyacademy.org";
 const ALLOWED_ORIGINS = new Set([
   "https://nurseryandprimaryschool.royalfamilyacademy.org",
