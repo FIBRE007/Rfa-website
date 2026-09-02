@@ -15,25 +15,37 @@
     });
   });
 
-  const revealTargets = document.querySelectorAll('[data-reveal]');
+  const revealTargets = Array.from(document.querySelectorAll('[data-reveal]'));
   if (prefersReducedMotion) {
     revealTargets.forEach((el) => el.classList.add('is-visible'));
   } else if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver(
-      (entries, observer) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      {
-        threshold: 0.42,
-        rootMargin: '0px 0px -14% 0px'
-      }
-    );
-    revealTargets.forEach((el) => io.observe(el));
+    const reveal = (entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    };
+
+    // Standard content waits until a meaningful portion is visible.
+    const io = new IntersectionObserver(reveal, {
+      threshold: 0.42,
+      rootMargin: '0px 0px -14% 0px'
+    });
+
+    // Leadership cards can be taller than a mobile viewport. A 42% threshold
+    // can therefore be impossible to reach, leaving the portrait permanently
+    // hidden. Reveal these cards as soon as they clearly enter the viewport.
+    const leadershipIo = new IntersectionObserver(reveal, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -8% 0px'
+    });
+
+    revealTargets.forEach((el) => {
+      if (el.classList.contains('leadership-card')) leadershipIo.observe(el);
+      else io.observe(el);
+    });
   } else {
     revealTargets.forEach((el) => el.classList.add('is-visible'));
   }
