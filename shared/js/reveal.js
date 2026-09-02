@@ -1,9 +1,9 @@
 /**
  * Scroll-reveal system: adds .is-visible to [data-reveal] elements the
- * first time they cross the viewport, staggers [data-reveal-group]
- * children, animates the hero on load, and drives [data-count] number
- * counters. Pure IntersectionObserver — no animation library dependency.
- * Fully inert when the user prefers reduced motion.
+ * first time they are clearly inside the viewport, staggers
+ * [data-reveal-group] children, animates the hero on load, and drives
+ * [data-count] number counters. Pure IntersectionObserver — no animation
+ * library dependency. Fully inert when the user prefers reduced motion.
  */
 (function () {
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -28,14 +28,17 @@
           }
         });
       },
-      { threshold: 0.18, rootMargin: '0px 0px -8% 0px' }
+      {
+        threshold: 0.42,
+        rootMargin: '0px 0px -14% 0px'
+      }
     );
     revealTargets.forEach((el) => io.observe(el));
   } else {
     revealTargets.forEach((el) => el.classList.add('is-visible'));
   }
 
-  // Hero / sub-page hero: reveal immediately on load (above the fold, no IO needed).
+  // Hero / sub-page hero: reveal immediately on load because it is already above the fold.
   const hero = document.querySelector('.hero, .subhero');
   if (hero) requestAnimationFrame(() => requestAnimationFrame(() => hero.classList.add('is-revealed')));
 
@@ -49,7 +52,7 @@
         el.textContent = target + suffix;
         return;
       }
-      const duration = 1400;
+      const duration = 1800;
       const start = performance.now();
       function tick(now) {
         const progress = Math.min((now - start) / duration, 1);
@@ -70,7 +73,7 @@
             }
           });
         },
-        { threshold: 0.6 }
+        { threshold: 0.7, rootMargin: '0px 0px -10% 0px' }
       );
       counters.forEach((el) => countIo.observe(el));
     } else {
