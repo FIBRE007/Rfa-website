@@ -1,6 +1,6 @@
 import { connect } from "cloudflare:sockets";
 
-const SMTP_HOST = "mx1.royalfamilyacademy.org";
+const SMTP_HOST = "mail.royalfamilyacademy.org";
 const SMTP_PORT = 465;
 const SMTP_USER = "info@royalfamilyacademy.org";
 const ADMISSIONS_TO = "info@royalfamilyacademy.org";
