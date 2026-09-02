@@ -92,23 +92,42 @@ async function sendCommand(writer, reader, command, allowed) {
 }
 
 async function sendMail(password, enquiry) {
-  const socket = connect(
-    { hostname: SMTP_HOST, port: SMTP_PORT },
-    { secureTransport: "on", allowHalfOpen: false },
-  );
-
-  await socket.opened;
-  const reader = new SmtpReader(socket.readable);
-  const writer = socket.writable.getWriter();
+  let stage = "SMTP_CONNECT_FAILED";
+  let socket;
+  let writer;
 
   try {
+    socket = connect(
+      { hostname: SMTP_HOST, port: SMTP_PORT },
+      { secureTransport: "on", allowHalfOpen: false },
+    );
+
+    await socket.opened;
+    const reader = new SmtpReader(socket.readable);
+    writer = socket.writable.getWriter();
+
+    stage = "SMTP_GREETING_FAILED";
     await expect(reader, [220]);
+
+    stage = "SMTP_EHLO_FAILED";
     await sendCommand(writer, reader, "EHLO nurseryandprimaryschool.royalfamilyacademy.org", [250]);
+
+    stage = "SMTP_AUTH_START_FAILED";
     await sendCommand(writer, reader, "AUTH LOGIN", [334]);
+
+    stage = "SMTP_AUTH_USER_FAILED";
     await sendCommand(writer, reader, btoa(SMTP_USER), [334]);
+
+    stage = "SMTP_AUTH_PASSWORD_FAILED";
     await sendCommand(writer, reader, btoa(password), [235]);
+
+    stage = "SMTP_MAIL_FROM_FAILED";
     await sendCommand(writer, reader, `MAIL FROM:<${SMTP_USER}>`, [250]);
+
+    stage = "SMTP_RCPT_TO_FAILED";
     await sendCommand(writer, reader, `RCPT TO:<${ADMISSIONS_TO}>`, [250, 251]);
+
+    stage = "SMTP_DATA_START_FAILED";
     await sendCommand(writer, reader, "DATA", [354]);
 
     const subject = "New Nursery & Primary Admissions Enquiry";
@@ -141,12 +160,20 @@ async function sendMail(password, enquiry) {
       "",
     ].join("\r\n");
 
+    stage = "SMTP_MESSAGE_WRITE_FAILED";
     await writer.write(new TextEncoder().encode(message));
+
+    stage = "SMTP_MESSAGE_ACCEPT_FAILED";
     await expect(reader, [250]);
+
+    stage = "SMTP_QUIT_FAILED";
     await sendCommand(writer, reader, "QUIT", [221]);
+  } catch (error) {
+    error.smtpDiagnostic = stage;
+    throw error;
   } finally {
-    try { writer.releaseLock(); } catch {}
-    try { await socket.close(); } catch {}
+    try { writer?.releaseLock(); } catch {}
+    try { await socket?.close(); } catch {}
   }
 }
 
@@ -158,7 +185,7 @@ export async function onRequestPost(context) {
 
   if (!context.env.SMTP_PASSWORD) {
     console.error("SMTP_PASSWORD secret is not configured");
-    return json({ ok: false, message: "Admissions email service is not configured yet." }, 503);
+    return json({ ok: false, message: "Admissions email service is not configured yet. Diagnostic: SMTP_SECRET_MISSING." }, 503);
   }
 
   let form;
@@ -192,8 +219,13 @@ export async function onRequestPost(context) {
     await sendMail(context.env.SMTP_PASSWORD, enquiry);
     return json({ ok: true, message: "Thank you. Your admissions enquiry has been sent successfully." });
   } catch (error) {
-    console.error("Admissions SMTP error", error?.message || error);
-    return json({ ok: false, message: "We could not send your enquiry right now. Please try again shortly." }, 502);
+    const diagnostic = error?.smtpDiagnostic || "SMTP_UNKNOWN_FAILED";
+    console.error("Admissions SMTP error", diagnostic, error?.message || error);
+    return json({
+      ok: false,
+      message: `We could not send your enquiry right now. Diagnostic: ${diagnostic}.`,
+      diagnostic,
+    }, 502);
   }
 }
 
