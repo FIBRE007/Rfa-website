@@ -16,13 +16,13 @@
 <link rel="stylesheet" href="https://assets.royalfamilyacademy.org/shared/css/animations.css">
 <link rel="stylesheet" href="https://assets.royalfamilyacademy.org/shared/css/rfa-ai.css">
 <style>
-/* Contact page has no photographic hero, so keep the sticky header readable from initial load. */
 .site-header::before { opacity: 1; }
 .site-header .site-nav__link,
 .site-header .site-nav__mark-word,
 .site-header .site-nav__mark-sub { color: var(--rfa-charcoal); }
 .site-header .nav-toggle span { background: var(--rfa-charcoal); }
 .site-header .btn--ghost-dark { color: var(--rfa-purple-800); border-color: var(--rfa-purple-800); }
+.form-status { margin-top: 1rem; font-weight: 600; }
 </style>
 </head>
 <body data-site="nurseryandprimaryschool">
@@ -95,12 +95,13 @@
     <div class="container container--narrow">
       <p class="eyebrow" data-reveal="up">Send a message</p>
       <h2 class="display-lg" data-reveal="up">Get in touch.</h2>
-      <form class="form-grid" data-reveal="up" action="#" method="post">
+      <form id="contact-form" class="form-grid" data-reveal="up" action="/api/contact" method="post">
+        <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
         <div class="form-field"><label for="c-name">Full name</label><input id="c-name" name="name" type="text" required></div>
         <div class="form-field"><label for="c-email">Email</label><input id="c-email" name="email" type="email" required></div>
         <div class="form-field form-field--full"><label for="c-subject">Subject</label><input id="c-subject" name="subject" type="text"></div>
         <div class="form-field form-field--full"><label for="c-message">Message</label><textarea id="c-message" name="message" rows="5" required></textarea></div>
-        <div class="form-field--full"><button class="btn btn--primary" type="submit">Send Message</button><p class="form-note">This form is presentational; wire it to RFA's real contact inbox/CRM endpoint before launch.</p></div>
+        <div class="form-field--full"><button class="btn btn--primary" type="submit">Send Message</button><p class="form-note">Your message will be sent securely to the Royal Family Academy team.</p><p id="contact-form-status" class="form-status" role="status" aria-live="polite"></p></div>
       </form>
     </div>
   </section>
@@ -116,6 +117,36 @@
   <div class="container footer-bottom"><p>&copy; <span id="year"></span> Royal Family Academy. All rights reserved.</p></div>
 </footer>
 <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script>
+const contactForm = document.getElementById('contact-form');
+const contactStatus = document.getElementById('contact-form-status');
+if (contactForm) {
+  contactForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const button = contactForm.querySelector('button[type="submit"]');
+    const originalText = button.textContent;
+    button.disabled = true;
+    button.textContent = 'Sending…';
+    contactStatus.textContent = '';
+    try {
+      const response = await fetch(contactForm.action, {
+        method: 'POST',
+        body: new FormData(contactForm),
+        headers: { accept: 'application/json' },
+      });
+      const result = await response.json();
+      if (!response.ok || !result.ok) throw new Error(result.message || 'Unable to send message.');
+      contactStatus.textContent = result.message;
+      contactForm.reset();
+    } catch (error) {
+      contactStatus.textContent = error.message || 'We could not send your message right now. Please try again.';
+    } finally {
+      button.disabled = false;
+      button.textContent = originalText;
+    }
+  });
+}
+</script>
 <script src="https://assets.royalfamilyacademy.org/shared/js/rfa-knowledge.js"></script>
 <script src="https://assets.royalfamilyacademy.org/shared/js/nav.js"></script>
 <script src="https://assets.royalfamilyacademy.org/shared/js/media-config.js"></script>
