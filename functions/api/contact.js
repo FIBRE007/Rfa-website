@@ -3,6 +3,7 @@ const EMAIL_FROM = "Royal Family Academy Contact <contact@mail.royalfamilyacadem
 const CONTACT_TO = "info@royalfamilyacademy.org";
 const ALLOWED_ORIGINS = new Set([
   "https://nurseryandprimaryschool.royalfamilyacademy.org",
+  "https://highschool.royalfamilyacademy.org",
   "https://royalfamilyacademy.org",
   "https://www.royalfamilyacademy.org",
 ]);
@@ -26,12 +27,13 @@ function isEmail(value) {
 }
 
 async function sendMail(apiKey, enquiry) {
+  const schoolLabel = enquiry.school || "Royal Family Academy";
   const subject = enquiry.subject
-    ? `Website Contact: ${enquiry.subject}`
-    : "New Website Contact Message";
+    ? `${schoolLabel} Website Contact: ${enquiry.subject}`
+    : `New ${schoolLabel} Website Contact Message`;
 
   const body = [
-    "A new message was submitted from the Royal Family Academy Nursery & Primary contact page.",
+    `A new message was submitted from the Royal Family Academy ${schoolLabel} contact page.`,
     "",
     `Name: ${enquiry.name}`,
     `Email: ${enquiry.email}`,
@@ -102,7 +104,12 @@ export async function onRequestPost(context) {
     return json({ ok: true, message: "Thank you. Your message has been received." });
   }
 
+  const defaultSchool = origin?.includes("highschool.royalfamilyacademy.org")
+    ? "High School"
+    : "Nursery & Primary";
+
   const enquiry = {
+    school: clean(form.get("school"), 80) || defaultSchool,
     name: clean(form.get("name"), 120),
     email: clean(form.get("email"), 254),
     subject: clean(form.get("subject"), 180),
