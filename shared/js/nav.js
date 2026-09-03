@@ -81,6 +81,25 @@
     document.head.appendChild(style);
   }
 
+  function ensureHighSchoolCampusNav() {
+    if (!document.body || document.body.dataset.site !== 'highschool') return;
+
+    const addCampusLink = function (nav, desktop) {
+      if (!nav || nav.querySelector('a[href="campus.html"]')) return;
+      const link = document.createElement('a');
+      link.href = 'campus.html';
+      link.textContent = 'Campus';
+      if (desktop) link.className = 'site-nav__link link-underline';
+
+      const studentLife = nav.querySelector('a[href="student-life.html"]');
+      if (studentLife) studentLife.insertAdjacentElement('afterend', link);
+      else nav.appendChild(link);
+    };
+
+    addCampusLink(header.querySelector('.site-nav__links'), true);
+    if (mobileNav) addCampusLink(mobileNav.querySelector('.mobile-nav__links'), false);
+  }
+
   function setScrolledState() {
     header.classList.toggle('is-scrolled', window.scrollY > SCROLL_THRESHOLD);
   }
@@ -108,6 +127,7 @@
   }
 
   ensureHighSchoolHeroOverlay();
+  ensureHighSchoolCampusNav();
   setScrolledState();
   window.addEventListener('scroll', setScrolledState, { passive: true });
 
