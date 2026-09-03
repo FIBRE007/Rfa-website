@@ -14,11 +14,16 @@
 (function () {
   var RFA_MEDIA_BASE = 'https://media.royalfamilyacademy.org/';
   var ABSOLUTE_URL = /^([a-z][a-z0-9+.-]*:)?\/\//i;
+  var MEDIA_ALIASES = {
+    'leadership-development/senior-student-speaking.jpg': 'leadership-development/senior-student-speaking.jpeg'
+  };
 
   window.RFA_MEDIA_BASE = RFA_MEDIA_BASE;
   window.RFA_MEDIA_URL = function (path) {
     if (!path) return path;
     if (ABSOLUTE_URL.test(path)) return path;
-    return RFA_MEDIA_BASE.replace(/\/$/, '') + '/' + path.replace(/^\//, '');
+    var cleanPath = path.replace(/^\//, '');
+    cleanPath = MEDIA_ALIASES[cleanPath] || cleanPath;
+    return RFA_MEDIA_BASE.replace(/\/$/, '') + '/' + cleanPath;
   };
 })();
