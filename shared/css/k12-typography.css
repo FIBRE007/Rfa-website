@@ -1,0 +1,488 @@
+/* ========================================================================== 
+   Royal Family Academy — K-12 typography and motion refinement
+   Applies only to Nursery & Primary and High School.
+   Purpose: stronger legibility, calmer editorial hierarchy, and more
+   restrained school-appropriate motion without changing the RFA identity.
+   ========================================================================== */
+
+body[data-site="nurseryandprimaryschool"],
+body[data-site="highschool"] {
+  --fs-display-xl: clamp(3rem, 2.45rem + 3.8vw, 6.35rem);
+  --fs-display-lg: clamp(2.5rem, 2.08rem + 2.9vw, 5rem);
+  --fs-display-md: clamp(2.05rem, 1.76rem + 1.9vw, 3.55rem);
+  --fs-display-sm: clamp(1.62rem, 1.48rem + 0.95vw, 2.42rem);
+  --fs-eyebrow: clamp(0.82rem, 0.8rem + 0.08vw, 0.88rem);
+  --fs-lg: clamp(1.18rem, 1.13rem + 0.2vw, 1.35rem);
+  --fs-body: clamp(1.0625rem, 1.03rem + 0.12vw, 1.125rem);
+  --fs-sm: clamp(0.94rem, 0.91rem + 0.08vw, 1rem);
+  --fs-xs: 0.86rem;
+  --lh-tight: 1.08;
+  --lh-snug: 1.24;
+  --lh-body: 1.72;
+  --tracking-wide: 0.07em;
+  --tracking-wider: 0.12em;
+  --tracking-widest: 0.18em;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  font-kerning: normal;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+/* Reading comfort --------------------------------------------------------- */
+body[data-site="nurseryandprimaryschool"] main :where(p, li, td, th, dd, dt, address),
+body[data-site="highschool"] main :where(p, li, td, th, dd, dt, address) {
+  text-wrap: pretty;
+}
+
+body[data-site="nurseryandprimaryschool"] :where(h1, h2, h3, h4, .display-xl, .display-lg, .display-md, .display-sm),
+body[data-site="highschool"] :where(h1, h2, h3, h4, .display-xl, .display-lg, .display-md, .display-sm) {
+  text-wrap: balance;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+body[data-site="nurseryandprimaryschool"] :where(.display-xl, .display-lg, .display-md, .display-sm),
+body[data-site="highschool"] :where(.display-xl, .display-lg, .display-md, .display-sm) {
+  font-weight: 600;
+}
+
+body[data-site="nurseryandprimaryschool"] .lede,
+body[data-site="highschool"] .lede {
+  max-width: 60ch;
+  font-size: var(--fs-lg);
+  line-height: 1.68;
+  color: #5d5664;
+}
+
+body[data-site="nurseryandprimaryschool"] .on-dark .lede,
+body[data-site="highschool"] .on-dark .lede,
+body[data-site="nurseryandprimaryschool"] .lede.on-dark,
+body[data-site="highschool"] .lede.on-dark {
+  color: rgba(255, 252, 247, 0.9);
+}
+
+body[data-site="nurseryandprimaryschool"] .eyebrow,
+body[data-site="highschool"] .eyebrow,
+body[data-site="nurseryandprimaryschool"] [class*="__eyebrow"],
+body[data-site="highschool"] [class*="__eyebrow"] {
+  font-size: var(--fs-eyebrow);
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: var(--tracking-widest);
+}
+
+body[data-site="nurseryandprimaryschool"] .eyebrow::before,
+body[data-site="highschool"] .eyebrow::before {
+  width: 34px;
+}
+
+/* Header and navigation --------------------------------------------------- */
+body[data-site="nurseryandprimaryschool"] .site-nav__mark-word,
+body[data-site="highschool"] .site-nav__mark-word {
+  font-size: clamp(1.45rem, 1.28rem + 0.5vw, 1.8rem);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: 0.055em;
+}
+
+body[data-site="nurseryandprimaryschool"] .site-nav__mark-sub,
+body[data-site="highschool"] .site-nav__mark-sub {
+  margin-top: 0.28rem;
+  font-size: 0.75rem;
+  line-height: 1.25;
+  letter-spacing: 0.18em;
+}
+
+body[data-site="nurseryandprimaryschool"] .site-nav__link,
+body[data-site="highschool"] .site-nav__link {
+  font-size: 0.84rem;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: 0.065em;
+}
+
+body[data-site="nurseryandprimaryschool"] .mobile-nav__links a,
+body[data-site="highschool"] .mobile-nav__links a {
+  font-size: clamp(1.75rem, 5.4vw, 2.35rem);
+  font-weight: 600;
+  line-height: 1.08;
+}
+
+/* Buttons and interactive text ------------------------------------------- */
+body[data-site="nurseryandprimaryschool"] .btn,
+body[data-site="highschool"] .btn {
+  min-height: 46px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.075em;
+}
+
+body[data-site="nurseryandprimaryschool"] :where(input, textarea, select),
+body[data-site="highschool"] :where(input, textarea, select) {
+  font-size: 1rem;
+  line-height: 1.45;
+}
+
+body[data-site="nurseryandprimaryschool"] :where(label, .form-label),
+body[data-site="highschool"] :where(label, .form-label) {
+  font-size: 0.94rem;
+  font-weight: 650;
+  line-height: 1.4;
+}
+
+body[data-site="nurseryandprimaryschool"] :where(.form-note, .field-note, .placeholder-note),
+body[data-site="highschool"] :where(.form-note, .field-note, .placeholder-note) {
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+/* Hero typography --------------------------------------------------------- */
+body[data-site="nurseryandprimaryschool"] .hero__title,
+body[data-site="highschool"] .hero__title {
+  font-weight: 600;
+  letter-spacing: -0.012em;
+}
+
+body[data-site="nurseryandprimaryschool"] .hero__title .line span,
+body[data-site="highschool"] .hero__title .line span {
+  font-size: var(--fs-display-xl);
+  line-height: 1;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+body[data-site="nurseryandprimaryschool"] .hero__sub,
+body[data-site="highschool"] .hero__sub {
+  max-width: 54ch;
+  font-size: var(--fs-lg);
+  line-height: 1.58;
+  color: rgba(255, 252, 247, 0.94);
+}
+
+body[data-site="nurseryandprimaryschool"] .subhero__body .display-lg,
+body[data-site="highschool"] .subhero__body .display-lg {
+  max-width: 17ch;
+}
+
+body[data-site="nurseryandprimaryschool"] .scroll-cue,
+body[data-site="highschool"] .scroll-cue {
+  font-size: 0.8rem;
+  letter-spacing: 0.13em;
+}
+
+/* Cards, lists, tables and editorial components -------------------------- */
+body[data-site="nurseryandprimaryschool"] .page-teaser__eyebrow,
+body[data-site="highschool"] .page-teaser__eyebrow {
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+}
+
+body[data-site="nurseryandprimaryschool"] .page-teaser__title,
+body[data-site="highschool"] .page-teaser__title {
+  font-size: clamp(1.65rem, 1.45rem + 0.9vw, 2.4rem);
+  font-weight: 600;
+  line-height: 1.12;
+}
+
+body[data-site="nurseryandprimaryschool"] .page-teaser__arrow,
+body[data-site="highschool"] .page-teaser__arrow {
+  font-size: 0.92rem;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+body[data-site="nurseryandprimaryschool"] .pillar__copy,
+body[data-site="highschool"] .pillar__copy,
+body[data-site="nurseryandprimaryschool"] [class*="__copy"],
+body[data-site="highschool"] [class*="__copy"],
+body[data-site="nurseryandprimaryschool"] [class*="__desc"],
+body[data-site="highschool"] [class*="__desc"],
+body[data-site="nurseryandprimaryschool"] [class*="__text"],
+body[data-site="highschool"] [class*="__text"] {
+  line-height: 1.68;
+}
+
+body[data-site="nurseryandprimaryschool"] .info-columns li,
+body[data-site="highschool"] .info-columns li {
+  padding-block: 0.68em;
+  font-size: clamp(1rem, 0.98rem + 0.08vw, 1.075rem);
+  line-height: 1.62;
+}
+
+body[data-site="nurseryandprimaryschool"] .data-table :where(th, td),
+body[data-site="highschool"] .data-table :where(th, td) {
+  font-size: clamp(0.98rem, 0.96rem + 0.08vw, 1.05rem);
+  line-height: 1.55;
+}
+
+body[data-site="nurseryandprimaryschool"] .data-table th,
+body[data-site="highschool"] .data-table th {
+  font-weight: 700;
+  letter-spacing: 0.045em;
+}
+
+body[data-site="nurseryandprimaryschool"] .data-table caption,
+body[data-site="highschool"] .data-table caption {
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+body[data-site="nurseryandprimaryschool"] .value-strip__item,
+body[data-site="highschool"] .value-strip__item {
+  font-size: clamp(1rem, 0.98rem + 0.1vw, 1.08rem);
+  font-weight: 700;
+}
+
+body[data-site="nurseryandprimaryschool"] .journey__num,
+body[data-site="highschool"] .journey__num {
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+}
+
+body[data-site="nurseryandprimaryschool"] .journey__title,
+body[data-site="highschool"] .journey__title {
+  font-size: clamp(1.38rem, 1.28rem + 0.35vw, 1.7rem);
+  font-weight: 650;
+  line-height: 1.2;
+}
+
+body[data-site="nurseryandprimaryschool"] .journey__desc,
+body[data-site="highschool"] .journey__desc {
+  font-size: 1rem;
+  line-height: 1.62;
+}
+
+/* Leadership text --------------------------------------------------------- */
+body[data-site="nurseryandprimaryschool"] .leadership-card__name,
+body[data-site="highschool"] .leadership-card__name {
+  font-size: clamp(1.52rem, 1.4rem + 0.45vw, 1.95rem);
+  font-weight: 600;
+  line-height: 1.12;
+}
+
+body[data-site="nurseryandprimaryschool"] .leadership-card__role,
+body[data-site="highschool"] .leadership-card__role {
+  font-size: 0.84rem;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.1em;
+}
+
+/* Custom cards used by individual school pages --------------------------- */
+body[data-site="nurseryandprimaryschool"] :where(.campus-card__title, .facility-card__title, .activity-card__title, .safety-card__title),
+body[data-site="highschool"] :where(.campus-card__title, .facility-card__title, .activity-card__title, .safety-card__title) {
+  font-size: clamp(1.55rem, 1.4rem + 0.75vw, 2.25rem);
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+body[data-site="nurseryandprimaryschool"] :where(.campus-card__copy, .facility-card__copy, .activity-card__copy, .safety-card__copy),
+body[data-site="highschool"] :where(.campus-card__copy, .facility-card__copy, .activity-card__copy, .safety-card__copy) {
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+body[data-site="nurseryandprimaryschool"] .facility-card__label,
+body[data-site="highschool"] .facility-card__label {
+  font-size: clamp(1.25rem, 1.16rem + 0.35vw, 1.5rem);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* Footer ------------------------------------------------------------------ */
+body[data-site="nurseryandprimaryschool"] .footer-mark,
+body[data-site="highschool"] .footer-mark {
+  font-size: clamp(1.55rem, 1.4rem + 0.45vw, 1.9rem);
+  line-height: 1.08;
+}
+
+body[data-site="nurseryandprimaryschool"] .footer-tag,
+body[data-site="highschool"] .footer-tag,
+body[data-site="nurseryandprimaryschool"] .footer-col h4,
+body[data-site="highschool"] .footer-col h4 {
+  font-size: 0.82rem;
+  line-height: 1.4;
+  letter-spacing: 0.12em;
+}
+
+body[data-site="nurseryandprimaryschool"] .footer-col :where(li, a),
+body[data-site="highschool"] .footer-col :where(li, a),
+body[data-site="nurseryandprimaryschool"] .footer-bottom,
+body[data-site="highschool"] .footer-bottom {
+  font-size: 0.94rem;
+  line-height: 1.55;
+}
+
+/* Calm K-12 reveal motion ------------------------------------------------- */
+body[data-site="nurseryandprimaryschool"] [data-reveal]:not(.leadership-card),
+body[data-site="highschool"] [data-reveal]:not(.leadership-card) {
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+  transition:
+    opacity 780ms var(--ease-out-soft),
+    transform 900ms var(--ease-editorial),
+    clip-path 900ms var(--ease-editorial);
+  transition-delay: var(--reveal-delay, 70ms);
+  will-change: opacity, transform;
+}
+
+body[data-site="nurseryandprimaryschool"] [data-reveal="down"]:not(.leadership-card),
+body[data-site="highschool"] [data-reveal="down"]:not(.leadership-card) {
+  transform: translate3d(0, -14px, 0);
+}
+
+body[data-site="nurseryandprimaryschool"] [data-reveal="left"]:not(.leadership-card),
+body[data-site="highschool"] [data-reveal="left"]:not(.leadership-card) {
+  transform: translate3d(18px, 0, 0);
+}
+
+body[data-site="nurseryandprimaryschool"] [data-reveal="right"]:not(.leadership-card),
+body[data-site="highschool"] [data-reveal="right"]:not(.leadership-card) {
+  transform: translate3d(-18px, 0, 0);
+}
+
+body[data-site="nurseryandprimaryschool"] [data-reveal="scale"]:not(.leadership-card),
+body[data-site="highschool"] [data-reveal="scale"]:not(.leadership-card) {
+  transform: scale(0.985);
+}
+
+body[data-site="nurseryandprimaryschool"] [data-reveal="clip"]:not(.leadership-card),
+body[data-site="highschool"] [data-reveal="clip"]:not(.leadership-card) {
+  transform: none;
+  clip-path: inset(0 0 12% 0);
+}
+
+body[data-site="nurseryandprimaryschool"] [data-reveal].is-visible:not(.leadership-card),
+body[data-site="highschool"] [data-reveal].is-visible:not(.leadership-card) {
+  opacity: 1;
+  transform: none;
+  clip-path: inset(0 0 0 0);
+}
+
+body[data-site="nurseryandprimaryschool"] [data-reveal-group] > *,
+body[data-site="highschool"] [data-reveal-group] > * {
+  transition-delay: calc(70ms + (var(--reveal-index, 0) * 85ms));
+}
+
+/* Hero motion: refined from a large masked rise to a short, readable drift. */
+body[data-site="nurseryandprimaryschool"] .hero__title .line,
+body[data-site="highschool"] .hero__title .line {
+  overflow: visible;
+}
+
+body[data-site="nurseryandprimaryschool"] .hero__title .line span,
+body[data-site="highschool"] .hero__title .line span {
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
+  transition:
+    opacity 820ms var(--ease-out-soft),
+    transform 980ms var(--ease-editorial);
+}
+
+body[data-site="nurseryandprimaryschool"] .hero.is-revealed .hero__title .line span,
+body[data-site="highschool"] .hero.is-revealed .hero__title .line span {
+  opacity: 1;
+  transform: none;
+}
+
+body[data-site="nurseryandprimaryschool"] .hero__title .line:nth-child(2) span,
+body[data-site="highschool"] .hero__title .line:nth-child(2) span { transition-delay: 75ms; }
+body[data-site="nurseryandprimaryschool"] .hero__title .line:nth-child(3) span,
+body[data-site="highschool"] .hero__title .line:nth-child(3) span { transition-delay: 150ms; }
+
+body[data-site="nurseryandprimaryschool"] .hero__sub,
+body[data-site="highschool"] .hero__sub {
+  transform: translate3d(0, 12px, 0);
+  transition:
+    opacity 760ms var(--ease-out-soft),
+    transform 900ms var(--ease-editorial);
+  transition-delay: 260ms;
+}
+
+body[data-site="nurseryandprimaryschool"] .hero__ctas,
+body[data-site="highschool"] .hero__ctas {
+  transform: translate3d(0, 10px, 0);
+  transition:
+    opacity 760ms var(--ease-out-soft),
+    transform 900ms var(--ease-editorial);
+  transition-delay: 390ms;
+}
+
+body[data-site="nurseryandprimaryschool"] .subhero__body > *,
+body[data-site="highschool"] .subhero__body > * {
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+  transition:
+    opacity 760ms var(--ease-out-soft),
+    transform 900ms var(--ease-editorial);
+}
+
+body[data-site="nurseryandprimaryschool"] .subhero.is-revealed .subhero__body > *,
+body[data-site="highschool"] .subhero.is-revealed .subhero__body > * {
+  opacity: 1;
+  transform: none;
+}
+
+body[data-site="nurseryandprimaryschool"] .subhero__body > :nth-child(2),
+body[data-site="highschool"] .subhero__body > :nth-child(2) { transition-delay: 90ms; }
+body[data-site="nurseryandprimaryschool"] .subhero__body > :nth-child(3),
+body[data-site="highschool"] .subhero__body > :nth-child(3) { transition-delay: 165ms; }
+
+/* Small screens ----------------------------------------------------------- */
+@media (max-width: 640px) {
+  body[data-site="nurseryandprimaryschool"],
+  body[data-site="highschool"] {
+    --fs-display-xl: clamp(2.8rem, 10.5vw, 3.55rem);
+    --fs-display-lg: clamp(2.35rem, 9.2vw, 3.15rem);
+    --fs-display-md: clamp(2rem, 7.8vw, 2.65rem);
+    --fs-display-sm: clamp(1.62rem, 6.2vw, 2.1rem);
+    --fs-body: 1.0625rem;
+    --fs-lg: 1.18rem;
+  }
+
+  body[data-site="nurseryandprimaryschool"] .site-nav__mark-word,
+  body[data-site="highschool"] .site-nav__mark-word {
+    font-size: clamp(1.26rem, 5.4vw, 1.55rem);
+    letter-spacing: 0.04em;
+  }
+
+  body[data-site="nurseryandprimaryschool"] .site-nav__mark-sub,
+  body[data-site="highschool"] .site-nav__mark-sub {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+  }
+
+  body[data-site="nurseryandprimaryschool"] .hero__sub,
+  body[data-site="highschool"] .hero__sub {
+    max-width: 34ch;
+    line-height: 1.55;
+  }
+
+  body[data-site="nurseryandprimaryschool"] .info-columns li,
+  body[data-site="highschool"] .info-columns li {
+    font-size: 1rem;
+    line-height: 1.62;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body[data-site="nurseryandprimaryschool"] [data-reveal],
+  body[data-site="highschool"] [data-reveal],
+  body[data-site="nurseryandprimaryschool"] .hero__title .line span,
+  body[data-site="highschool"] .hero__title .line span,
+  body[data-site="nurseryandprimaryschool"] .hero__sub,
+  body[data-site="highschool"] .hero__sub,
+  body[data-site="nurseryandprimaryschool"] .hero__ctas,
+  body[data-site="highschool"] .hero__ctas,
+  body[data-site="nurseryandprimaryschool"] .subhero__body > *,
+  body[data-site="highschool"] .subhero__body > * {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    transition: none !important;
+  }
+}
