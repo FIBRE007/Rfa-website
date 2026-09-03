@@ -7,6 +7,8 @@
  */
 (function () {
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const site = document.body && document.body.dataset ? document.body.dataset.site : '';
+  const isK12 = site === 'nurseryandprimaryschool' || site === 'highschool';
 
   document.querySelectorAll('[data-reveal-group]').forEach((group) => {
     Array.from(group.children).forEach((child, i) => {
@@ -28,18 +30,23 @@
       });
     };
 
-    // Standard content waits until a meaningful portion is visible.
-    const io = new IntersectionObserver(reveal, {
+    // K-12 pages reveal content as it becomes comfortably readable rather
+    // than waiting until nearly half of a block has already crossed the
+    // viewport. Other RFA properties retain the original editorial trigger.
+    const io = new IntersectionObserver(reveal, isK12 ? {
+      threshold: 0.18,
+      rootMargin: '0px 0px -8% 0px'
+    } : {
       threshold: 0.42,
       rootMargin: '0px 0px -14% 0px'
     });
 
-    // Leadership cards can be taller than a mobile viewport. A 42% threshold
-    // can therefore be impossible to reach, leaving the portrait permanently
-    // hidden. Reveal these cards as soon as they clearly enter the viewport.
+    // Leadership cards can be taller than a mobile viewport. Reveal them as
+    // soon as they clearly enter the visible area; page-specific leadership
+    // motion can then control the slower portrait/card movement itself.
     const leadershipIo = new IntersectionObserver(reveal, {
-      threshold: 0.12,
-      rootMargin: '0px 0px -8% 0px'
+      threshold: isK12 ? 0.08 : 0.12,
+      rootMargin: isK12 ? '0px 0px -6% 0px' : '0px 0px -8% 0px'
     });
 
     revealTargets.forEach((el) => {
@@ -64,7 +71,7 @@
         el.textContent = target + suffix;
         return;
       }
-      const duration = 1800;
+      const duration = isK12 ? 1500 : 1800;
       const start = performance.now();
       function tick(now) {
         const progress = Math.min((now - start) / duration, 1);
@@ -85,7 +92,7 @@
             }
           });
         },
-        { threshold: 0.7, rootMargin: '0px 0px -10% 0px' }
+        { threshold: isK12 ? 0.45 : 0.7, rootMargin: '0px 0px -10% 0px' }
       );
       counters.forEach((el) => countIo.observe(el));
     } else {
