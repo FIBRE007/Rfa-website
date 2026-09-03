@@ -141,6 +141,7 @@
   padding: .7rem var(--space-md);
   background: var(--gradient-royal);
   color: var(--rfa-warm-white);
+  flex-shrink: 0;
 }
 .rfa-ai__header::before {
   content: '';
@@ -169,6 +170,7 @@
 
 .rfa-ai__messages {
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
   padding: var(--space-sm) var(--space-md);
   display: flex;
@@ -193,6 +195,7 @@
 .rfa-ai__actions {
   display: flex;
   flex-wrap: wrap;
+  flex-shrink: 0;
   gap: var(--space-3xs);
   padding: 0 var(--space-md) var(--space-2xs);
 }
@@ -218,6 +221,7 @@
 .rfa-ai__form {
   display: flex;
   align-items: center;
+  flex-shrink: 0;
   gap: var(--space-2xs);
   padding: var(--space-sm) var(--space-md);
   border-top: 1px solid var(--color-border);
@@ -261,17 +265,21 @@
     animation-duration: 5.6s;
   }
 
-  /* Keep the opened Guide inside the mobile visual viewport. The full-body
-     launcher is intentionally taller now, so the panel must not be positioned
-     relative to the launcher's height or it can be pushed above the screen. */
-  .rfa-ai__panel {
-    position: fixed;
-    left: var(--space-xs);
-    right: var(--space-xs);
-    bottom: max(var(--space-xs), env(safe-area-inset-bottom));
-    width: auto;
-    max-width: none;
-    max-height: calc(100dvh - 2 * var(--space-xs));
+  /* Mobile browsers can expose a layout viewport that extends behind the
+     address/toolbar chrome. Pin both edges and use the small viewport unit,
+     which represents the safely visible viewport with browser UI present. */
+  .rfa-ai__panel,
+  .rfa-ai.is-open .rfa-ai__panel {
+    position: fixed !important;
+    left: max(12px, env(safe-area-inset-left)) !important;
+    right: max(12px, env(safe-area-inset-right)) !important;
+    top: max(12px, env(safe-area-inset-top)) !important;
+    bottom: max(12px, env(safe-area-inset-bottom)) !important;
+    width: auto !important;
+    height: auto !important;
+    max-width: none !important;
+    max-height: calc(100svh - 24px) !important;
+    margin: 0 !important;
   }
 
   .rfa-ai__header { grid-template-columns: 52px 1fr auto; gap: .6rem; }
