@@ -260,7 +260,20 @@
     height: 60px;
     animation-duration: 5.6s;
   }
-  .rfa-ai__panel { width: min(380px, calc(100vw - 2 * var(--space-xs))); max-height: 76vh; }
+
+  /* Keep the opened Guide inside the mobile visual viewport. The full-body
+     launcher is intentionally taller now, so the panel must not be positioned
+     relative to the launcher's height or it can be pushed above the screen. */
+  .rfa-ai__panel {
+    position: fixed;
+    left: var(--space-xs);
+    right: var(--space-xs);
+    bottom: max(var(--space-xs), env(safe-area-inset-bottom));
+    width: auto;
+    max-width: none;
+    max-height: calc(100dvh - 2 * var(--space-xs));
+  }
+
   .rfa-ai__header { grid-template-columns: 52px 1fr auto; gap: .6rem; }
   .rfa-ai__header::before {
     width: 52px;
