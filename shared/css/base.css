@@ -2,6 +2,8 @@
    Royal Family Academy — Base layer
    ========================================================================== */
 
+@import url('./k12-typography.css?v=20260903-1');
+
 *, *::before, *::after { box-sizing: border-box; }
 html {
   scroll-behavior: smooth;
