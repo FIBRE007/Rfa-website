@@ -15,6 +15,53 @@
 <link rel="stylesheet" href="https://assets.royalfamilyacademy.org/shared/css/components.css?v=mobile-nav-top-20260901">
 <link rel="stylesheet" href="https://assets.royalfamilyacademy.org/shared/css/animations.css?v=scroll-sync-20260902">
 <link rel="stylesheet" href="https://assets.royalfamilyacademy.org/shared/css/rfa-ai.css">
+<style>
+  .curriculum-image-frame {
+    position: relative;
+    min-height: clamp(260px, 46vw, 520px);
+    margin: clamp(2.75rem, 7vw, 5.5rem) 0;
+    overflow: hidden;
+    border-radius: clamp(1.15rem, 2.5vw, 2rem);
+    background: #eee8df;
+    box-shadow: 0 24px 60px rgba(31, 22, 36, 0.12);
+    isolation: isolate;
+  }
+  .curriculum-image-frame .media-slot {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .curriculum-image-frame::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    border: 1px solid rgba(198, 162, 78, 0.48);
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 10px rgba(255, 252, 247, 0.05);
+  }
+  .curriculum-image-frame__accent {
+    position: absolute;
+    left: clamp(1.1rem, 3vw, 2rem);
+    bottom: clamp(1.1rem, 3vw, 2rem);
+    z-index: 3;
+    width: clamp(58px, 10vw, 96px);
+    height: 3px;
+    border-radius: 999px;
+    background: var(--rfa-gold-500, #c6a24e);
+    box-shadow: 0 1px 8px rgba(14, 12, 18, 0.18);
+  }
+  @media (max-width: 640px) {
+    .curriculum-image-frame {
+      min-height: 320px;
+      margin: 2.5rem 0 3.25rem;
+      border-radius: 1.25rem;
+    }
+    .curriculum-image-frame .media-slot { --focal: 50% 46%; }
+  }
+</style>
 </head>
 <body data-site="highschool">
 <a class="skip-link" href="#main">Skip to content</a>
@@ -82,6 +129,13 @@
           <span class="tag-list__item">French</span><span class="tag-list__item">Hausa</span><span class="tag-list__item">Yoruba</span><span class="tag-list__item">Igbo</span>
           <span class="tag-list__item">Civic Education</span><span class="tag-list__item">Literature</span>
         </div>
+      </div>
+
+      <div class="curriculum-image-frame" data-reveal="scale" aria-label="High School curriculum learning photograph">
+        <div class="media-slot media-slot--full" data-src="classrooms/high-school-curriculum-learning.jpg" data-alt="Royal Family Academy High School students engaged in classroom learning">
+          <span class="media-slot__label">High School curriculum learning photograph<small>classrooms/high-school-curriculum-learning.jpg</small></span>
+        </div>
+        <span class="curriculum-image-frame__accent" aria-hidden="true"></span>
       </div>
 
       <div style="margin-top:var(--space-xl);" data-reveal="up">
