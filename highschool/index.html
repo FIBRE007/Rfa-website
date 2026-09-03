@@ -15,12 +15,110 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23431677'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='34' fill='%23c6a24e' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://assets.royalfamilyacademy.org/shared/css/tokens.css">
 <link rel="stylesheet" href="https://assets.royalfamilyacademy.org/shared/css/base.css">
 <link rel="stylesheet" href="https://assets.royalfamilyacademy.org/shared/css/components.css?v=mobile-nav-top-20260901">
 <link rel="stylesheet" href="https://assets.royalfamilyacademy.org/shared/css/animations.css?v=scroll-sync-20260902">
 <link rel="stylesheet" href="https://assets.royalfamilyacademy.org/shared/css/rfa-ai.css">
+<style>
+  .parent-trust-banner {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(112deg, #2f0f58 0%, #431677 58%, #5b268f 100%);
+    color: #fff;
+    padding: clamp(1.45rem, 3vw, 2.5rem) var(--gutter);
+  }
+  .parent-trust-banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 90% 20%, rgba(198,162,78,0.20), transparent 30%), linear-gradient(90deg, rgba(14,12,18,0.18), transparent 58%);
+    pointer-events: none;
+  }
+  .parent-trust-banner__inner {
+    position: relative;
+    z-index: 1;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: clamp(90px, 18vw, 150px) minmax(0, 1fr);
+    gap: clamp(1rem, 3vw, 2.75rem);
+    align-items: center;
+  }
+  .parent-trust-banner__mark {
+    width: 100%;
+    max-width: 150px;
+    background: transparent;
+    padding: 0;
+    box-shadow: none;
+    justify-self: start;
+  }
+  .parent-trust-banner__mark img { width: 100%; height: auto; display: block; background: transparent; }
+  .parent-trust-banner__eyebrow {
+    color: #6fc2ff;
+    font-size: clamp(1.05rem, 1.7vw, 1.55rem);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    font-weight: 900;
+    line-height: 1.1;
+  }
+  .parent-trust-banner__title {
+    margin-top: .45rem;
+    max-width: 30ch;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(1.75rem, 3.25vw, 3.1rem);
+    font-weight: 500;
+    line-height: 1.04;
+    letter-spacing: .005em;
+    text-transform: none;
+    color: #fff;
+  }
+  .letter-reveal {
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphenate-character: '-';
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+  .letter-reveal.is-typing::after {
+    content: '';
+    display: inline-block;
+    width: .06em;
+    height: .85em;
+    margin-left: .06em;
+    background: currentColor;
+    opacity: .7;
+    vertical-align: -.05em;
+    animation: acsi-caret .7s steps(1) infinite;
+  }
+  @keyframes acsi-caret { 50% { opacity: 0; } }
+  @media (min-width: 1024px) {
+    .parent-trust-banner__inner {
+      grid-template-columns: minmax(360px, 450px) minmax(0, 1fr);
+      gap: clamp(2rem, 4vw, 4rem);
+    }
+    .parent-trust-banner__mark {
+      width: 450px;
+      max-width: 100%;
+    }
+  }
+  @media (max-width: 480px) {
+    .parent-trust-banner__inner {
+      grid-template-columns: clamp(110px, 34vw, 145px) minmax(0, 1fr);
+      gap: .75rem;
+    }
+    .parent-trust-banner__mark {
+      width: clamp(110px, 34vw, 145px);
+      max-width: none;
+    }
+    .parent-trust-banner__eyebrow { font-size: .9rem; letter-spacing: .06em; hyphens: auto; -webkit-hyphens: auto; }
+    .parent-trust-banner__title { font-size: clamp(1.35rem, 6.8vw, 1.9rem); hyphens: auto; -webkit-hyphens: auto; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .letter-reveal.is-typing::after { display: none; }
+  }
+</style>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -185,6 +283,18 @@
     </div>
   </section>
 
+  <section class="parent-trust-banner" aria-labelledby="parent-trust-title">
+    <div class="parent-trust-banner__inner">
+      <div class="parent-trust-banner__mark" data-reveal="up">
+        <img src="https://media.royalfamilyacademy.org/acsi/acsi-accredited-logo.jpg" alt="ACSI Accredited School logo">
+      </div>
+      <div data-reveal="up">
+        <p class="parent-trust-banner__eyebrow letter-reveal" data-letter-reveal>ACSI Accredited School</p>
+        <h2 class="parent-trust-banner__title letter-reveal" id="parent-trust-title" data-letter-reveal>Christian Education, Held To A Recognised Standard.</h2>
+      </div>
+    </div>
+  </section>
+
   <section class="cta-banner" id="admissions">
     <div class="cta-banner__media">
       <div class="media-slot media-slot--full" data-src="graduation/senior-graduate-portrait.jpg" data-alt="Royal Family Academy senior graduate portrait">
@@ -225,6 +335,49 @@
   <div class="container footer-bottom"><p>&copy; <span id="year"></span> Royal Family Academy. All rights reserved.</p></div>
 </footer>
 <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script>
+(function () {
+  const targets = Array.from(document.querySelectorAll('[data-letter-reveal]'));
+  const source = new Map();
+
+  targets.forEach((el) => {
+    const text = el.textContent;
+    source.set(el, text);
+    el.setAttribute('aria-label', text);
+  });
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const typeText = (el, delay = 0) => {
+    const text = source.get(el) || '';
+    window.setTimeout(() => {
+      let i = 0;
+      el.textContent = '';
+      el.classList.add('is-typing');
+      const timer = window.setInterval(() => {
+        i += 1;
+        el.textContent = text.slice(0, i);
+        if (i >= text.length) {
+          window.clearInterval(timer);
+          el.classList.remove('is-typing');
+        }
+      }, 38);
+    }, delay);
+  };
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      const group = entry.target.closest('.parent-trust-banner');
+      const groupTargets = group ? Array.from(group.querySelectorAll('[data-letter-reveal]')) : [entry.target];
+      groupTargets.forEach((el, index) => typeText(el, index * 220));
+      groupTargets.forEach((el) => obs.unobserve(el));
+    });
+  }, { threshold: 0.35 });
+
+  targets.forEach((el) => observer.observe(el));
+})();
+</script>
 <script src="https://assets.royalfamilyacademy.org/shared/js/rfa-knowledge.js"></script>
 <script src="https://assets.royalfamilyacademy.org/shared/js/nav.js"></script>
 <script src="https://assets.royalfamilyacademy.org/shared/js/media-config.js"></script>
