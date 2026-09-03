@@ -1,10 +1,9 @@
 /**
  * RFA Guide — verified website guide for Royal Family Academy.
  *
- * The guide is retrieval-only. It answers from window.RFA_KNOWLEDGE and
- * never invents institutional information. Questions that cannot be matched
- * confidently, or details that RFA has not yet published, are handed to the
- * school's WhatsApp contact.
+ * Retrieval-only answers come from window.RFA_KNOWLEDGE. The eight RFA Guide
+ * avatar frames mirror the conversation state: idle/blink, greeting,
+ * listening, thinking, speaking and WhatsApp handoff.
  */
 (function () {
   const KB = window.RFA_KNOWLEDGE;
@@ -152,25 +151,21 @@
 
     if (!q) return fallback();
 
-    // Identity and accreditation
     if (includesAny(q, ['motto', 'raising distinguished'])) return `RFA's motto is <strong>“${escapeHtml(KB.identity.motto)}.”</strong>`;
     if (q.includes('vision')) return escapeHtml(KB.identity.vision);
     if (q.includes('mission')) return escapeHtml(KB.identity.mission);
     if (includesAny(q, ['core value', 'values', 'value'])) return `RFA's core value is <strong>Leadership</strong>, anchored on ${escapeHtml(KB.identity.values.join(', '))}.`;
     if (includesAny(q, ['acsi', 'accredit', 'accredited', 'approval'])) return `Royal Family Academy is an <strong>${escapeHtml(KB.acsi.status)}</strong>. ${escapeHtml(KB.acsi.note)}`;
 
-    // Contacts and human handoff
     if (q.includes('whatsapp')) return `You can contact RFA on WhatsApp at <strong>${escapeHtml(KB.contact.whatsappNumber)}</strong>. ${whatsappLink('Open RFA WhatsApp')}`;
     if (includesAny(q, ['contact', 'phone', 'telephone', 'email', 'address', 'location', 'where are you', 'where is rfa', 'reach you', 'call'])) {
       return `Royal Family Academy is at <strong>${escapeHtml(KB.contact.address)}</strong>. Phone: <strong>${escapeHtml(KB.contact.generalPhone)}</strong>. Email: <strong>${escapeHtml(KB.contact.generalEmail)}</strong>. ${whatsappLink('Chat with RFA on WhatsApp')}`;
     }
 
-    // School structure
     if (includesAny(q, ['which schools', 'school sections', 'school levels', 'schools do you have', 'what schools', 'from nursery to sixth form'])) {
       return `Royal Family Academy has three school sections:${fmtList(KB.schools.map((school) => `${school.name} — ${school.range}`))}`;
     }
 
-    // Age/eligibility questions take precedence over generic school questions.
     if (ageHit && includesAny(q, ['age', 'old', 'eligible', 'eligibility', 'entry', 'minimum', 'admission', 'admit', 'apply', 'year'])) {
       return `The minimum entry age currently listed for <strong>${escapeHtml(ageHit.entry.stage)}</strong> is <strong>${escapeHtml(ageHit.entry.minAge)}</strong>. ${pageLink(KB.pages[ageHit.school].admissions || KB.pages[ageHit.school].home, 'See admissions information')}`;
     }
@@ -180,16 +175,11 @@
       return `Nursery & Primary minimum entry ages are:${fmtList(KB.ages.earlyYears.concat(KB.ages.primary).map((item) => `${item.stage} — ${item.minAge}`))}`;
     }
 
-    // Admissions and fees
     if (includesAny(q, ['admission', 'apply', 'application', 'enrol', 'enroll', 'registration', 'register', 'assessment', 'offer', 'onboarding'])) return admissionsAnswer(q, requestedSchool);
     if (includesAny(q, ['fee', 'fees', 'tuition', 'school fees', 'price', 'cost'])) return fallback(requestedSchool === 'sixthform' ? 'Current verified Sixth Form fees are not published on the website.' : 'Current verified fee information is not available in RFA Guide.');
 
-    // Leadership
-    if (includesAny(q, ['leadership', 'director', 'consultant', 'principal', 'vice principal', 'head teacher', 'deputy head', 'chaplain', 'head of sixth form', 'who runs', 'who is miss', 'who is mrs', 'who is mr', 'who is dr', 'bunmi', 'rifkatu', 'betha', 'lofty', 'ismaila', 'queen', 'grace enesi', 'oluboyo'])) {
-      return leadershipAnswer(q, requestedSchool);
-    }
+    if (includesAny(q, ['leadership', 'director', 'consultant', 'principal', 'vice principal', 'head teacher', 'deputy head', 'chaplain', 'head of sixth form', 'who runs', 'who is miss', 'who is mrs', 'who is mr', 'who is dr', 'bunmi', 'rifkatu', 'betha', 'lofty', 'ismaila', 'queen', 'grace enesi', 'oluboyo'])) return leadershipAnswer(q, requestedSchool);
 
-    // Nursery & Primary school day and weekly rhythm
     if (includesAny(q, ['school day', 'opening time', 'closing time', 'close', 'start time', 'arrival time', 'what time', 'hours'])) {
       if (requestedSchool === 'sixthform' || requestedSchool === 'highschool') return fallback(`The current verified website information does not publish a complete ${schoolName(requestedSchool)} daily timetable.`);
       return `Nursery runs <strong>${escapeHtml(KB.schoolDay.nursery)}</strong>; Primary runs <strong>${escapeHtml(KB.schoolDay.primary)}</strong>. ${escapeHtml(KB.schoolDay.arrival)} Friday close is ${escapeHtml(KB.schoolDay.fridayClose)}, and staff-training Fridays close at ${escapeHtml(KB.schoolDay.staffTrainingFridayClose)}.`;
@@ -203,9 +193,8 @@
       if (q.includes('primary') || requestedSchool === 'nurseryandprimaryschool') return `<strong>${titleDay} — Primary:</strong> ${escapeHtml(KB.weeklyRhythm.primary[titleDay])}`;
     }
 
-    // Primary curriculum and learning support
     const primarySubject = findListedItem(q, KB.primaryCurriculum);
-    if (primarySubject && includesAny(q, ['subject', 'teach', 'curriculum', 'offer', 'learn', 'study', normalize(primarySubject)])) return `Yes. <strong>${escapeHtml(primarySubject)}</strong> appears on the current Primary curriculum list. ${pageLink(KB.pages.nurseryandprimaryschool.primary, 'See Primary')}`;
+    if (primarySubject) return `Yes. <strong>${escapeHtml(primarySubject)}</strong> appears on the current Primary curriculum list. ${pageLink(KB.pages.nurseryandprimaryschool.primary, 'See Primary')}`;
     if (requestedSchool === 'nurseryandprimaryschool' && includesAny(q, ['curriculum', 'subjects', 'what do you teach', 'primary subjects'])) return `The current Primary curriculum includes:${fmtList(KB.primaryCurriculum)}`;
 
     if (includesAny(q, ['discovery centre', 'discovery center', 'special needs', 'learning support', 'nild', 'autism', 'speech', 'occupational therapy', 'iep'])) {
@@ -213,7 +202,6 @@
     }
     if (includesAny(q, ['academic assistance', 'aas', 'learning gap', 'one-to-one', 'one to one'])) return `${escapeHtml(KB.learningSupport.aas)} ${pageLink(KB.pages.nurseryandprimaryschool.learning, 'Explore Learning & Support')}`;
 
-    // Primary clubs, sport, events, houses and excursions
     const primaryClub = findListedItem(q, KB.nurseryPrimaryStudentLife.clubs);
     if (primaryClub) return `Yes. <strong>${escapeHtml(primaryClub)}</strong> is listed among Nursery & Primary clubs.`;
     if (requestedSchool === 'nurseryandprimaryschool' && includesAny(q, ['clubs', 'club'])) return `Nursery & Primary clubs currently listed are:${fmtList(KB.nurseryPrimaryStudentLife.clubs)}`;
@@ -223,21 +211,18 @@
     if (includesAny(q, ['excursion', 'excursions', 'trip', 'trips']) && requestedSchool !== 'highschool') return escapeHtml(KB.nurseryPrimaryStudentLife.excursions);
     if (requestedSchool === 'nurseryandprimaryschool' && includesAny(q, ['chapel', 'christian formation', 'spiritual formation', 'fasting', 'bible studies'])) return `Nursery & Primary Christian formation includes:${fmtList(KB.nurseryPrimaryStudentLife.christianFormation)}`;
 
-    // Parent information and transport
     const route = findListedItem(q, KB.parentInformation.busRoutes);
     if (route && includesAny(q, ['bus', 'route', 'transport', 'pick up', 'pickup'])) return `Yes. <strong>${escapeHtml(route)}</strong> is currently listed among RFA Nursery & Primary school bus routes.`;
     if (includesAny(q, ['bus route', 'bus routes', 'school bus', 'transport route', 'transportation'])) return `The currently listed Nursery & Primary bus routes include:${fmtList(KB.parentInformation.busRoutes)}`;
     if (includesAny(q, ['parenting institute', 'parent partnership', 'parents involved'])) return escapeHtml(KB.parentInformation.partnership);
     if (requestedSchool === 'nurseryandprimaryschool' && includesAny(q, ['policy', 'policies', 'complaint', 'non discrimination'])) return `Nursery & Primary policy areas currently listed include:${fmtList(KB.parentInformation.policies)}`;
 
-    // Facilities
     if (requestedSchool === 'nurseryandprimaryschool' && includesAny(q, ['facility', 'facilities', 'campus', 'laboratory', 'lab', 'clinic', 'auditorium', 'stadium', 'cafeteria', 'montessori room'])) return `Nursery & Primary facilities currently listed include:${fmtList(KB.nurseryPrimaryFacilities)}${pageLink(KB.pages.nurseryandprimaryschool.campus, 'Explore the Nursery & Primary campus')}`;
     if (requestedSchool === 'highschool' && includesAny(q, ['facility', 'facilities', 'campus', 'laboratory', 'lab', 'clinic', 'auditorium', 'stadium', 'cafeteria', 'arts studio'])) return `High School facilities currently listed include:${fmtList(KB.highSchoolFacilities)}${pageLink(KB.pages.highschool.campus, 'Explore the High School campus')}`;
 
-    // High School academics
     const juniorSubject = findListedItem(q, KB.highSchoolAcademics.juniorSubjects);
     const seniorSubject = findListedItem(q, KB.highSchoolAcademics.seniorSubjects);
-    if (requestedSchool === 'highschool' && (juniorSubject || seniorSubject) && includesAny(q, ['subject', 'teach', 'offer', 'study', 'curriculum', normalize(juniorSubject || seniorSubject)])) {
+    if (requestedSchool === 'highschool' && (juniorSubject || seniorSubject)) {
       const item = juniorSubject || seniorSubject;
       const level = juniorSubject ? 'Junior High' : 'Senior High';
       return `Yes. <strong>${escapeHtml(item)}</strong> appears on the current ${level} subject list.`;
@@ -249,31 +234,26 @@
     }
     if (requestedSchool === 'highschool' && includesAny(q, ['assessment', 'exam', 'exams', 'homework', 'progress report', 'mock'])) return `High School academic assessment currently includes:${fmtList(KB.highSchoolAcademics.assessment)}`;
 
-    // High School student life and formation
     if (requestedSchool === 'highschool' && includesAny(q, ['model united nations', 'mun'])) return escapeHtml(KB.highSchoolStudentLife.modelUN);
     if (requestedSchool === 'highschool' && includesAny(q, ['duke of edinburgh', 'duke award', 'bronze cadre', 'silver cadre'])) return escapeHtml(KB.highSchoolStudentLife.dukeOfEdinburgh);
     if (requestedSchool === 'highschool' && includesAny(q, ['club', 'clubs', 'societies'])) return `High School clubs/societies currently verified on the website are:${fmtList(KB.highSchoolStudentLife.clubs)}`;
     if (requestedSchool === 'highschool' && includesAny(q, ['event', 'events', 'school life', 'inter-house', 'festival of art', 'leadership week'])) return `High School events currently listed include:${fmtList(KB.highSchoolStudentLife.events)}`;
     if (requestedSchool === 'highschool' && includesAny(q, ['chapel', 'spiritual formation', 'mentoring', 'fasting', 'discipleship', 'retreat'])) return `High School spiritual formation currently includes:${fmtList(KB.highSchoolStudentLife.spiritualFormation)}`;
 
-    // Safety, conduct and policies
     if (requestedSchool === 'highschool' && includesAny(q, ['bullying', 'safety', 'wellbeing', 'harassment', 'security', 'visitor', 'fire drill'])) return `High School safety and wellbeing information includes:${fmtList(KB.highSchoolSafety.wellbeing)}`;
     if (requestedSchool === 'highschool' && includesAny(q, ['conduct', 'discipline rules', 'punctuality', 'attendance', 'responsibility'])) return `High School student conduct expectations include:${fmtList(KB.highSchoolSafety.conduct)}`;
     if (requestedSchool === 'highschool' && includesAny(q, ['parent teacher', 'parent partnership', 'progressive forum'])) return escapeHtml(KB.highSchoolSafety.parentPartnership);
     if (requestedSchool === 'highschool' && includesAny(q, ['policy', 'policies', 'complaint', 'internet rule', 'electronic device'])) return `High School policy areas currently listed include:${fmtList(KB.highSchoolSafety.policies)}`;
 
-    // High School character and philosophy
     if (requestedSchool === 'highschool' && q.includes('innovation')) return escapeHtml(KB.highSchoolCharacter.innovation);
     if (requestedSchool === 'highschool' && includesAny(q, ['discipline philosophy', 'godly conduct', 'character formation'])) return escapeHtml(KB.highSchoolCharacter.discipline);
     if (requestedSchool === 'highschool' && includesAny(q, ['leadership philosophy', 'leadership development', 'why leadership'])) return escapeHtml(KB.highSchoolCharacter.leadership);
 
-    // Sixth Form — answer what is verified, hand off detailed unknowns.
     if (requestedSchool === 'sixthform') {
       if (includesAny(q, ['about', 'overview', 'what is sixth form', 'sixth form college', 'university', 'leadership', 'prepare'])) return `${escapeHtml(KB.sixthForm.positioning)} Entry age currently listed is <strong>${escapeHtml(KB.sixthForm.entryAge)}</strong>. ${pageLink(KB.pages.sixthform.home, 'Explore Sixth Form College')}`;
       if (includesAny(q, ['programme', 'programmes', 'curriculum', 'subject', 'subjects', 'career', 'careers', 'university destination', 'student life', 'fees', 'fee', 'requirements'])) return fallback(`The current RFA website verifies that Sixth Form provides advanced academic programmes and tailored support for university and leadership, but ${escapeHtml(KB.sixthForm.verifiedLimits)}`);
     }
 
-    // Broad school questions, after specific intents have been checked.
     if (requestedSchool && includesAny(q, ['tell me about', 'about the school', 'school information', 'what is', 'what do you offer'])) {
       const school = KB.schools.find((item) => item.key === requestedSchool);
       if (requestedSchool === 'sixthform') return `${escapeHtml(KB.sixthForm.positioning)} Entry age: <strong>${escapeHtml(KB.sixthForm.entryAge)}</strong>. ${pageLink(school.url, 'Visit Sixth Form College')}`;
@@ -295,15 +275,70 @@
     `
     : `${schoolLinksHtml}<a class="rfa-ai__chip" href="https://wa.me/${KB.contact.whatsappDigits}" target="_blank" rel="noopener">WhatsApp RFA</a>`;
 
+  const AVATAR_BASE = 'https://media.royalfamilyacademy.org/rfa-guide/';
+  const AVATARS = {
+    idle: `${AVATAR_BASE}rfa-guide-idle.webp?v=20260903-frames1`,
+    blink: `${AVATAR_BASE}rfa-guide-blink.webp?v=20260903-frames1`,
+    listening: `${AVATAR_BASE}rfa-guide-listening.webp?v=20260903-frames1`,
+    thinking: `${AVATAR_BASE}rfa-guide-thinking.webp?v=20260903-frames1`,
+    'speaking-a': `${AVATAR_BASE}rfa-guide-speaking-a.webp?v=20260903-frames1`,
+    'speaking-b': `${AVATAR_BASE}rfa-guide-speaking-b.webp?v=20260903-frames1`,
+    greeting: `${AVATAR_BASE}rfa-guide-greeting.webp?v=20260903-frames1`,
+    handoff: `${AVATAR_BASE}rfa-guide-handoff.webp?v=20260903-frames1`
+  };
+
+  Object.values(AVATARS).forEach((src) => {
+    const img = new Image();
+    img.src = src;
+  });
+
+  const frameStyles = document.createElement('style');
+  frameStyles.textContent = `
+    .rfa-ai.has-frame-avatar .rfa-ai__launcher::before,
+    .rfa-ai.has-frame-avatar .rfa-ai__header::before { display:none!important; }
+    .rfa-ai.has-frame-avatar .rfa-ai__launcher {
+      width:96px!important;height:144px!important;border-radius:0!important;
+      overflow:visible!important;background:transparent!important;
+      filter:drop-shadow(0 10px 12px rgba(14,12,18,.25));
+    }
+    .rfa-ai__avatar-frame { display:block;object-fit:contain;pointer-events:none;user-select:none;-webkit-user-drag:none; }
+    .rfa-ai__avatar-frame--launcher { width:100%;height:100%;transform-origin:50% 82%;animation:rfaGuideFloat 5.6s ease-in-out infinite; }
+    .rfa-ai__avatar-frame--header { width:54px;height:70px;justify-self:center;object-position:50% 8%;filter:drop-shadow(0 4px 5px rgba(14,12,18,.22)); }
+    .rfa-ai.has-frame-avatar .rfa-ai__header { grid-template-columns:54px 1fr auto!important;min-height:74px; }
+    .rfa-ai[data-avatar-state="greeting"] .rfa-ai__avatar-frame { animation:rfaGuideGreet .72s cubic-bezier(.2,.8,.25,1) both; }
+    .rfa-ai[data-avatar-state="listening"] .rfa-ai__avatar-frame--header { animation:rfaGuideListen 2.2s ease-in-out infinite; }
+    .rfa-ai[data-avatar-state="thinking"] .rfa-ai__avatar-frame--header { animation:rfaGuideThink 1.05s ease-in-out infinite; }
+    .rfa-ai[data-avatar-state^="speaking"] .rfa-ai__avatar-frame--header { animation:rfaGuideSpeak .42s ease-in-out infinite; }
+    .rfa-ai[data-avatar-state="handoff"] .rfa-ai__avatar-frame--header { animation:rfaGuidePresent .85s ease-out both; }
+    @keyframes rfaGuideFloat { 0%,100%{transform:translateY(0) rotate(0)} 50%{transform:translateY(-5px) rotate(1.2deg)} }
+    @keyframes rfaGuideGreet { 0%{transform:translateY(0) rotate(0) scale(1)} 45%{transform:translateY(-6px) rotate(-3deg) scale(1.04)} 100%{transform:translateY(0) rotate(0) scale(1)} }
+    @keyframes rfaGuideListen { 0%,100%{transform:rotate(0) translateY(0)} 50%{transform:rotate(-1.5deg) translateY(-2px)} }
+    @keyframes rfaGuideThink { 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(-2px) scale(1.035)} }
+    @keyframes rfaGuideSpeak { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-2px)} }
+    @keyframes rfaGuidePresent { 0%{transform:translateX(-3px) scale(.98)} 65%{transform:translateX(2px) scale(1.035)} 100%{transform:translateX(0) scale(1)} }
+    @media(max-width:480px){
+      .rfa-ai.has-frame-avatar .rfa-ai__launcher{width:84px!important;height:126px!important;}
+      .rfa-ai__avatar-frame--header{width:50px;height:65px;}
+      .rfa-ai.has-frame-avatar .rfa-ai__header{grid-template-columns:50px 1fr auto!important;}
+    }
+    @media(prefers-reduced-motion:reduce){
+      .rfa-ai__avatar-frame{animation:none!important;transition:none!important;}
+    }
+  `;
+  document.head.appendChild(frameStyles);
+
   const root = document.createElement('div');
-  root.className = 'rfa-ai';
+  root.className = 'rfa-ai has-frame-avatar';
+  root.dataset.avatarState = 'idle';
   root.innerHTML = `
     <button class="rfa-ai__launcher" type="button" aria-expanded="false" aria-controls="rfa-ai-panel" aria-label="Open RFA Guide">
+      <img class="rfa-ai__avatar-frame rfa-ai__avatar-frame--launcher" src="${AVATARS.idle}" alt="" aria-hidden="true">
       <span class="rfa-ai__launcher-dot" aria-hidden="true"></span>
       <span class="rfa-ai__launcher-label">RFA Guide</span>
     </button>
     <div class="rfa-ai__panel" id="rfa-ai-panel" role="dialog" aria-label="RFA Guide" aria-hidden="true">
       <div class="rfa-ai__header">
+        <img class="rfa-ai__avatar-frame rfa-ai__avatar-frame--header" src="${AVATARS.idle}" alt="" aria-hidden="true">
         <p class="rfa-ai__title">RFA Guide</p>
         <button class="rfa-ai__close" type="button" aria-label="Close RFA Guide">&times;</button>
       </div>
@@ -324,26 +359,110 @@
   const closeBtn = root.querySelector('.rfa-ai__close');
   const form = root.querySelector('#rfa-ai-form');
   const input = root.querySelector('.rfa-ai__input');
+  const sendButton = root.querySelector('.rfa-ai__send');
   const messages = root.querySelector('#rfa-ai-messages');
+  const avatarImages = root.querySelectorAll('.rfa-ai__avatar-frame');
+  const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let idleTimer = null;
+  let stateTimer = null;
+  let speakingTimer = null;
+
+  function clearStateTimers() {
+    clearTimeout(stateTimer);
+    clearInterval(speakingTimer);
+    stateTimer = null;
+    speakingTimer = null;
+  }
+
+  function setAvatarState(state) {
+    if (!AVATARS[state]) state = 'idle';
+    root.dataset.avatarState = state;
+    avatarImages.forEach((img) => {
+      if (img.src !== AVATARS[state]) img.src = AVATARS[state];
+    });
+  }
+
+  function scheduleIdleMoment() {
+    clearTimeout(idleTimer);
+    if (reducedMotion || root.classList.contains('is-open')) return;
+    const wait = 4200 + Math.round(Math.random() * 3400);
+    idleTimer = setTimeout(() => {
+      if (root.classList.contains('is-open')) return;
+      const greet = Math.random() < 0.22;
+      setAvatarState(greet ? 'greeting' : 'blink');
+      stateTimer = setTimeout(() => {
+        if (!root.classList.contains('is-open')) setAvatarState('idle');
+        scheduleIdleMoment();
+      }, greet ? 720 : 190);
+    }, wait);
+  }
+
+  function speakFor(html) {
+    clearStateTimers();
+    if (reducedMotion) {
+      setAvatarState(root.classList.contains('is-open') ? 'listening' : 'idle');
+      return;
+    }
+    let phase = false;
+    setAvatarState('speaking-a');
+    speakingTimer = setInterval(() => {
+      phase = !phase;
+      setAvatarState(phase ? 'speaking-b' : 'speaking-a');
+    }, 220);
+    const plainLength = html.replace(/<[^>]+>/g, '').length;
+    const duration = Math.max(1100, Math.min(3200, plainLength * 18));
+    stateTimer = setTimeout(() => {
+      clearInterval(speakingTimer);
+      speakingTimer = null;
+      setAvatarState(root.classList.contains('is-open') ? 'listening' : 'idle');
+    }, duration);
+  }
 
   function open() {
+    clearTimeout(idleTimer);
+    clearStateTimers();
     root.classList.add('is-open');
     launcher.setAttribute('aria-expanded', 'true');
     panel.setAttribute('aria-hidden', 'false');
+    setAvatarState('greeting');
+    stateTimer = setTimeout(() => setAvatarState('listening'), reducedMotion ? 0 : 700);
     input.focus();
   }
 
   function close() {
+    clearStateTimers();
     root.classList.remove('is-open');
     launcher.setAttribute('aria-expanded', 'false');
     panel.setAttribute('aria-hidden', 'true');
+    setAvatarState('idle');
     launcher.focus();
+    scheduleIdleMoment();
   }
 
+  launcher.addEventListener('pointerenter', () => {
+    if (!root.classList.contains('is-open')) setAvatarState('greeting');
+  });
+  launcher.addEventListener('pointerleave', () => {
+    if (!root.classList.contains('is-open')) setAvatarState('idle');
+  });
+  launcher.addEventListener('focus', () => {
+    if (!root.classList.contains('is-open')) setAvatarState('greeting');
+  });
+  launcher.addEventListener('blur', () => {
+    if (!root.classList.contains('is-open')) setAvatarState('idle');
+  });
   launcher.addEventListener('click', () => (root.classList.contains('is-open') ? close() : open()));
   closeBtn.addEventListener('click', close);
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && root.classList.contains('is-open')) close();
+  });
+
+  input.addEventListener('focus', () => {
+    if (root.classList.contains('is-open') && !speakingTimer) setAvatarState('listening');
+  });
+  input.addEventListener('input', () => {
+    if (root.classList.contains('is-open') && !speakingTimer) setAvatarState('listening');
   });
 
   form.addEventListener('submit', (event) => {
@@ -351,17 +470,40 @@
     const query = input.value.trim();
     if (!query) return;
 
+    clearStateTimers();
     const userMsg = document.createElement('div');
     userMsg.className = 'rfa-ai__msg rfa-ai__msg--user';
     userMsg.textContent = query;
     messages.appendChild(userMsg);
-
-    const botMsg = document.createElement('div');
-    botMsg.className = 'rfa-ai__msg rfa-ai__msg--bot';
-    botMsg.innerHTML = answer(query);
-    messages.appendChild(botMsg);
+    messages.scrollTop = messages.scrollHeight;
 
     input.value = '';
-    messages.scrollTop = messages.scrollHeight;
+    input.disabled = true;
+    sendButton.disabled = true;
+    setAvatarState('thinking');
+
+    const html = answer(query);
+    const isHandoff = html.includes("I don't have enough verified RFA information to answer that confidently");
+    const thinkingDelay = reducedMotion ? 0 : 560;
+
+    stateTimer = setTimeout(() => {
+      const botMsg = document.createElement('div');
+      botMsg.className = 'rfa-ai__msg rfa-ai__msg--bot';
+      botMsg.innerHTML = html;
+      messages.appendChild(botMsg);
+      messages.scrollTop = messages.scrollHeight;
+      input.disabled = false;
+      sendButton.disabled = false;
+      input.focus();
+
+      if (isHandoff) {
+        setAvatarState('handoff');
+        stateTimer = setTimeout(() => setAvatarState('listening'), reducedMotion ? 0 : 1750);
+      } else {
+        speakFor(html);
+      }
+    }, thinkingDelay);
   });
+
+  scheduleIdleMoment();
 })();
