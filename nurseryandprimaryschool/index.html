@@ -23,7 +23,19 @@
 <link rel="stylesheet" href="https://assets.royalfamilyacademy.org/shared/css/rfa-ai.css">
 <style>
   .hero__media .media-slot { --focal: 30% 42%; }
-  @media (max-width: 640px) { .hero__media .media-slot { --focal: 12% 42%; } }
+  .hero__scrim {
+    background:
+      linear-gradient(90deg, rgba(14,12,18,.78) 0%, rgba(14,12,18,.66) 48%, rgba(14,12,18,.48) 100%),
+      linear-gradient(180deg, rgba(14,12,18,.20) 0%, rgba(14,12,18,.48) 100%) !important;
+  }
+  @media (max-width: 640px) {
+    .hero__media .media-slot { --focal: 12% 42%; }
+    .hero__scrim {
+      background:
+        linear-gradient(90deg, rgba(14,12,18,.76) 0%, rgba(14,12,18,.66) 58%, rgba(14,12,18,.56) 100%),
+        linear-gradient(180deg, rgba(14,12,18,.30) 0%, rgba(14,12,18,.60) 100%) !important;
+    }
+  }
 
   .parent-trust-banner {
     position: relative;
