@@ -48,6 +48,31 @@
     document.head.appendChild(style);
   }
 
+  function ensureHighSchoolHeroOverlay() {
+    if (!document.body || document.body.dataset.site !== 'highschool') return;
+    if (document.getElementById('rfa-highschool-hero-overlay')) return;
+
+    const style = document.createElement('style');
+    style.id = 'rfa-highschool-hero-overlay';
+    style.textContent = `
+      body[data-site="highschool"] .hero__scrim{
+        background:linear-gradient(180deg,rgba(14,12,18,.64) 0%,rgba(14,12,18,.58) 42%,rgba(14,12,18,.86) 100%)!important;
+      }
+      body[data-site="highschool"] .subhero__scrim{
+        background:linear-gradient(180deg,rgba(14,12,18,.62) 0%,rgba(14,12,18,.56) 45%,rgba(14,12,18,.84) 100%)!important;
+      }
+      @media(max-width:640px){
+        body[data-site="highschool"] .hero__scrim{
+          background:linear-gradient(180deg,rgba(14,12,18,.68) 0%,rgba(14,12,18,.62) 42%,rgba(14,12,18,.88) 100%)!important;
+        }
+        body[data-site="highschool"] .subhero__scrim{
+          background:linear-gradient(180deg,rgba(14,12,18,.66) 0%,rgba(14,12,18,.60) 45%,rgba(14,12,18,.86) 100%)!important;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
   function setScrolledState() {
     header.classList.toggle('is-scrolled', window.scrollY > SCROLL_THRESHOLD);
   }
@@ -74,6 +99,7 @@
     document.body.style.overflow = 'hidden';
   }
 
+  ensureHighSchoolHeroOverlay();
   setScrolledState();
   window.addEventListener('scroll', setScrolledState, { passive: true });
 
