@@ -57,6 +57,28 @@
     revealTargets.forEach((el) => el.classList.add('is-visible'));
   }
 
+  // K-12 editorial highlights animate independently from their parent block,
+  // so the gold brush line appears only once the actual phrase is comfortably
+  // in view. This also covers highlights inside content without data-reveal.
+  if (isK12) {
+    const highlights = Array.from(document.querySelectorAll('.highlight'));
+    if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+      highlights.forEach((el) => el.classList.add('is-highlighted'));
+    } else if (highlights.length) {
+      const highlightIo = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-highlighted');
+          observer.unobserve(entry.target);
+        });
+      }, {
+        threshold: 0.5,
+        rootMargin: '0px 0px -12% 0px'
+      });
+      highlights.forEach((el) => highlightIo.observe(el));
+    }
+  }
+
   // Hero / sub-page hero: reveal immediately on load because it is already above the fold.
   const hero = document.querySelector('.hero, .subhero');
   if (hero) requestAnimationFrame(() => requestAnimationFrame(() => hero.classList.add('is-revealed')));
