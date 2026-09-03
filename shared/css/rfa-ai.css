@@ -1,5 +1,5 @@
 /* ==========================================================================
-   RFA AI — discreet assistant launcher (bottom-right, all properties)
+   RFA Guide — discreet school information guide (bottom-right, all properties)
    ========================================================================== */
 
 .rfa-ai {
@@ -48,8 +48,8 @@
   position: absolute;
   right: 0;
   bottom: calc(100% + var(--space-2xs));
-  width: min(360px, calc(100vw - 2 * var(--space-sm)));
-  max-height: min(560px, 70vh);
+  width: min(380px, calc(100vw - 2 * var(--space-sm)));
+  max-height: min(600px, 74vh);
   display: flex;
   flex-direction: column;
   background: var(--rfa-warm-white);
@@ -76,7 +76,7 @@
   background: var(--gradient-royal);
   color: var(--rfa-warm-white);
 }
-.rfa-ai__title { font-family: var(--font-display); font-size: 1.3rem; }
+.rfa-ai__title { font-family: var(--font-display); font-size: 1.4rem; font-weight: 600; }
 .rfa-ai__close { font-size: 1.4rem; line-height: 1; color: var(--rfa-warm-white); }
 
 .rfa-ai__messages {
@@ -90,13 +90,15 @@
 .rfa-ai__msg {
   font-size: var(--fs-sm);
   line-height: var(--lh-body);
-  padding: 0.6em 0.85em;
+  padding: 0.7em 0.9em;
   border-radius: var(--radius-sm);
-  max-width: 88%;
+  max-width: 92%;
 }
 .rfa-ai__msg--bot { background: var(--rfa-ivory); align-self: flex-start; }
 .rfa-ai__msg--user { background: var(--rfa-purple-100); align-self: flex-end; }
-.rfa-ai__msg ul { margin: 0.4em 0 0; padding-left: 1.1em; list-style: disc; }
+.rfa-ai__msg ul { margin: 0.5em 0 0; padding-left: 1.15em; list-style: disc; }
+.rfa-ai__msg li + li { margin-top: 0.2em; }
+.rfa-ai__msg a { font-weight: 650; color: var(--rfa-purple-700); }
 
 .rfa-ai__actions {
   display: flex;
@@ -105,17 +107,17 @@
   padding: 0 var(--space-md) var(--space-2xs);
 }
 .rfa-ai__chip {
-  font-size: 0.7rem;
-  font-weight: 600;
+  font-size: 0.72rem;
+  font-weight: 700;
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
-  padding: 0.45em 0.8em;
+  padding: 0.5em 0.85em;
   border: 1px solid var(--color-border);
   border-radius: 999px;
   color: var(--rfa-purple-700);
   transition: background var(--dur-fast), color var(--dur-fast);
 }
-.rfa-ai__chip:hover { background: var(--rfa-purple-700); color: var(--rfa-warm-white); }
+.rfa-ai__chip:hover, .rfa-ai__chip:focus-visible { background: var(--rfa-purple-700); color: var(--rfa-warm-white); }
 
 .rfa-ai__form {
   display: flex;
@@ -126,13 +128,14 @@
 }
 .rfa-ai__input {
   flex: 1;
+  min-width: 0;
   border: none;
   font-size: var(--fs-sm);
   background: transparent;
 }
 .rfa-ai__input:focus { outline: none; }
 .rfa-ai__send {
-  width: 32px; height: 32px;
+  width: 36px; height: 36px;
   border-radius: 50%;
   background: var(--rfa-purple-700);
   color: var(--rfa-warm-white);
@@ -143,8 +146,9 @@
 
 @media (max-width: 480px) {
   .rfa-ai { right: var(--space-xs); bottom: var(--space-xs); }
-  .rfa-ai__launcher-label { display: none; }
-  .rfa-ai__launcher { padding: 0.9em; }
+  .rfa-ai__launcher { padding: 0.8em 1em; font-size: 0.78rem; }
+  .rfa-ai__launcher-label { display: inline; }
+  .rfa-ai__panel { width: min(380px, calc(100vw - 2 * var(--space-xs))); max-height: 76vh; }
 }
 
 /* ==========================================================================
