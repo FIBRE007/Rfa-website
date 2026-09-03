@@ -3,6 +3,7 @@
    ========================================================================== */
 
 @import url('./k12-typography.css?v=20260903-1');
+@import url('./k12-legibility.css?v=20260903-1');
 
 *, *::before, *::after { box-sizing: border-box; }
 html {
