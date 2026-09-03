@@ -56,17 +56,25 @@
     style.id = 'rfa-highschool-hero-overlay';
     style.textContent = `
       body[data-site="highschool"] .hero__scrim{
-        background:linear-gradient(180deg,rgba(14,12,18,.64) 0%,rgba(14,12,18,.58) 42%,rgba(14,12,18,.86) 100%)!important;
+        background:
+          linear-gradient(90deg,rgba(14,12,18,.48) 0%,rgba(14,12,18,.28) 55%,rgba(14,12,18,.16) 100%),
+          linear-gradient(180deg,rgba(14,12,18,.68) 0%,rgba(14,12,18,.62) 44%,rgba(14,12,18,.88) 100%)!important;
       }
       body[data-site="highschool"] .subhero__scrim{
-        background:linear-gradient(180deg,rgba(14,12,18,.62) 0%,rgba(14,12,18,.56) 45%,rgba(14,12,18,.84) 100%)!important;
+        background:
+          linear-gradient(90deg,rgba(14,12,18,.42) 0%,rgba(14,12,18,.24) 55%,rgba(14,12,18,.14) 100%),
+          linear-gradient(180deg,rgba(14,12,18,.66) 0%,rgba(14,12,18,.62) 45%,rgba(14,12,18,.86) 100%)!important;
       }
       @media(max-width:640px){
         body[data-site="highschool"] .hero__scrim{
-          background:linear-gradient(180deg,rgba(14,12,18,.68) 0%,rgba(14,12,18,.62) 42%,rgba(14,12,18,.88) 100%)!important;
+          background:
+            linear-gradient(90deg,rgba(14,12,18,.36) 0%,rgba(14,12,18,.28) 100%),
+            linear-gradient(180deg,rgba(14,12,18,.72) 0%,rgba(14,12,18,.68) 44%,rgba(14,12,18,.90) 100%)!important;
         }
         body[data-site="highschool"] .subhero__scrim{
-          background:linear-gradient(180deg,rgba(14,12,18,.66) 0%,rgba(14,12,18,.60) 45%,rgba(14,12,18,.86) 100%)!important;
+          background:
+            linear-gradient(90deg,rgba(14,12,18,.34) 0%,rgba(14,12,18,.26) 100%),
+            linear-gradient(180deg,rgba(14,12,18,.70) 0%,rgba(14,12,18,.66) 45%,rgba(14,12,18,.88) 100%)!important;
         }
       }
     `;
