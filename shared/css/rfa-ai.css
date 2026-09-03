@@ -23,7 +23,7 @@
   font-weight: 600;
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
-  transition: transform var(--dur-fast) var(--ease-out-soft), box-shadow var(--dur-fast);
+  transition: transform var(--dur-fast) var(--ease-out-soft), box-shadow var(--dur-fast), filter var(--dur-fast);
 }
 .rfa-ai__launcher::before {
   content: '';
@@ -36,16 +36,19 @@
     url('https://media.royalfamilyacademy.org/rfa-guide/rfa-guide-avatar.webp?v=20260903-2')
     center 12% / 120% auto no-repeat;
   box-shadow: inset 0 0 0 2px rgba(198,162,78,.72), 0 4px 12px rgba(14,12,18,.24);
-  animation: rfa-guide-avatar-idle 3.8s ease-in-out infinite;
+  transform-origin: 50% 78%;
+  animation: rfa-guide-avatar-idle 6.8s cubic-bezier(.37,0,.25,1) infinite;
 }
 .rfa-ai__launcher:hover, .rfa-ai__launcher:focus-visible {
-  transform: translateY(-2px);
-  box-shadow: 0 18px 40px -14px rgba(14,12,18,0.65);
+  transform: translateY(-3px) scale(1.015);
+  box-shadow: 0 20px 42px -14px rgba(14,12,18,0.66);
+  filter: saturate(1.04);
 }
 .rfa-ai__launcher:hover::before,
 .rfa-ai__launcher:focus-visible::before {
-  animation: rfa-guide-avatar-greet .75s ease-out both;
+  animation: rfa-guide-avatar-greet .9s cubic-bezier(.2,.8,.25,1) both;
 }
+.rfa-ai__launcher:active { transform: translateY(-1px) scale(.985); }
 .rfa-ai__launcher-dot {
   width: 7px;
   height: 7px;
@@ -53,23 +56,61 @@
   background: var(--rfa-gold-500);
   animation: rfa-ai-pulse 2.4s ease-in-out infinite;
 }
+
 @keyframes rfa-ai-pulse {
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: 0.5; transform: scale(0.7); }
 }
+
+/* Whole-avatar motion: calm enough for an institutional site, but visibly alive. */
 @keyframes rfa-guide-avatar-idle {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-2px) rotate(-1deg); }
+  0%, 100% { transform: translateY(0) rotate(0deg) scale(1); box-shadow: inset 0 0 0 2px rgba(198,162,78,.72), 0 4px 12px rgba(14,12,18,.24); }
+  12% { transform: translateY(-2px) rotate(-1.6deg) scale(1.015); }
+  22% { transform: translateY(0) rotate(.8deg) scale(1); }
+  43% { transform: translateY(-1px) rotate(0deg) scale(1.008); }
+  56% { transform: translateY(-3px) rotate(1.8deg) scale(1.02); box-shadow: inset 0 0 0 2px rgba(217,184,91,.88), 0 6px 16px rgba(14,12,18,.28); }
+  68% { transform: translateY(-1px) rotate(-.8deg) scale(1.008); }
+  82% { transform: translateY(0) rotate(.5deg) scale(1); }
 }
+
 @keyframes rfa-guide-avatar-greet {
   0% { transform: translateY(0) rotate(0deg) scale(1); }
-  45% { transform: translateY(-3px) rotate(-3deg) scale(1.04); }
+  24% { transform: translateY(-4px) rotate(-4deg) scale(1.045); }
+  48% { transform: translateY(-1px) rotate(3deg) scale(1.025); }
+  70% { transform: translateY(-3px) rotate(-1.5deg) scale(1.035); }
   100% { transform: translateY(0) rotate(0deg) scale(1); }
 }
+
+@keyframes rfa-guide-avatar-attentive {
+  0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+  15% { transform: translateY(-2px) rotate(-1.8deg) scale(1.015); }
+  28% { transform: translateY(-1px) rotate(1.4deg) scale(1.01); }
+  42% { transform: translateY(-3px) rotate(0deg) scale(1.025); }
+  57% { transform: translateY(-1px) rotate(2deg) scale(1.012); }
+  73% { transform: translateY(-2px) rotate(-1.2deg) scale(1.018); }
+  88% { transform: translateY(0) rotate(.5deg) scale(1.004); }
+}
+
+@keyframes rfa-guide-panel-arrive {
+  0% { opacity: 0; transform: translateY(12px) scale(.975); }
+  70% { opacity: 1; transform: translateY(-2px) scale(1.004); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes rfa-guide-message-arrive {
+  from { opacity: 0; transform: translateY(7px) scale(.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .rfa-ai__launcher-dot,
   .rfa-ai__launcher::before,
-  .rfa-ai__header::before { animation: none !important; }
+  .rfa-ai__header::before,
+  .rfa-ai.is-open .rfa-ai__panel,
+  .rfa-ai__msg { animation: none !important; }
+  .rfa-ai__launcher:hover,
+  .rfa-ai__launcher:focus-visible,
+  .rfa-ai__launcher:active { transform: none; }
 }
 .rfa-ai.is-open .rfa-ai__launcher { opacity: 0; pointer-events: none; }
 
@@ -95,6 +136,7 @@
   opacity: 1;
   transform: translateY(0) scale(1);
   pointer-events: auto;
+  animation: rfa-guide-panel-arrive .48s cubic-bezier(.2,.78,.25,1) both;
 }
 
 .rfa-ai__header {
@@ -116,13 +158,20 @@
     url('https://media.royalfamilyacademy.org/rfa-guide/rfa-guide-avatar.webp?v=20260903-2')
     center 10% / 122% auto no-repeat;
   box-shadow: inset 0 0 0 2px rgba(217,184,91,.82), 0 5px 16px rgba(14,12,18,.24);
-  animation: rfa-guide-avatar-idle 4.4s ease-in-out infinite;
+  transform-origin: 50% 80%;
+  animation: rfa-guide-avatar-attentive 6.2s ease-in-out infinite;
 }
 .rfa-ai.is-open .rfa-ai__header::before {
-  animation: rfa-guide-avatar-greet .9s ease-out both, rfa-guide-avatar-idle 4.4s 1s ease-in-out infinite;
+  animation: rfa-guide-avatar-greet 1s cubic-bezier(.2,.8,.25,1) both, rfa-guide-avatar-attentive 6.2s 1.05s ease-in-out infinite;
 }
 .rfa-ai__title { font-family: var(--font-display); font-size: 1.4rem; font-weight: 600; }
-.rfa-ai__close { font-size: 1.4rem; line-height: 1; color: var(--rfa-warm-white); }
+.rfa-ai__close {
+  font-size: 1.4rem;
+  line-height: 1;
+  color: var(--rfa-warm-white);
+  transition: transform var(--dur-fast) var(--ease-out-soft), opacity var(--dur-fast);
+}
+.rfa-ai__close:hover, .rfa-ai__close:focus-visible { transform: rotate(8deg) scale(1.08); opacity: .88; }
 
 .rfa-ai__messages {
   flex: 1;
@@ -138,9 +187,11 @@
   padding: 0.7em 0.9em;
   border-radius: var(--radius-sm);
   max-width: 92%;
+  transform-origin: bottom left;
+  animation: rfa-guide-message-arrive .34s ease-out both;
 }
 .rfa-ai__msg--bot { background: var(--rfa-ivory); align-self: flex-start; }
-.rfa-ai__msg--user { background: var(--rfa-purple-100); align-self: flex-end; }
+.rfa-ai__msg--user { background: var(--rfa-purple-100); align-self: flex-end; transform-origin: bottom right; }
 .rfa-ai__msg ul { margin: 0.5em 0 0; padding-left: 1.15em; list-style: disc; }
 .rfa-ai__msg li + li { margin-top: 0.2em; }
 .rfa-ai__msg a { font-weight: 650; color: var(--rfa-purple-700); }
@@ -160,9 +211,15 @@
   border: 1px solid var(--color-border);
   border-radius: 999px;
   color: var(--rfa-purple-700);
-  transition: background var(--dur-fast), color var(--dur-fast);
+  transition: background var(--dur-fast), color var(--dur-fast), transform var(--dur-fast) var(--ease-out-soft), box-shadow var(--dur-fast);
 }
-.rfa-ai__chip:hover, .rfa-ai__chip:focus-visible { background: var(--rfa-purple-700); color: var(--rfa-warm-white); }
+.rfa-ai__chip:hover, .rfa-ai__chip:focus-visible {
+  background: var(--rfa-purple-700);
+  color: var(--rfa-warm-white);
+  transform: translateY(-1px);
+  box-shadow: 0 7px 16px -10px rgba(67,22,119,.65);
+}
+.rfa-ai__chip:active { transform: translateY(0) scale(.98); }
 
 .rfa-ai__form {
   display: flex;
@@ -170,6 +227,11 @@
   gap: var(--space-2xs);
   padding: var(--space-sm) var(--space-md);
   border-top: 1px solid var(--color-border);
+  transition: box-shadow var(--dur-fast), background var(--dur-fast);
+}
+.rfa-ai__form:focus-within {
+  background: rgba(67,22,119,.025);
+  box-shadow: inset 0 1px 0 rgba(67,22,119,.08);
 }
 .rfa-ai__input {
   flex: 1;
@@ -188,16 +250,31 @@
   display: grid;
   place-items: center;
   flex-shrink: 0;
+  transition: transform var(--dur-fast) var(--ease-out-soft), box-shadow var(--dur-fast), background var(--dur-fast);
 }
+.rfa-ai__send:hover, .rfa-ai__send:focus-visible {
+  transform: translateX(2px) scale(1.06);
+  box-shadow: 0 8px 18px -9px rgba(67,22,119,.75);
+}
+.rfa-ai__send:active { transform: translateX(1px) scale(.96); }
 
 @media (max-width: 480px) {
   .rfa-ai { right: var(--space-xs); bottom: var(--space-xs); }
   .rfa-ai__launcher { padding: .45em .85em .45em .45em; font-size: .76rem; }
-  .rfa-ai__launcher::before { width: 42px; height: 42px; flex-basis: 42px; }
+  .rfa-ai__launcher::before {
+    width: 46px;
+    height: 46px;
+    flex-basis: 46px;
+    animation-duration: 5.6s;
+  }
   .rfa-ai__launcher-label { display: inline; }
   .rfa-ai__panel { width: min(380px, calc(100vw - 2 * var(--space-xs))); max-height: 76vh; }
-  .rfa-ai__header { grid-template-columns: 48px 1fr auto; gap: .6rem; }
-  .rfa-ai__header::before { width: 48px; height: 48px; }
+  .rfa-ai__header { grid-template-columns: 52px 1fr auto; gap: .6rem; }
+  .rfa-ai__header::before {
+    width: 52px;
+    height: 52px;
+    animation-duration: 5.2s;
+  }
 }
 
 /* ==========================================================================
