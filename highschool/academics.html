@@ -26,198 +26,42 @@
     box-shadow: 0 24px 60px rgba(31, 22, 36, 0.12);
     isolation: isolate;
   }
-  .curriculum-image-frame .media-slot {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-  }
-  .curriculum-image-frame::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    pointer-events: none;
-    border: 1px solid rgba(198, 162, 78, 0.48);
-    border-radius: inherit;
-    box-shadow: inset 0 0 0 10px rgba(255, 252, 247, 0.05);
-  }
-  .curriculum-image-frame__accent {
-    position: absolute;
-    left: clamp(1.1rem, 3vw, 2rem);
-    bottom: clamp(1.1rem, 3vw, 2rem);
-    z-index: 3;
-    width: clamp(58px, 10vw, 96px);
-    height: 3px;
-    border-radius: 999px;
-    background: var(--rfa-gold-500, #c6a24e);
-    box-shadow: 0 1px 8px rgba(14, 12, 18, 0.18);
-  }
-  @media (max-width: 640px) {
-    .curriculum-image-frame {
-      min-height: 320px;
-      margin: 2.5rem 0 3.25rem;
-      border-radius: 1.25rem;
-    }
-    .curriculum-image-frame .media-slot { --focal: 50% 46%; }
-  }
+  .curriculum-image-frame .media-slot { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .curriculum-image-frame::after { content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none; border: 1px solid rgba(198, 162, 78, 0.48); border-radius: inherit; box-shadow: inset 0 0 0 10px rgba(255, 252, 247, 0.05); }
+  .curriculum-image-frame__accent { position: absolute; left: clamp(1.1rem, 3vw, 2rem); bottom: clamp(1.1rem, 3vw, 2rem); z-index: 3; width: clamp(58px, 10vw, 96px); height: 3px; border-radius: 999px; background: var(--rfa-gold-500, #c6a24e); box-shadow: 0 1px 8px rgba(14, 12, 18, 0.18); }
+  @media (max-width: 640px) { .curriculum-image-frame { min-height: 320px; margin: 2.5rem 0 3.25rem; border-radius: 1.25rem; } .curriculum-image-frame .media-slot { --focal: 50% 46%; } }
 </style>
 </head>
 <body data-site="highschool">
 <a class="skip-link" href="#main">Skip to content</a>
-
 <header class="site-header" data-site-header>
   <div class="container site-nav">
-    <a href="index.html" class="site-nav__mark">
-      <span class="site-nav__mark-word">RFA High School</span>
-      <span class="site-nav__mark-sub">Junior High · Senior High</span>
-    </a>
-    <nav class="site-nav__links" aria-label="Primary">
-      <a class="site-nav__link link-underline" href="about.html">About</a>
-      <a class="site-nav__link link-underline" href="academics.html">Academics</a>
-      <a class="site-nav__link link-underline" href="leadership.html">Leadership</a>
-      <a class="site-nav__link link-underline" href="student-life.html">Student Life</a>
-      <a class="site-nav__link link-underline" href="safety.html">Safety</a>
-      <a class="site-nav__link link-underline" href="admissions.html">Admissions</a>
-      <a class="site-nav__link link-underline" href="contact.html">Contact</a>
-    </nav>
-    <div class="site-nav__actions">
-      <a class="btn btn--ghost-dark" href="contact.html">Book a Visit</a>
-      <button class="nav-toggle" data-nav-toggle aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav"><span></span><span></span><span></span></button>
-    </div>
+    <a href="index.html" class="site-nav__mark"><span class="site-nav__mark-word">RFA High School</span><span class="site-nav__mark-sub">Junior High · Senior High</span></a>
+    <nav class="site-nav__links" aria-label="Primary"><a class="site-nav__link link-underline" href="about.html">About</a><a class="site-nav__link link-underline" href="academics.html">Academics</a><a class="site-nav__link link-underline" href="leadership.html">Leadership</a><a class="site-nav__link link-underline" href="student-life.html">Student Life</a><a class="site-nav__link link-underline" href="campus.html">Campus</a><a class="site-nav__link link-underline" href="safety.html">Safety</a><a class="site-nav__link link-underline" href="admissions.html">Admissions</a><a class="site-nav__link link-underline" href="contact.html">Contact</a></nav>
+    <div class="site-nav__actions"><a class="btn btn--ghost-dark" href="contact.html">Book a Visit</a><button class="nav-toggle" data-nav-toggle aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav"><span></span><span></span><span></span></button></div>
   </div>
-  <div class="mobile-nav" id="mobile-nav">
-    <nav class="mobile-nav__links" aria-label="Mobile">
-      <a href="about.html">About</a>
-      <a href="academics.html">Academics</a>
-      <a href="leadership.html">Leadership</a>
-      <a href="student-life.html">Student Life</a>
-      <a href="safety.html">Safety</a>
-      <a href="admissions.html">Admissions</a>
-      <a href="contact.html">Contact</a>
-      <a href="https://royalfamilyacademy.org/">RFA Academy</a>
-      <a href="https://nurseryandprimaryschool.royalfamilyacademy.org/">RFA Nursery &amp; Primary</a>
-      <a href="https://sixthform.royalfamilyacademy.org/">RFA Sixth Form</a>
-    </nav>
-    <div class="mobile-nav__actions"><a class="btn btn--primary" href="admissions.html">Begin Admissions</a></div>
-  </div>
+  <div class="mobile-nav" id="mobile-nav"><nav class="mobile-nav__links" aria-label="Mobile"><a href="about.html">About</a><a href="academics.html">Academics</a><a href="leadership.html">Leadership</a><a href="student-life.html">Student Life</a><a href="campus.html">Campus</a><a href="safety.html">Safety</a><a href="admissions.html">Admissions</a><a href="contact.html">Contact</a><a href="https://royalfamilyacademy.org/">RFA Academy</a><a href="https://nurseryandprimaryschool.royalfamilyacademy.org/">RFA Nursery &amp; Primary</a><a href="https://sixthform.royalfamilyacademy.org/">RFA Sixth Form</a></nav><div class="mobile-nav__actions"><a class="btn btn--primary" href="admissions.html">Begin Admissions</a></div></div>
 </header>
-
 <main id="main">
-  <section class="subhero">
-    <div class="subhero__media">
-      <div class="media-slot media-slot--full" data-src="classrooms/senior-high-lesson.jpg" data-video-mp4="classrooms/senior-high-lesson.mp4" data-alt="Royal Family Academy High School lesson" data-eager>
-        <span class="media-slot__label">High School lesson photograph<small>classrooms/senior-high-lesson.jpg</small></span>
-      </div>
-    </div>
-    <div class="subhero__scrim"></div>
-    <div class="subhero__body">
-      <p class="eyebrow">Curriculum</p>
-      <h1 class="display-lg">Depth, discipline, direction.</h1>
-    </div>
-  </section>
+  <section class="subhero"><div class="subhero__media"><div class="media-slot media-slot--full" data-src="classrooms/senior-high-lesson.jpg" data-video-mp4="classrooms/senior-high-lesson.mp4" data-alt="Royal Family Academy High School lesson" data-eager><span class="media-slot__label">High School lesson photograph<small>classrooms/senior-high-lesson.jpg</small></span></div></div><div class="subhero__scrim"></div><div class="subhero__body"><p class="eyebrow">Curriculum</p><h1 class="display-lg">Depth, discipline, direction.</h1></div></section>
 
-  <section class="section">
-    <div class="container">
-      <div data-reveal="up">
-        <p class="eyebrow">Junior High Subjects</p>
-        <div class="tag-list" data-reveal-group>
-          <span class="tag-list__item">Mathematics</span><span class="tag-list__item">English Studies</span><span class="tag-list__item">Basic Science</span>
-          <span class="tag-list__item">Basic Technology</span><span class="tag-list__item">Christian Religious Studies</span><span class="tag-list__item">Social Studies</span>
-          <span class="tag-list__item">Business Studies</span><span class="tag-list__item">Computer/ICT</span><span class="tag-list__item">Agricultural Science</span>
-          <span class="tag-list__item">Physical &amp; Health Education</span><span class="tag-list__item">Cultural &amp; Creative Arts</span><span class="tag-list__item">Music</span>
-          <span class="tag-list__item">French</span><span class="tag-list__item">Hausa</span><span class="tag-list__item">Yoruba</span><span class="tag-list__item">Igbo</span>
-          <span class="tag-list__item">Civic Education</span><span class="tag-list__item">Literature</span>
-        </div>
-      </div>
+  <section class="section"><div class="container">
+    <div data-reveal="up"><p class="eyebrow">Junior High Subjects</p><div class="tag-list" data-reveal-group>
+      <span class="tag-list__item">Mathematics</span><span class="tag-list__item">English Studies</span><span class="tag-list__item">Basic Science</span><span class="tag-list__item">Basic Technology</span><span class="tag-list__item">Christian Religious Studies</span><span class="tag-list__item">Social Studies</span><span class="tag-list__item">Business Studies</span><span class="tag-list__item">Computer/ICT</span><span class="tag-list__item">Agricultural Science</span><span class="tag-list__item">Physical &amp; Health Education</span><span class="tag-list__item">Cultural &amp; Creative Arts</span><span class="tag-list__item">Music</span><span class="tag-list__item">French</span><span class="tag-list__item">Hausa</span><span class="tag-list__item">Yoruba</span><span class="tag-list__item">Igbo</span><span class="tag-list__item">Civic Education</span><span class="tag-list__item">Literature</span><span class="tag-list__item">Home Economics</span><span class="tag-list__item">History</span>
+    </div></div>
 
-      <div class="curriculum-image-frame" data-reveal="scale" aria-label="High School curriculum learning photograph">
-        <div class="media-slot media-slot--full" data-src="classrooms/high-school-curriculum-learning.jpg" data-alt="Royal Family Academy High School students engaged in classroom learning">
-          <span class="media-slot__label">High School curriculum learning photograph<small>classrooms/high-school-curriculum-learning.jpg</small></span>
-        </div>
-        <span class="curriculum-image-frame__accent" aria-hidden="true"></span>
-      </div>
+    <div class="curriculum-image-frame" data-reveal="scale" aria-label="High School curriculum learning photograph"><div class="media-slot media-slot--full" data-src="classrooms/high-school-curriculum-learning.jpg" data-alt="Royal Family Academy High School students engaged in classroom learning"><span class="media-slot__label">High School curriculum learning photograph<small>classrooms/high-school-curriculum-learning.jpg</small></span></div><span class="curriculum-image-frame__accent" aria-hidden="true"></span></div>
 
-      <div style="margin-top:var(--space-xl);" data-reveal="up">
-        <p class="eyebrow">Senior High Subjects</p>
-        <div class="tag-list" data-reveal-group>
-          <span class="tag-list__item">General Mathematics</span><span class="tag-list__item">English Language</span><span class="tag-list__item">Civil Education</span>
-          <span class="tag-list__item">Fishery</span><span class="tag-list__item">Dyeing &amp; Bleaching</span><span class="tag-list__item">Brick Laying</span>
-          <span class="tag-list__item">Biology</span><span class="tag-list__item">Chemistry</span><span class="tag-list__item">Physics</span>
-          <span class="tag-list__item">Further Mathematics</span><span class="tag-list__item">Agriculture</span><span class="tag-list__item">Physical Education</span>
-          <span class="tag-list__item">Health Science</span><span class="tag-list__item">ICT</span><span class="tag-list__item">Technical Drawing</span>
-          <span class="tag-list__item">Yoruba</span><span class="tag-list__item">Hausa</span><span class="tag-list__item">Igbo</span>
-          <span class="tag-list__item">Literature-in-English</span><span class="tag-list__item">Geography</span><span class="tag-list__item">Government</span>
-          <span class="tag-list__item">Christian Religious Studies</span><span class="tag-list__item">Visual Arts</span><span class="tag-list__item">Music</span>
-          <span class="tag-list__item">French</span><span class="tag-list__item">Economics</span><span class="tag-list__item">Accounting</span><span class="tag-list__item">Commerce</span>
-        </div>
-        <p class="form-note" style="margin-top:0.75rem;">Includes trade / entrepreneurship subjects (Fishery, Dyeing &amp; Bleaching, Brick Laying) per the current RFA prospectus.</p>
-      </div>
+    <div style="margin-top:var(--space-xl);" data-reveal="up"><p class="eyebrow">Senior High Subjects</p><div class="tag-list" data-reveal-group>
+      <span class="tag-list__item">General Mathematics</span><span class="tag-list__item">English Language</span><span class="tag-list__item">Civic Education</span><span class="tag-list__item">Fishery</span><span class="tag-list__item">Dyeing &amp; Bleaching</span><span class="tag-list__item">Brick Laying</span><span class="tag-list__item">Biology</span><span class="tag-list__item">Chemistry</span><span class="tag-list__item">Physics</span><span class="tag-list__item">Further Mathematics</span><span class="tag-list__item">Agriculture</span><span class="tag-list__item">Physical Education</span><span class="tag-list__item">Health Science</span><span class="tag-list__item">ICT</span><span class="tag-list__item">Technical Drawing</span><span class="tag-list__item">Yoruba</span><span class="tag-list__item">Hausa</span><span class="tag-list__item">Igbo</span><span class="tag-list__item">Literature-in-English</span><span class="tag-list__item">Geography</span><span class="tag-list__item">Government</span><span class="tag-list__item">Christian Religious Studies</span><span class="tag-list__item">Visual Arts</span><span class="tag-list__item">Music</span><span class="tag-list__item">French</span><span class="tag-list__item">Mandarin</span><span class="tag-list__item">Economics</span><span class="tag-list__item">Accounting</span><span class="tag-list__item">Commerce</span>
+    </div><p class="form-note" style="margin-top:0.75rem;">Includes trade / entrepreneurship subjects such as Fishery, Dyeing &amp; Bleaching and Brick Laying.</p></div>
 
-      <div class="section-divider" data-reveal="scale"><span class="section-divider__mark"></span></div>
+    <div class="section-divider" data-reveal="scale"><span class="section-divider__mark"></span></div>
+    <div data-reveal="up"><p class="eyebrow">Academic Assessment</p><ul class="info-columns" data-reveal-group><li>Homework</li><li>Standards for written work</li><li>Continuous assessment / mid-term examination</li><li>End-of-term examination</li><li>Pre-mock and mock examination</li><li>Progress reports</li><li>International examinations</li></ul></div>
+  </div></section>
 
-      <div data-reveal="up">
-        <p class="eyebrow">Academic Assessment</p>
-        <ul class="info-columns" data-reveal-group>
-          <li>Homework</li>
-          <li>Standards for written work</li>
-          <li>Continuous assessment / mid-term examination</li>
-          <li>End-of-term examination</li>
-          <li>Pre-mock and mock examination</li>
-          <li>Progress reports</li>
-          <li>International examinations</li>
-        </ul>
-      </div>
-
-      <!-- International examinations and partnerships should be added only when current RFA-approved details are available. -->
-    </div>
-  </section>
-
-  <section class="cta-banner">
-    <div class="cta-banner__media">
-      <div class="media-slot media-slot--full" data-src="graduation/senior-graduate-portrait.jpg" data-alt="Royal Family Academy senior graduate portrait">
-        <span class="media-slot__label">Senior graduate portrait<small>graduation/senior-graduate-portrait.jpg</small></span>
-      </div>
-    </div>
-    <div class="cta-banner__scrim"></div>
-    <div class="cta-banner__body">
-      <p class="eyebrow" data-reveal="up">Admissions</p>
-      <h2 class="display-lg on-dark" data-reveal="up">Prepare them for consequence.</h2>
-      <div class="cta-banner__actions" data-reveal="up">
-        <a class="btn btn--primary" href="admissions.html">Begin Your Admission Journey</a>
-        <a class="btn btn--ghost-dark" href="contact.html">Book a School Visit</a>
-      </div>
-    </div>
-  </section>
+  <section class="cta-banner"><div class="cta-banner__media"><div class="media-slot media-slot--full" data-src="graduation/senior-graduate-portrait.jpg" data-alt="Royal Family Academy senior graduate portrait"><span class="media-slot__label">Senior graduate portrait<small>graduation/senior-graduate-portrait.jpg</small></span></div></div><div class="cta-banner__scrim"></div><div class="cta-banner__body"><p class="eyebrow" data-reveal="up">Admissions</p><h2 class="display-lg on-dark" data-reveal="up">Prepare them for consequence.</h2><div class="cta-banner__actions" data-reveal="up"><a class="btn btn--primary" href="admissions.html">Begin Your Admission Journey</a><a class="btn btn--ghost-dark" href="contact.html">Book a School Visit</a></div></div></section>
 </main>
-
-<footer class="site-footer">
-  <div class="container footer-grid">
-    <div><p class="footer-mark">RFA High School</p><p class="footer-tag">Raising Distinguished Leaders</p></div>
-    <nav class="footer-col" aria-label="RFA"><h4>Royal Family Academy</h4><ul>
-      <li><a class="link-underline" href="https://royalfamilyacademy.org/">Main Gateway</a></li>
-      <li><a class="link-underline" href="https://nurseryandprimaryschool.royalfamilyacademy.org/">Nursery &amp; Primary</a></li>
-      <li><a class="link-underline" href="https://sixthform.royalfamilyacademy.org/">Sixth Form College</a></li>
-    </ul></nav>
-    <nav class="footer-col" aria-label="Explore"><h4>Explore</h4><ul>
-      <li><a class="link-underline" href="about.html">About</a></li>
-      <li><a class="link-underline" href="leadership.html">Leadership</a></li>
-    </ul></nav>
-    <nav class="footer-col" aria-label="Contact"><h4>Contact</h4><ul>
-      <li>+234 811 605 5399</li>
-      <li>info@royalfamilyacademy.org</li>
-      <li><a class="link-underline" href="contact.html">Contact &amp; Visit</a></li>
-    </ul></nav>
-  </div>
-  <div class="container footer-bottom"><p>&copy; <span id="year"></span> Royal Family Academy. All rights reserved.</p></div>
-</footer>
-<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
-<script src="https://assets.royalfamilyacademy.org/shared/js/rfa-knowledge.js"></script>
-<script src="https://assets.royalfamilyacademy.org/shared/js/nav.js"></script>
-<script src="https://assets.royalfamilyacademy.org/shared/js/media-config.js"></script>
-<script src="https://assets.royalfamilyacademy.org/shared/js/media.js?v=5c15b4b"></script>
-<script src="https://assets.royalfamilyacademy.org/shared/js/video-bg.js"></script>
-<script src="https://assets.royalfamilyacademy.org/shared/js/reveal.js?v=scroll-sync-20260902"></script>
-<script src="https://assets.royalfamilyacademy.org/shared/js/rfa-ai.js"></script>
-</body>
-</html>
+<footer class="site-footer"><div class="container footer-grid"><div><p class="footer-mark">RFA High School</p><p class="footer-tag">Raising Distinguished Leaders</p></div><nav class="footer-col" aria-label="RFA"><h4>Royal Family Academy</h4><ul><li><a class="link-underline" href="https://royalfamilyacademy.org/">Main Gateway</a></li><li><a class="link-underline" href="https://nurseryandprimaryschool.royalfamilyacademy.org/">Nursery &amp; Primary</a></li><li><a class="link-underline" href="https://sixthform.royalfamilyacademy.org/">Sixth Form College</a></li></ul></nav><nav class="footer-col" aria-label="Explore"><h4>Explore</h4><ul><li><a class="link-underline" href="about.html">About</a></li><li><a class="link-underline" href="campus.html">Campus</a></li><li><a class="link-underline" href="leadership.html">Leadership</a></li></ul></nav><nav class="footer-col" aria-label="Contact"><h4>Contact</h4><ul><li>+234 811 605 5399</li><li>info@royalfamilyacademy.org</li><li><a class="link-underline" href="contact.html">Contact &amp; Visit</a></li></ul></nav></div><div class="container footer-bottom"><p>&copy; <span id="year"></span> Royal Family Academy. All rights reserved.</p></div></footer>
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script><script src="https://assets.royalfamilyacademy.org/shared/js/rfa-knowledge.js"></script><script src="https://assets.royalfamilyacademy.org/shared/js/nav.js?v=campus-nav-20260903"></script><script src="https://assets.royalfamilyacademy.org/shared/js/media-config.js"></script><script src="https://assets.royalfamilyacademy.org/shared/js/media.js?v=5c15b4b"></script><script src="https://assets.royalfamilyacademy.org/shared/js/video-bg.js"></script><script src="https://assets.royalfamilyacademy.org/shared/js/reveal.js?v=scroll-sync-20260902"></script><script src="https://assets.royalfamilyacademy.org/shared/js/rfa-ai.js"></script>
+</body></html>
