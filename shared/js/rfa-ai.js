@@ -551,7 +551,7 @@
     img.src = src;
   });
 
-  // RFA Guide bottom-up conversation flow v7: keep the newest mobile exchange immediately above the composer.
+  // RFA Guide mobile-only bottom-up conversation flow v8: keep the newest mobile exchange immediately above the composer.
   const frameStyles = document.createElement('style');
   frameStyles.textContent = `
     .rfa-ai.has-frame-avatar .rfa-ai__launcher::before,
@@ -562,16 +562,21 @@
       filter:drop-shadow(0 10px 12px rgba(14,12,18,.25));
     }
     .rfa-ai__avatar-frame { display:block;object-fit:contain;pointer-events:none;user-select:none;-webkit-user-drag:none; }
-    .rfa-ai__messages-list {
-      min-height:100%;
-      min-width:0;
-      display:flex;
-      flex-direction:column;
-      justify-content:flex-end;
-      gap:var(--space-2xs);
-    }
+    /* Desktop keeps the original message layout. */
+    .rfa-ai__messages-list { display:contents; }
     @media(max-width:480px){
-      .rfa-ai.is-open .rfa-ai__messages-list { gap:.45rem; }
+      /* Mobile behaves like a messaging app: the first message sits directly
+         above the composer and each new exchange pushes earlier messages up. */
+      .rfa-ai.is-open .rfa-ai__messages { gap:0!important; }
+      .rfa-ai.is-open .rfa-ai__messages-list {
+        min-height:100%;
+        min-width:0;
+        width:100%;
+        display:flex;
+        flex-direction:column;
+        justify-content:flex-end;
+        gap:.45rem;
+      }
     }
     .rfa-ai__avatar-frame--launcher { width:100%;height:100%;transform-origin:50% 82%;animation:rfaGuideFloat 5.6s ease-in-out infinite; }
     .rfa-ai__avatar-frame--header { width:54px;height:70px;justify-self:center;object-position:50% 8%;filter:drop-shadow(0 4px 5px rgba(14,12,18,.22)); }
