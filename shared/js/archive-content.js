@@ -159,7 +159,7 @@
       <div class="archive-head" data-reveal="up">
         <p class="archive-kicker">Expected Student Outcomes</p>
         <h2 class="archive-title">What an RFA education is working toward.</h2>
-        <p class="archive-lede">The former RFA framework describes outcomes across four connected areas. Open any area to see the complete set of expectations.</p>
+        <p class="archive-lede">RFA's expected student outcomes are organised across four connected areas. Open any area to see the complete set of expectations.</p>
       </div>
       <div class="archive-outcomes" data-reveal-group>
         <details class="archive-outcome"><summary>Intellectual Development</summary><div><ul>
@@ -191,20 +191,20 @@
   function buildFaq(currentSite) {
     const isHigh = currentSite === 'highschool';
     const establishment = isHigh ? 'The High School was inaugurated on 24 September 2007. Royal Family Academy itself began with the Nursery section in September 2002.' : 'The Nursery section was commissioned on 27 September 2002, academic activities began on 30 September 2002, and the Primary section followed in 2003.';
-    const ratio = isHigh ? 'The published school guide lists a High School planning ratio of approximately 15 learners to 1 teacher.' : 'The published school guide lists planning ratios of approximately 10:1 in Nursery and 12:1 in Primary.';
+    const ratio = isHigh ? 'The High School planning ratio is approximately 15 learners to 1 teacher.' : 'Planning ratios are approximately 10:1 in Nursery and 12:1 in Primary.';
     return htmlSection('about-faq', '', `
       <div class="archive-head" data-reveal="up"><p class="archive-kicker">Frequently Asked Questions</p><h2 class="archive-title">Useful things families ask about RFA.</h2></div>
       <div class="archive-card" data-reveal="up">
         <details class="archive-details"><summary>When was the school established?</summary><div class="archive-details__body"><p>${establishment}</p></div></details>
         <details class="archive-details"><summary>What kind of school is RFA?</summary><div class="archive-details__body"><p>RFA is a Christian school and a subsidiary of Family Ministries International, with historic association to Family Worship Centre. Its educational programme intentionally integrates biblical worldview, discipleship, worship, service and character formation with academic learning.</p></div></details>
-        <details class="archive-details"><summary>Does RFA admit families of other faiths?</summary><div class="archive-details__body"><p>Yes. The former school FAQ states that learners from other faith backgrounds may be admitted while the school's Christian identity and programme remain clearly expressed.</p></div></details>
+        <details class="archive-details"><summary>Does RFA admit families of other faiths?</summary><div class="archive-details__body"><p>Yes. Learners from other faith backgrounds may be admitted while the school's Christian identity and programme remain clearly expressed.</p></div></details>
         <details class="archive-details"><summary>What curriculum does RFA use?</summary><div class="archive-details__body"><p>The school describes an integrated curriculum drawing from Nigerian and international approaches, including British and American elements, with biblical integration and global best-practice pedagogy.</p></div></details>
-        <details class="archive-details"><summary>What facilities support learning?</summary><div class="archive-details__body"><p>Published facilities include air-conditioned classrooms, specialist laboratories, creative-arts spaces, the Discovery Centre for additional learning needs, a Montessori room, clinic, swimming pool, auditorium, cafeteria, library/e-Library and a stadium with track and field facilities.</p></div></details>
+        <details class="archive-details"><summary>What facilities support learning?</summary><div class="archive-details__body"><p>Facilities include air-conditioned classrooms, specialist laboratories, creative-arts spaces, the Discovery Centre for additional learning needs, a Montessori room, clinic, swimming pool, auditorium, cafeteria, library/e-Library and a stadium with track and field facilities.</p></div></details>
         <details class="archive-details"><summary>Which languages are taught?</summary><div class="archive-details__body"><p>RFA's published programme includes Nigerian languages such as Yoruba, Hausa and Igbo, together with international-language opportunities including French, Spanish and Mandarin at different school levels.</p></div></details>
         <details class="archive-details"><summary>How are learners supported when they need extra help?</summary><div class="archive-details__body"><p>Support includes the Discovery Centre/SEND provision, NILD Educational Therapy, individualised programmes, Academic Assistance Sessions and targeted enhancement. Families work with the school to identify the support appropriate for each learner.</p></div></details>
         <details class="archive-details"><summary>How are parents involved?</summary><div class="archive-details__body"><p>Parent partnership includes Parent–Teacher Conferences, the Parent/Teacher Progressive Forum, Breakfast Meetings, the Parenting Institute and other school-home engagement opportunities.</p></div></details>
         <details class="archive-details"><summary>What learner-to-teacher ratios has RFA published?</summary><div class="archive-details__body"><p>${ratio} Actual class composition can vary, so families may confirm the current class arrangement with the relevant school office.</p></div></details>
-        <details class="archive-details"><summary>Does RFA welcome national and international students?</summary><div class="archive-details__body"><p>Yes. RFA's former FAQ states that the Academy serves both Nigerian and international students.</p></div></details>
+        <details class="archive-details"><summary>Does RFA welcome national and international students?</summary><div class="archive-details__body"><p>Yes. RFA serves both Nigerian and international students.</p></div></details>
       </div>`);
   }
 
@@ -278,14 +278,14 @@
       <details class="archive-details"><summary>High School weekly rhythm</summary><div class="archive-details__body"><ul><li>Monday Assembly: 7:45–8:30 a.m.</li><li>Tuesday to Friday Class Devotion: 7:45–8:15 a.m.</li><li>Wednesday Mentorship: 2:30–3:20 p.m., followed by Clubs from 3:20–4:00 p.m.</li><li>Thursday includes organised sport.</li><li>Friday includes Chapel and the closing rhythm of the school week.</li></ul></div></details>` : `
       <details class="archive-details"><summary>Nursery and Primary school-day reference</summary><div class="archive-details__body"><p><strong>Nursery:</strong> Monday–Thursday devotion begins at 8:00 a.m.; Friday Chapel is scheduled in the morning. Core lessons run through the morning with a break, and Nursery closes at 1:00 p.m. Kindergarten clubs, enhancement, sport and after-school care appear on designated days.</p><p><strong>Primary:</strong> Monday begins with Assembly. Tuesday includes Mental Drill and Bible Studies, Wednesday includes Spelling Drill, Thursday includes Current Affairs and Friday includes Chapel. The Primary school day closes at 2:00 p.m., with clubs on designated afternoons.</p></div></details>`;
     return htmlSection('daily-life-details', 'archive-section--soft', `
-      <div class="archive-head"><p class="archive-kicker">Everyday School Life</p><h2 class="archive-title">Clear routines for learners and families.</h2><p class="archive-lede">The former site carried practical information on uniform, visitors, the school day and policies. It is preserved here in a compact form.</p></div>
+      <div class="archive-head"><p class="archive-kicker">Everyday School Life</p><h2 class="archive-title">Clear routines for learners and families.</h2><p class="archive-lede">Practical information on uniform, visitors, the school day and policies is presented here in a compact form.</p></div>
       <div class="archive-policy-grid">
         <article class="archive-card"><h3>Uniform & Appearance</h3><p>Students wear the official RFA uniform supplied through the school. Uniform should be worn neatly and as prescribed, without unauthorised alterations. Grooming, hair and accessories are expected to reflect the school's standards of neatness, modesty and safety.</p></article>
         <article class="archive-card"><h3>Visitors to Campus</h3><p>Visitors are expected to sign in through the appropriate school office or secretary and follow campus procedures. Classroom access during lessons is restricted except for authorised school business such as a scheduled parent–teacher conference.</p></article>
       </div>
       <div class="archive-card" style="margin-top:1rem;">
         ${schedule}
-        <details class="archive-details"><summary>School year</summary><div class="archive-details__body"><p>RFA's published policy describes a 40-week academic year running from September to July, organised into three terms of approximately thirteen weeks.</p></div></details>
+        <details class="archive-details"><summary>School year</summary><div class="archive-details__body"><p>RFA operates a 40-week academic year running from September to July, organised into three terms of approximately thirteen weeks.</p></div></details>
         <details class="archive-details"><summary>Homework & assignment policy</summary><div class="archive-details__body"><p>Homework is used to reinforce learning, develop independent study habits and give teachers and parents a clearer picture of progress. Learners are expected to complete assigned work carefully and on time; teachers provide appropriate guidance and feedback, while parents support a suitable routine and environment for study. Late or incomplete work is handled according to the school's academic and conduct procedures.</p></div></details>
         <details class="archive-details"><summary>Non-discrimination</summary><div class="archive-details__body"><p>RFA's published admission policy states that students are admitted without discrimination on the basis of race, colour, nationality or ethnic origin. Employment is also described as non-discriminatory within the school's Christian character and faith-based requirements for staff.</p></div></details>
       </div>`);
@@ -299,7 +299,7 @@
   function admissionsSection(kind) {
     const sixth = kind === 'sixthform';
     const schoolCopy = sixth ? `
-      <details class="archive-details"><summary>Published Sixth Form entry profile</summary><div class="archive-details__body"><p>The former Sixth Form curriculum information lists WASSCE, NECO, IGCSE or an equivalent qualification as the normal starting point, with at least five relevant credits including English Language and Mathematics. It also describes an entrance assessment and student/parent interview as part of admission.</p><p>Programme requirements can change, so applicants should confirm the current requirement for their chosen pathway with the Sixth Form Admissions team.</p></div></details>` : `
+      <details class="archive-details"><summary>Sixth Form entry requirements</summary><div class="archive-details__body"><p>Applicants are expected to hold WASSCE, NECO, IGCSE or an equivalent qualification, with at least five relevant credits including English Language and Mathematics. An entrance assessment and student/parent interview form part of the admission process.</p><p>Programme requirements can change, so applicants should confirm the current requirement for their chosen pathway with the Sixth Form Admissions team.</p></div></details>` : `
       <details class="archive-details"><summary>Records, assessment and placement</summary><div class="archive-details__body"><p>Admission may involve review of previous school records, age and the last successfully completed class, an academic or placement assessment, an informal interview where appropriate, and confirmation that a place is available in the requested class.</p></div></details>
       <details class="archive-details"><summary>Conditional admission and class placement</summary><div class="archive-details__body"><p>Where appropriate, an offer may be conditional on identified academic or developmental needs being supported. Classes are formed to maintain balanced, heterogeneous learning groups; the former admission guidance states that requests for a particular teacher or class are not normally accommodated.</p></div></details>`;
     return htmlSection('admissions-detail-archive', '', `
@@ -330,7 +330,7 @@
 
   function communityServiceSection(includeAlumni) {
     const alumni = includeAlumni ? `
-      <div class="archive-card" style="margin-top:1rem;"><h3>RFA Alumni Association</h3><p>The RFA Alumni Association was established on 27 July 2019 and the former site recorded more than 250 alumni, known as Royal Ambassadors.</p>
+      <div class="archive-card" style="margin-top:1rem;"><h3>RFA Alumni Association</h3><p>The RFA Alumni Association was established on 27 July 2019 and RFA recorded more than 250 alumni, known as Royal Ambassadors.</p>
         <details class="archive-details"><summary>Published alumni leadership profiles</summary><div class="archive-details__body"><ul>
           <li><strong>Abimbola Adesola</strong> — Vice President; pioneer RFA 2013 set; Molecular Biology & Genetics graduate with postgraduate study in Medical Biotechnology.</li>
           <li><strong>Daniel Etomi</strong> — Electronic Engineering with Computer Systems graduate; experience across IT, podcasting and tutoring.</li>
@@ -341,7 +341,7 @@
         </ul></div></details>
       </div>` : '';
     return htmlSection('community-service-archive', 'archive-section--soft', `
-      <div class="archive-head"><p class="archive-kicker">Community Service & Alumni</p><h2 class="archive-title">Leadership expressed through service.</h2><p class="archive-lede">RFA's former site records a long tradition of practical outreach to families and communities, alongside an organised alumni network.</p></div>
+      <div class="archive-head"><p class="archive-kicker">Community Service & Alumni</p><h2 class="archive-title">Leadership expressed through service.</h2><p class="archive-lede">RFA has a long tradition of practical outreach to families and communities, alongside an organised alumni network.</p></div>
       <div class="archive-card"><h3>Community impact</h3><p>Service initiatives have included support for indigent pastors and families, orphanages, internally displaced persons, hospitals, autism centres, widows and other vulnerable groups. Projects have also included books and devotional materials, hygiene sensitisation, practical improvements and community-support activities.</p></div>
       ${alumni}`);
   }
@@ -357,10 +357,10 @@
 
   function sixthFormAboutSection() {
     return htmlSection('sixthform-connections', 'archive-section--soft', `
-      <div class="archive-head"><p class="archive-kicker">Examinations & International Connections</p><h2 class="archive-title">Pathways designed for university progression.</h2><p class="archive-lede">RFA Sixth Form's published materials connect its pre-university offer with international examination and university-entry pathways.</p></div>
+      <div class="archive-head"><p class="archive-kicker">Examinations & International Connections</p><h2 class="archive-title">Pathways designed for university progression.</h2><p class="archive-lede">RFA Sixth Form connects its pre-university offer with international examination and university-entry pathways.</p></div>
       <div class="archive-grid archive-grid--2">
         <article class="archive-card"><h3>Programme pathways</h3><p>International University Foundation, Cambridge A Level, Ontario Secondary School Diploma (OSSD), SAT, IELTS and UTME/JAMB preparation support different university-entry routes.</p></article>
-        <article class="archive-card"><h3>Published examination relationships</h3><p>The former site identified Cambridge International and the British Council among its academic/examination relationships and described RFA as an attached centre for Cambridge IGCSE/CIE.</p><p class="archive-note">Families should confirm the current examination-centre arrangement and programme availability directly with the Sixth Form College.</p></article>
+        <article class="archive-card"><h3>Examination relationships</h3><p>RFA's academic and examination relationships include Cambridge International and the British Council, and RFA serves as an attached centre for Cambridge IGCSE/CIE.</p><p class="archive-note">Families should confirm the current examination-centre arrangement and programme availability directly with the Sixth Form College.</p></article>
       </div>`);
   }
 
