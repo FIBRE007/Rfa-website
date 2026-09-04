@@ -98,6 +98,83 @@
           border-color:rgba(67,22,119,.24);background:rgba(255,255,255,.78);color:#431677;
         }
         .site-header__inner>.rfa-school-switcher{margin-left:auto;margin-right:.75rem}
+
+        /* Nursery & Primary mirrors the High School two-row desktop header. */
+        body[data-site="nurseryandprimaryschool"] .site-header{
+          padding-block:.8rem .65rem;
+        }
+        body[data-site="nurseryandprimaryschool"] .site-nav{
+          display:grid;
+          grid-template-columns:minmax(0,1fr) auto;
+          grid-template-areas:
+            "identity actions"
+            "navigation navigation";
+          align-items:center;
+          column-gap:2rem;
+          row-gap:.72rem;
+        }
+        body[data-site="nurseryandprimaryschool"] .site-nav__mark{
+          grid-area:identity;
+          justify-self:start;
+        }
+        body[data-site="nurseryandprimaryschool"] .site-nav__mark-word{
+          font-size:clamp(1.55rem,2vw,1.9rem);
+          letter-spacing:.035em;
+        }
+        body[data-site="nurseryandprimaryschool"] .site-nav__mark-sub{
+          margin-top:.28rem;
+          font-size:.66rem;
+          letter-spacing:.18em;
+        }
+        body[data-site="nurseryandprimaryschool"] .site-nav__actions{
+          grid-area:actions;
+          justify-self:end;
+          display:flex;
+          align-items:center;
+          gap:.7rem;
+        }
+        body[data-site="nurseryandprimaryschool"] .site-nav__links{
+          grid-area:navigation;
+          width:100%;
+          justify-content:center;
+          gap:clamp(.75rem,1.45vw,1.55rem);
+          padding-top:.72rem;
+          border-top:1px solid rgba(255,252,247,.24);
+        }
+        body[data-site="nurseryandprimaryschool"] .site-header.is-scrolled .site-nav__links,
+        body[data-site="nurseryandprimaryschool"] .site-header.menu-open .site-nav__links{
+          border-top-color:rgba(45,23,66,.14);
+        }
+        body[data-site="nurseryandprimaryschool"] .site-nav__actions>.btn{
+          display:inline-flex;
+          min-height:44px;
+          padding:.82em 1.45em;
+          border-radius:3px;
+          border:1px solid rgba(255,252,247,.72)!important;
+          background:linear-gradient(135deg,#caa346 0%,#e7c96f 58%,#f0d98c 100%);
+          color:#2d1742!important;
+          font-size:.77rem;
+          font-weight:800;
+          letter-spacing:.14em;
+          box-shadow:inset 5px 0 0 #431677,0 10px 24px rgba(14,12,18,.22);
+          transition:transform .2s ease,box-shadow .2s ease,color .2s ease;
+        }
+        body[data-site="nurseryandprimaryschool"] .site-nav__actions>.btn::before{
+          background:#fffaf0!important;
+        }
+        body[data-site="nurseryandprimaryschool"] .site-nav__actions>.btn::after{
+          content:'↗';margin-left:.55rem;font-size:.95em;line-height:1;
+        }
+        body[data-site="nurseryandprimaryschool"] .site-nav__actions>.btn:hover,
+        body[data-site="nurseryandprimaryschool"] .site-nav__actions>.btn:focus-visible{
+          color:#431677!important;
+          transform:translateY(-2px);
+          box-shadow:inset 5px 0 0 #431677,0 14px 30px rgba(14,12,18,.28);
+        }
+        body[data-site="nurseryandprimaryschool"] .site-header.is-scrolled .site-nav__actions>.btn{
+          border-color:rgba(67,22,119,.25)!important;
+          box-shadow:inset 5px 0 0 #431677,0 8px 20px rgba(45,23,66,.14);
+        }
       }
     `;
     document.head.appendChild(style);
@@ -265,9 +342,9 @@
     document.body.style.overflow = 'hidden';
   }
 
-  ensureSchoolSwitcher();
   ensureHighSchoolHeroOverlay();
   ensureHighSchoolCampusNav();
+  ensureSchoolSwitcher();
   setScrolledState();
   window.addEventListener('scroll', setScrolledState, { passive: true });
 
