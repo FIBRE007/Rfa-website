@@ -57,6 +57,28 @@
     revealTargets.forEach((el) => el.classList.add('is-visible'));
   }
 
+  // Leadership profile cards use their own slower slide-in class rather than
+  // the generic [data-reveal] class. Observe them independently so profile
+  // cards still appear even when their page markup does not carry data-reveal.
+  const leadershipCards = Array.from(document.querySelectorAll('.leadership-card'));
+  if (leadershipCards.length) {
+    if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+      leadershipCards.forEach((el) => el.classList.add('leadership-visible'));
+    } else {
+      const leadershipCardIo = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('leadership-visible');
+          observer.unobserve(entry.target);
+        });
+      }, {
+        threshold: isK12 ? 0.08 : 0.12,
+        rootMargin: isK12 ? '0px 0px -6% 0px' : '0px 0px -8% 0px'
+      });
+      leadershipCards.forEach((el) => leadershipCardIo.observe(el));
+    }
+  }
+
   // K-12 editorial highlights animate independently from their parent block,
   // so the gold brush line appears only once the actual phrase is comfortably
   // in view. This also covers highlights inside content without data-reveal.
