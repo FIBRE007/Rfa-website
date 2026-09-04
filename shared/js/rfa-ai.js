@@ -652,7 +652,11 @@
     });
   }
 
-  // RFA Guide visual viewport layer v5: follow the actually visible Android/iOS viewport when the keyboard opens.
+  // RFA Guide mobile layout viewport layer v8: keep the chat panel filling the mobile page while the keyboard is open.
+  // Some Android browsers report a visualViewport height that is smaller than the
+  // actual usable webpage area, which leaves the underlying website exposed below
+  // the composer. Use the layout viewport height for the panel, and only use resize
+  // events to re-anchor the newest exchange above the composer.
   const mobileViewportQuery = window.matchMedia ? window.matchMedia('(max-width: 480px)') : { matches: false };
   let mobileViewportRaf = null;
 
@@ -666,17 +670,13 @@
       return;
     }
 
-    const viewport = window.visualViewport;
-    const visibleHeight = Math.max(280, Math.round(viewport ? viewport.height : window.innerHeight));
-    const visibleTop = Math.max(0, Math.round(viewport ? viewport.offsetTop : 0));
+    const layoutHeight = Math.max(320, Math.round(window.innerHeight || document.documentElement.clientHeight || 0));
 
-    // Inline important values deliberately override mobile browser viewport quirks
-    // and the CSS 100dvh fallback while the software keyboard is visible.
-    panel.style.setProperty('top', visibleTop + 'px', 'important');
+    panel.style.setProperty('top', '0px', 'important');
     panel.style.setProperty('bottom', 'auto', 'important');
-    panel.style.setProperty('height', visibleHeight + 'px', 'important');
-    panel.style.setProperty('min-height', visibleHeight + 'px', 'important');
-    panel.style.setProperty('max-height', visibleHeight + 'px', 'important');
+    panel.style.setProperty('height', layoutHeight + 'px', 'important');
+    panel.style.setProperty('min-height', layoutHeight + 'px', 'important');
+    panel.style.setProperty('max-height', layoutHeight + 'px', 'important');
 
     if (stickToBottom) anchorLatestMessage();
   }
@@ -692,14 +692,14 @@
   function focusComposer() {
     try { input.focus({ preventScroll: true }); } catch (_) { input.focus(); }
     queueMobileViewport(true);
-    // Android keyboard/browser chrome often settles over several animation frames.
-    setTimeout(() => queueMobileViewport(true), 80);
-    setTimeout(() => queueMobileViewport(true), 280);
+    // Let Android finish its keyboard/browser-toolbar animation, then re-anchor.
+    setTimeout(() => queueMobileViewport(true), 100);
+    setTimeout(() => queueMobileViewport(true), 320);
   }
 
   if (window.visualViewport) {
     window.visualViewport.addEventListener('resize', () => queueMobileViewport(true), { passive: true });
-    window.visualViewport.addEventListener('scroll', () => queueMobileViewport(false), { passive: true });
+    window.visualViewport.addEventListener('scroll', () => queueMobileViewport(true), { passive: true });
   }
   window.addEventListener('resize', () => queueMobileViewport(true), { passive: true });
   window.addEventListener('orientationchange', () => setTimeout(() => queueMobileViewport(true), 120), { passive: true });
