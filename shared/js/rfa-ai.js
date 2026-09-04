@@ -652,15 +652,51 @@
     });
   }
 
-  // RFA Guide keyboard-safe mobile viewport layer v9: use the keyboard-safe visual viewport from the first mobile focus.
-  // The RFA Guide root still covers the whole page so no underlying website strip
-  // shows through, while the panel itself ends immediately above the keyboard.
+  // RFA Guide native keyboard resize layer v10: let the mobile browser resize the content viewport for the keyboard.
+  // Do not manually resize or translate the chat panel: that caused first-focus
+  // keyboard overlap and large blank gaps on Chromium-based Android browsers.
   const mobileViewportQuery = window.matchMedia ? window.matchMedia('(max-width: 480px)') : { matches: false };
   let mobileViewportRaf = null;
+  let pageScrollLocked = false;
+  let previousBodyOverflow = '';
+  let previousHtmlOverflow = '';
+
+  // Chromium supports interactive-widget=resizes-content. Apply it before the
+  // visitor focuses the composer so the layout viewport itself becomes keyboard-safe.
+  const viewportMeta = document.querySelector('meta[name="viewport"]');
+  if (viewportMeta) {
+    const currentViewport = viewportMeta.getAttribute('content') || 'width=device-width, initial-scale=1.0';
+    if (!/interactive-widget\s*=/.test(currentViewport)) {
+      viewportMeta.setAttribute('content', currentViewport.replace(/\s*,?\s*$/, '') + ', interactive-widget=resizes-content');
+    }
+  }
+
+  // Where the Virtual Keyboard API is available, explicitly request resize rather
+  // than overlay behaviour as an additional Chromium safeguard.
+  try {
+    if (navigator.virtualKeyboard) navigator.virtualKeyboard.overlaysContent = false;
+  } catch (_) {}
+
+  function setMobilePageLock(locked) {
+    if (locked === pageScrollLocked) return;
+    if (locked) {
+      previousBodyOverflow = document.body.style.overflow;
+      previousHtmlOverflow = document.documentElement.style.overflow;
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      pageScrollLocked = true;
+      return;
+    }
+    document.body.style.overflow = previousBodyOverflow;
+    document.documentElement.style.overflow = previousHtmlOverflow;
+    pageScrollLocked = false;
+  }
 
   function resetMobileViewport() {
-    ['top', 'bottom', 'left', 'right', 'width', 'height', 'min-height', 'max-height', 'background', 'overflow'].forEach((prop) => root.style.removeProperty(prop));
+    // Remove any inline dimensions left by older RFA Guide builds.
     ['top', 'bottom', 'height', 'min-height', 'max-height'].forEach((prop) => panel.style.removeProperty(prop));
+    ['top', 'bottom', 'left', 'right', 'width', 'height', 'min-height', 'max-height', 'background', 'overflow'].forEach((prop) => root.style.removeProperty(prop));
+    setMobilePageLock(false);
   }
 
   function syncMobileViewport(stickToBottom = false) {
@@ -669,26 +705,9 @@
       return;
     }
 
-    // Keep an opaque full-screen layer behind the keyboard-safe chat panel.
-    root.style.setProperty('top', '0px', 'important');
-    root.style.setProperty('bottom', '0px', 'important');
-    root.style.setProperty('left', '0px', 'important');
-    root.style.setProperty('right', '0px', 'important');
-    root.style.setProperty('width', 'auto', 'important');
-    root.style.setProperty('height', 'auto', 'important');
-    root.style.setProperty('background', 'var(--rfa-warm-white)', 'important');
-    root.style.setProperty('overflow', 'hidden', 'important');
-
-    const viewport = window.visualViewport;
-    const visibleHeight = Math.max(280, Math.round(viewport ? viewport.height : (window.innerHeight || document.documentElement.clientHeight || 0)));
-    const visibleTop = Math.max(0, Math.round(viewport ? viewport.offsetTop : 0));
-
-    panel.style.setProperty('top', visibleTop + 'px', 'important');
-    panel.style.setProperty('bottom', 'auto', 'important');
-    panel.style.setProperty('height', visibleHeight + 'px', 'important');
-    panel.style.setProperty('min-height', visibleHeight + 'px', 'important');
-    panel.style.setProperty('max-height', visibleHeight + 'px', 'important');
-
+    // CSS 100dvh now follows the keyboard-safe resized layout viewport. Keep the
+    // underlying page still, but do not alter the panel's top/height at runtime.
+    setMobilePageLock(true);
     if (stickToBottom) anchorLatestMessage();
   }
 
@@ -702,17 +721,14 @@
 
   function focusComposer() {
     try { input.focus({ preventScroll: true }); } catch (_) { input.focus(); }
-    // Re-measure through the entire keyboard animation. The first measurement can
-    // happen before Android reports the reduced visual viewport.
     queueMobileViewport(true);
-    [40, 100, 180, 320, 520].forEach((delay) => {
-      setTimeout(() => queueMobileViewport(true), delay);
-    });
+    // Re-anchor while Chromium completes the keyboard animation; no geometry is
+    // changed here, so these passes cannot create extra blank space.
+    [80, 180, 320].forEach((delay) => setTimeout(() => queueMobileViewport(true), delay));
   }
 
   if (window.visualViewport) {
     window.visualViewport.addEventListener('resize', () => queueMobileViewport(true), { passive: true });
-    window.visualViewport.addEventListener('scroll', () => queueMobileViewport(true), { passive: true });
   }
   window.addEventListener('resize', () => queueMobileViewport(true), { passive: true });
   window.addEventListener('orientationchange', () => setTimeout(() => queueMobileViewport(true), 120), { passive: true });
