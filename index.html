@@ -27,6 +27,24 @@
 <link rel="stylesheet" href="https://assets.royalfamilyacademy.org/shared/css/gateway.css?v=hero-overlay-20260901">
 <link rel="stylesheet" href="https://assets.royalfamilyacademy.org/shared/css/rfa-ai.css?v=blink-corrected-20260904-1">
 
+<style>
+@media (max-width: 480px) {
+  body[data-site="main"] .rfa-ai {
+    top: max(84px, calc(env(safe-area-inset-top) + 64px));
+    right: max(8px, env(safe-area-inset-right));
+    bottom: auto;
+  }
+  body[data-site="main"] .rfa-ai.has-frame-avatar .rfa-ai__launcher {
+    width: 60px !important;
+    height: 90px !important;
+  }
+  body[data-site="main"] .rfa-ai.has-frame-avatar .rfa-ai__avatar-frame--launcher {
+    width: 100% !important;
+    height: 100% !important;
+  }
+}
+</style>
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
