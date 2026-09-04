@@ -102,6 +102,23 @@
 
   function loadArchiveContent() {
     if (document.querySelector('script[data-rfa-archive-content]')) return;
+
+    if (!document.getElementById('rfa-archive-visibility-fix')) {
+      const style = document.createElement('style');
+      style.id = 'rfa-archive-visibility-fix';
+      style.textContent = `
+        .archive-section [data-reveal],
+        .archive-section [data-reveal-group],
+        .archive-section [data-reveal-group] > *{
+          opacity:1!important;
+          transform:none!important;
+          clip-path:none!important;
+          visibility:visible!important;
+        }
+      `;
+      document.head.appendChild(style);
+    }
+
     const script = document.createElement('script');
     script.src = 'https://assets.royalfamilyacademy.org/shared/js/archive-content.js?v=20260904-1';
     script.async = false;
