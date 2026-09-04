@@ -80,7 +80,7 @@
 
   function detectSchool(q) {
     if (/\b(sixth form|sixthform|college|17\+)\b/.test(q)) return 'sixthform';
-    if (/\b(high school|junior high|senior high|jh\s*[123]|jhs\s*[123]|sh\s*[123]|shs\s*[123])\b/.test(q)) return 'highschool';
+    if (/\b(high school|secondary school|junior high|junior secondary|senior high|senior secondary|jh\s*[123]|jhs\s*[123]|js\s*[123]|jss\s*[123]|sh\s*[123]|shs\s*[123]|ss\s*[123]|sss\s*[123])\b/.test(q)) return 'highschool';
     if (/\b(nursery|primary|creche|playgroup|pre-school|preschool|pre kindergarten|pre-kindergarten|kindergarten|grade [1-6]|grade (one|two|three|four|five|six))\b/.test(q)) return 'nurseryandprimaryschool';
     return currentSchool;
   }
@@ -128,7 +128,7 @@
       : [];
     if (!index.length) return null;
 
-    const tokens = searchTokens(q);
+    const tokens = searchTokens(expandIntentLanguage(q));
     if (!tokens.length) return null;
     if (tokens.length === 1 && tokens[0].length < 4) return null;
     const phrase = tokens.join(' ');
@@ -286,8 +286,81 @@
     ])}Tell me which school you are asking about, or ${whatsappLink('ask RFA on WhatsApp')}.`;
   }
 
+  // RFA Guide semantic intent layer v3: understand common natural-language ways of asking verified RFA questions.
+  function expandIntentLanguage(value) {
+    let q = normalize(value);
+    const additions = [];
+    const add = (...words) => additions.push(...words);
+
+    if (/\bhow old\b|\bold enough\b|\bwhat age\b|\bage limit\b/.test(q)) add('age', 'minimum', 'eligibility');
+    if (/\bhow (?:do|can) i apply\b|\bhow (?:do|can) we apply\b|\benrol(?:l)? my child\b|\bregister my child\b/.test(q)) add('admission', 'application', 'registration');
+    if (/\bwhat do (?:you|they) teach\b|\bwhat subjects are (?:there|offered)\b|\bsubjects offered\b/.test(q)) add('curriculum', 'subjects');
+    if (/\bwho (?:runs|leads|heads)\b|\bwho is in charge\b/.test(q)) add('leadership');
+    if (/\bwhere (?:are you|is rfa|is the school)\b/.test(q)) add('location', 'address');
+    if (/\bwhen does (?:school|rfa) open\b|\bwhat time does (?:school|rfa) open\b/.test(q)) add('opening time', 'school day');
+    if (/\bwhen does (?:school|rfa) close\b|\bwhat time does (?:school|rfa) close\b/.test(q)) add('closing time', 'school day');
+    if (/\bspecial education\b|\badditional learning needs\b/.test(q)) add('special needs', 'learning support');
+    if (/\bcan (?:my|our) (?:child|son|daughter) (?:enter|be admitted|apply)\b/.test(q)) add('age', 'eligibility', 'admission');
+
+    return additions.length ? normalize(q + ' ' + additions.join(' ')) : q;
+  }
+
+  function extractStatedAge(q) {
+    let match = q.match(/\b(\d+(?:\.\d+)?)\s*(months?|mos?|years?|yrs?|years? old|year old)\b/);
+    if (match) {
+      const unit = /month|mos?/.test(match[2]) ? 'months' : 'years';
+      return { value: Number(match[1]), unit };
+    }
+    match = q.match(/\b(?:aged?|is)\s+(\d+(?:\.\d+)?)\b/);
+    if (match) return { value: Number(match[1]), unit: 'years' };
+    return null;
+  }
+
+  function ageToMonths(value, unit) {
+    if (!Number.isFinite(value)) return null;
+    return unit === 'months' ? value : value * 12;
+  }
+
+  function requirementToMonths(value) {
+    const text = normalize(value);
+    const number = Number((text.match(/\d+(?:\.\d+)?/) || [])[0]);
+    if (!Number.isFinite(number)) return null;
+    return text.includes('month') ? number : number * 12;
+  }
+
+  function isAgeIntent(q) {
+    return includesAny(q, ['age', 'old', 'eligible', 'eligibility', 'entry', 'minimum', 'admission', 'admit', 'apply', 'year']) ||
+      /\bcan (?:my|our) (?:child|son|daughter)\b/.test(q);
+  }
+
+  function ageIntentAnswer(ageHit, q) {
+    const requirement = ageHit.entry.minAge;
+    const page = KB.pages[ageHit.school].admissions || KB.pages[ageHit.school].home;
+    const stated = extractStatedAge(q);
+
+    if (!stated) {
+      return `The minimum entry age currently listed for <strong>${escapeHtml(ageHit.entry.stage)}</strong> is <strong>${escapeHtml(requirement)}</strong>. ${pageLink(page, 'See admissions information')}`;
+    }
+
+    const childMonths = ageToMonths(stated.value, stated.unit);
+    const requiredMonths = requirementToMonths(requirement);
+    if (childMonths === null || requiredMonths === null) {
+      return `The minimum entry age currently listed for <strong>${escapeHtml(ageHit.entry.stage)}</strong> is <strong>${escapeHtml(requirement)}</strong>. ${pageLink(page, 'See admissions information')}`;
+    }
+
+    const statedLabel = `${stated.value} ${stated.unit}`;
+    if (childMonths < requiredMonths) {
+      return `Based on the published age requirement, a child aged <strong>${escapeHtml(statedLabel)}</strong> would not yet meet the minimum entry age of <strong>${escapeHtml(requirement)}</strong> for <strong>${escapeHtml(ageHit.entry.stage)}</strong>. ${pageLink(page, 'See admissions information')}`;
+    }
+
+    const assessmentNote = ageHit.school === 'sixthform'
+      ? 'Please confirm the current programme-specific entry requirements with Sixth Form Admissions.'
+      : 'Meeting the minimum age does not by itself guarantee admission; RFA also uses its published admission and assessment process.';
+    return `A child aged <strong>${escapeHtml(statedLabel)}</strong> meets the published minimum age of <strong>${escapeHtml(requirement)}</strong> for <strong>${escapeHtml(ageHit.entry.stage)}</strong>. ${escapeHtml(assessmentNote)} ${pageLink(page, 'See admissions information')}`;
+  }
+
   function answer(query) {
-    const q = normalize(query);
+    const q = expandIntentLanguage(query);
     const requestedSchool = detectSchool(q);
     const ageHit = findAgeEntry(q);
 
@@ -308,9 +381,7 @@
       return `Royal Family Academy has three school sections:${fmtList(KB.schools.map((school) => `${school.name} — ${school.range}`))}`;
     }
 
-    if (ageHit && includesAny(q, ['age', 'old', 'eligible', 'eligibility', 'entry', 'minimum', 'admission', 'admit', 'apply', 'year'])) {
-      return `The minimum entry age currently listed for <strong>${escapeHtml(ageHit.entry.stage)}</strong> is <strong>${escapeHtml(ageHit.entry.minAge)}</strong>. ${pageLink(KB.pages[ageHit.school].admissions || KB.pages[ageHit.school].home, 'See admissions information')}`;
-    }
+    if (ageHit && isAgeIntent(q)) return ageIntentAnswer(ageHit, q);
     if (includesAny(q, ['age table', 'age requirement', 'minimum age', 'entry age', 'eligibility'])) {
       if (requestedSchool === 'highschool') return `High School minimum ages are:${fmtList(KB.ages.highSchool.map((item) => `${item.stage} — ${item.minAge}`))}`;
       if (requestedSchool === 'sixthform') return `Sixth Form College is currently listed for students aged <strong>${escapeHtml(KB.sixthForm.entryAge)}</strong>.`;
