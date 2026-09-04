@@ -16,6 +16,7 @@ on:
       - 'scripts/upgrade-rfa-guide-bottom-anchor.mjs'
       - 'scripts/upgrade-rfa-guide-drag.mjs'
       - 'scripts/fix-rfa-guide-scroll-intelligence.mjs'
+      - 'scripts/upgrade-rfa-guide-ranking.mjs'
       - '.github/workflows/build-rfa-guide-search.yml'
   workflow_dispatch:
 
@@ -51,6 +52,9 @@ jobs:
 
       - name: Fix RFA Guide mobile scrolling and subject routing
         run: node scripts/fix-rfa-guide-scroll-intelligence.mjs
+
+      - name: Upgrade RFA Guide multi-keyword ranking
+        run: node scripts/upgrade-rfa-guide-ranking.mjs
 
       - name: Build verified website content index
         run: node scripts/build-rfa-search-index.mjs
