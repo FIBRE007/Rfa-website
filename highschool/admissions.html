@@ -16,6 +16,31 @@
 <link rel="stylesheet" href="https://assets.royalfamilyacademy.org/shared/css/animations.css?v=scroll-sync-20260902">
 <link rel="stylesheet" href="https://assets.royalfamilyacademy.org/shared/css/rfa-ai.css">
 <style>.form-status{margin-top:.8rem;font-weight:600}</style>
+
+<style id="rfa-static-archive-styles">
+.archive-section{padding:clamp(3.5rem,7vw,7rem) 0;background:var(--rfa-warm-white,#fffdf8)}
+.archive-section--soft{background:#f6f1e8}.archive-section--dark{background:#20172a;color:#fff}
+.archive-head{max-width:780px;margin-bottom:clamp(1.5rem,4vw,3rem)}
+.archive-kicker{margin:0 0 .65rem;font:700 .76rem/1.2 Inter,sans-serif;letter-spacing:.17em;text-transform:uppercase;color:#9a7629}
+.archive-title{margin:0;font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(2rem,5vw,4rem);line-height:.98;font-weight:600;color:#2d1742}
+.archive-lede{margin:.9rem 0 0;max-width:68ch;font-size:clamp(1.05rem,1.45vw,1.22rem);line-height:1.75;color:#514959}
+.archive-section--dark .archive-title{color:#fff}.archive-section--dark .archive-lede{color:rgba(255,255,255,.84)}
+.archive-grid,.archive-outcomes,.archive-policy-grid{display:grid;grid-template-columns:1fr;gap:1rem}
+.archive-card,.archive-outcome{border:1px solid rgba(67,22,119,.12);border-radius:1rem;background:#fff;padding:clamp(1.25rem,3vw,2rem);box-shadow:0 12px 34px rgba(34,22,40,.05)}
+.archive-card h3{margin:.15rem 0 .65rem;font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(1.45rem,2.5vw,2rem);line-height:1.05;color:#2d1742}
+.archive-card p,.archive-card li,.archive-details__body p,.archive-details__body li{font-family:Inter,sans-serif;font-size:.98rem;line-height:1.75;color:#514959}.archive-card ul,.archive-details__body ul{padding-left:1.2rem}
+.archive-card--accent{background:linear-gradient(135deg,rgba(67,22,119,.055),rgba(198,162,78,.09));border-color:rgba(198,162,78,.32)}
+.archive-details{border-top:1px solid rgba(67,22,119,.14);padding:.85rem 0}.archive-details:last-child{border-bottom:1px solid rgba(67,22,119,.14)}
+.archive-details summary,.archive-outcome summary,.ethos-card details summary{cursor:pointer;list-style:none}.archive-details summary::-webkit-details-marker,.archive-outcome summary::-webkit-details-marker,.ethos-card details summary::-webkit-details-marker{display:none}
+.archive-details summary{display:flex;justify-content:space-between;gap:1rem;font:700 .95rem/1.4 Inter,sans-serif;color:#2d1742;padding:.5rem 0}.archive-details summary::after{content:'+';font-size:1.3rem;color:#9a7629}.archive-details[open] summary::after{content:'−'}
+.archive-outcome{padding:0;overflow:hidden}.archive-outcome summary{padding:1.25rem 1.35rem;font-family:'Cormorant Garamond',Georgia,serif;font-size:1.55rem;font-weight:600;color:#2d1742;display:flex;justify-content:space-between;gap:1rem}.archive-outcome summary::after{content:'View +';font:700 .7rem/1 Inter,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#9a7629}.archive-outcome[open] summary::after{content:'Close −'}.archive-outcome>div{padding:0 1.35rem 1.35rem}
+.archive-timeline{display:grid;gap:.65rem;margin-top:1.5rem}.archive-timeline__item{display:grid;grid-template-columns:105px 1fr;gap:1rem;padding:.9rem 0;border-top:1px solid rgba(255,255,255,.15)}.archive-timeline__year{font:700 .8rem/1.4 Inter,sans-serif;letter-spacing:.05em;color:#d7b65d}.archive-timeline__text{font:400 1rem/1.7 Inter,sans-serif;color:rgba(255,255,255,.84)}
+.archive-note{margin-top:1rem;padding:1rem 1.1rem;border-left:3px solid #c6a24e;background:rgba(198,162,78,.08);font:500 .9rem/1.65 Inter,sans-serif;color:#514959}
+.archive-chip-row{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}.archive-chip{display:inline-flex;padding:.55rem .8rem;border-radius:999px;background:rgba(67,22,119,.06);border:1px solid rgba(67,22,119,.1);font:600 .8rem/1 Inter,sans-serif;color:#432077}
+.ethos-card details{margin-top:.8rem}.ethos-card details summary{display:inline-flex;align-items:center;gap:.45rem;font:700 .78rem/1.2 Inter,sans-serif;letter-spacing:.09em;text-transform:uppercase;color:#8b6b24}.ethos-card details summary::after{content:'+'}.ethos-card details[open] summary::after{content:'−'}.ethos-card .ethos-collapsed-body{margin-top:1rem}
+@media(min-width:760px){.archive-grid--2,.archive-outcomes,.archive-policy-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.archive-timeline__item{grid-template-columns:1fr;gap:.25rem}}
+</style>
 </head>
 <body data-site="highschool">
 <a class="skip-link" href="#main">Skip to content</a>
@@ -132,6 +157,7 @@
       </form>
     </div>
   </section>
+<section id="detailed-admissions" class="archive-section archive-section--soft" data-archive-static="true"><div class="container"><div class="archive-head"><p class="archive-kicker">Detailed Admissions Information</p><h2 class="archive-title">More detail when you need it.</h2><p class="archive-lede">The simple admission journey remains at the top of the page. These expandable notes preserve the fuller information from the former website.</p></div><div class="archive-card"><details class="archive-details"><summary>Records, assessment and placement</summary><div class="archive-details__body"><p>Admission may involve review of previous school records, age and the last successfully completed class, an academic or placement assessment, an informal interview where appropriate, and confirmation that a place is available in the requested class.</p></div></details><details class="archive-details"><summary>Conditional admission and class placement</summary><div class="archive-details__body"><p>Where appropriate, an offer may be conditional on identified academic or developmental needs being supported. Classes are formed to maintain balanced learning groups; the former admission guidance states that requests for a particular teacher or class are not normally accommodated.</p></div></details><details class="archive-details"><summary>Age appropriateness</summary><div class="archive-details__body"><p>Age appropriateness is considered alongside academic assessment and previous educational experience. The current age tables published by each RFA school remain the first reference point.</p></div></details><details class="archive-details"><summary>Non-discrimination</summary><div class="archive-details__body"><p>RFA's published policy states that admission is open without discrimination on the basis of race, colour, nationality or ethnic origin.</p></div></details></div></div></section>
 </main>
 
 <footer class="site-footer">

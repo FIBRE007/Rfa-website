@@ -161,7 +161,6 @@
 
   ensureHighSchoolHeroOverlay();
   ensureHighSchoolCampusNav();
-  loadArchiveContent();
   setScrolledState();
   window.addEventListener('scroll', setScrolledState, { passive: true });
 
