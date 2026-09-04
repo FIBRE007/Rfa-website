@@ -13,3 +13,5 @@
   Cache-Control: no-cache, must-revalidate, max-age=0
 /shared/js/rfa-site-index.js
   Cache-Control: no-cache, must-revalidate, max-age=0
+/shared/js/rfa-keyword-map.js
+  Cache-Control: no-cache, must-revalidate, max-age=0
