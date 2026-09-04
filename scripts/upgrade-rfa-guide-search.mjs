@@ -3,8 +3,10 @@ import fs from 'node:fs';
 const AI_PATH = 'shared/js/rfa-ai.js';
 const HEADERS_PATH = '_headers';
 const MARKER = 'RFA Guide website search index v1';
+const CONFIDENCE_MARKER = 'RFA Guide confidence guard v2';
 
 let source = fs.readFileSync(AI_PATH, 'utf8');
+let changed = false;
 
 if (!source.includes(MARKER)) {
   const currentSchoolNeedle = "  const currentSchool = schoolSites.includes(site) ? site : null;\n";
@@ -31,11 +33,36 @@ if (!source.includes(MARKER)) {
   const answerNeedle = '    const html = answer(query);';
   if (!source.includes(answerNeedle)) throw new Error('Could not find answer(query) call in rfa-ai.js');
   source = source.replace(answerNeedle, '    await RFA_SITE_INDEX_READY;\n    const html = answer(query);');
+  changed = true;
+}
 
+if (!source.includes(CONFIDENCE_MARKER)) {
+  const fallbackStart = source.indexOf('  function fallback(extra) {');
+  const fallbackEnd = source.indexOf('\n  function schoolName(key) {', fallbackStart);
+  if (fallbackStart < 0 || fallbackEnd < 0) throw new Error('Could not find fallback function in rfa-ai.js');
+  const fallbackReplacement = `  function fallback(extra) {\n    const prefix = extra ? \`\${extra} \` : '';\n    return \`\${prefix}I don't have enough verified RFA information to answer that confidently from the question as written. Please rephrase it with the school, class or topic — for example, <strong>“What is the minimum age for SH 1?”</strong> If you prefer, \${whatsappLink('chat with RFA on WhatsApp')} at <strong>\${escapeHtml(KB.contact.whatsappNumber)}</strong>.\`;\n  }\n`;
+  source = source.slice(0, fallbackStart) + fallbackReplacement + source.slice(fallbackEnd);
+
+  source = source.replace(
+    "    if (/\\b(high school|junior high|senior high|jh[123]|jhs[123]|sh[123]|shs[123])\\b/.test(q)) return 'highschool';",
+    "    if (/\\b(high school|junior high|senior high|jh\\s*[123]|jhs\\s*[123]|sh\\s*[123]|shs\\s*[123])\\b/.test(q)) return 'highschool';"
+  );
+
+  const searchStart = source.indexOf('  function websiteIndexAnswer(q, requestedSchool) {');
+  const searchEnd = source.indexOf('\n  function findAgeEntry(q) {', searchStart);
+  if (searchStart < 0 || searchEnd < 0) throw new Error('Could not find websiteIndexAnswer function in rfa-ai.js');
+
+  const confidenceSearch = `  // ${CONFIDENCE_MARKER}: only answer from website search when relevance is strong and unambiguous.\n  function websiteIndexAnswer(q, requestedSchool) {\n    const index = window.RFA_SITE_INDEX && Array.isArray(window.RFA_SITE_INDEX.entries)\n      ? window.RFA_SITE_INDEX.entries\n      : [];\n    if (!index.length) return null;\n\n    const tokens = searchTokens(q);\n    if (!tokens.length) return null;\n    if (tokens.length === 1 && tokens[0].length < 4) return null;\n    const phrase = tokens.join(' ');\n\n    const candidates = index.filter((entry) => {\n      if (!requestedSchool) return true;\n      return entry.site === requestedSchool || entry.site === 'main';\n    });\n\n    const scored = candidates.map((entry) => {\n      const heading = normalize(entry.heading || '');\n      const page = normalize(entry.page || '');\n      const text = normalize(entry.text || '');\n      const path = normalize(entry.path || '');\n      let score = 0;\n      let matched = 0;\n\n      tokens.forEach((token) => {\n        const variants = tokenVariants(token);\n        let tokenMatched = false;\n        variants.forEach((variant) => {\n          if (heading.includes(variant)) { score += 16; tokenMatched = true; }\n          else if (page.includes(variant)) { score += 10; tokenMatched = true; }\n          if (text.includes(variant)) { score += 4; tokenMatched = true; }\n          if (path.includes(variant)) score += 2;\n        });\n        if (tokenMatched) matched += 1;\n      });\n\n      if (phrase.length > 3) {\n        if (heading.includes(phrase)) score += 32;\n        if (page.includes(phrase)) score += 20;\n        if (text.includes(phrase)) score += 14;\n      }\n      if (requestedSchool && entry.site === requestedSchool) score += 10;\n\n      const requiredMatches = tokens.length <= 3 ? tokens.length : Math.ceil(tokens.length * 0.7);\n      if (matched < requiredMatches) score = 0;\n\n      if (tokens.length === 1) {\n        const token = tokens[0];\n        const variants = tokenVariants(token);\n        const strongSingleMatch = variants.some((variant) => heading.includes(variant) || page.includes(variant));\n        if (!strongSingleMatch) score = 0;\n      }\n\n      return { entry, score, matched };\n    }).filter((item) => item.score > 0).sort((a, b) => b.score - a.score);\n\n    const minimumScore = tokens.length === 1 ? 20 : 28;\n    if (!scored.length || scored[0].score < minimumScore) return null;\n\n    const best = scored[0];\n    const second = scored.find((item) => item.entry.url !== best.entry.url || item.entry.heading !== best.entry.heading);\n    if (second && best.score - second.score < 7) return null;\n\n    const related = scored\n      .filter((item) => item.entry.url === best.entry.url && item.entry.heading === best.entry.heading)\n      .slice(0, 4);\n\n    const requiredPieceMatches = tokens.length <= 2 ? tokens.length : Math.ceil(tokens.length * 0.6);\n    const pieces = [];\n    related.forEach((item) => {\n      const value = String(item.entry.text || '').trim();\n      if (!value || pieces.includes(value)) return;\n      const normalizedValue = normalize(value);\n      const pieceMatches = tokens.filter((token) => tokenVariants(token).some((variant) => normalizedValue.includes(variant))).length;\n      if (pieceMatches >= requiredPieceMatches) pieces.push(value);\n    });\n\n    if (!pieces.length) return null;\n    let text = pieces.slice(0, 2).join(' ').replace(/\\s+/g, ' ').trim();\n    if (!text) return null;\n    if (text.length > 900) {\n      const cut = text.lastIndexOf('. ', 900);\n      text = text.slice(0, cut > 450 ? cut + 1 : 900).trim() + '…';\n    }\n\n    const heading = best.entry.heading || best.entry.page || 'RFA website information';\n    return '<strong>' + escapeHtml(heading) + '</strong><br>' + escapeHtml(text) + '<br>' + pageLink(best.entry.url, 'View this on the RFA website');\n  }\n`;
+
+  source = source.slice(0, searchStart) + confidenceSearch + source.slice(searchEnd);
+  changed = true;
+}
+
+if (changed) {
   fs.writeFileSync(AI_PATH, source, 'utf8');
-  console.log('Upgraded shared/js/rfa-ai.js to search the generated website index.');
+  console.log('Updated shared/js/rfa-ai.js with confidence-aware RFA Guide search.');
 } else {
-  console.log('RFA Guide website-search upgrade already applied.');
+  console.log('RFA Guide search and confidence guard are already current.');
 }
 
 let headers = fs.existsSync(HEADERS_PATH) ? fs.readFileSync(HEADERS_PATH, 'utf8') : '';
