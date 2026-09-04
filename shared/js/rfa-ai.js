@@ -359,12 +359,55 @@
     return `A child aged <strong>${escapeHtml(statedLabel)}</strong> meets the published minimum age of <strong>${escapeHtml(requirement)}</strong> for <strong>${escapeHtml(ageHit.entry.stage)}</strong>. ${escapeHtml(assessmentNote)} ${pageLink(page, 'See admissions information')}`;
   }
 
+  // RFA Guide conversational layer v4: handle safe conversational questions without sending visitors into factual website search.
+  function conversationalAnswer(q) {
+    const words = q.split(' ').filter(Boolean);
+    const shortMessage = words.length <= 6;
+
+    if (/\b(?:what is|what's|whats) your name\b|\bwhat should i call you\b|^your name\??$/.test(q)) {
+      return '<strong>My name is RFA Guide.</strong> I am Royal Family Academy’s automated website guide. I help visitors find verified information about Nursery &amp; Primary, High School and Sixth Form College.';
+    }
+
+    if (/^who are you\??$|\btell me about yourself\b/.test(q)) {
+      return '<strong>I am RFA Guide</strong>, Royal Family Academy’s automated website assistant. I answer from verified RFA website information and, when I cannot verify something confidently, I will ask you to rephrase or connect you with RFA on WhatsApp.';
+    }
+
+    if (/\bare you (?:an )?(?:ai|bot|robot)\b|\bare you human\b|\bare you a person\b/.test(q)) {
+      return 'I am an <strong>automated RFA website guide</strong>, not a member of staff. I use verified RFA website information to answer questions and can direct you to the RFA team when human help is needed.';
+    }
+
+    if (/\bwhat can you do\b|\bhow can you help\b|\bwhat do you do\b|\bwhat can i ask you\b/.test(q)) {
+      return 'You can ask me about <strong>admissions, age requirements, curriculum and subjects, leadership, facilities, student life, learning support, contact information, school policies</strong> and other information published by RFA. If I cannot verify an answer confidently, I will ask you to rephrase or connect you to RFA on WhatsApp.';
+    }
+
+    if (shortMessage && /^(?:hi|hello|hey|good morning|good afternoon|good evening)(?: there)?$/.test(q)) {
+      return 'Hello! I’m <strong>RFA Guide</strong>. How can I help you with Royal Family Academy today?';
+    }
+
+    if (shortMessage && /^(?:how are you|how are you doing|how do you do)$/.test(q)) {
+      return 'I’m ready to help. You can ask me anything about Royal Family Academy that is covered by the verified RFA website information.';
+    }
+
+    if (shortMessage && /^(?:thank you|thanks|thank you very much|thanks a lot|okay thanks|ok thanks)$/.test(q)) {
+      return 'You’re welcome. If you have another RFA question, I’m here to help.';
+    }
+
+    if (shortMessage && /^(?:bye|goodbye|see you|see you later)$/.test(q)) {
+      return 'Goodbye. You can come back anytime you need information about Royal Family Academy.';
+    }
+
+    return null;
+  }
+
   function answer(query) {
     const q = expandIntentLanguage(query);
     const requestedSchool = detectSchool(q);
     const ageHit = findAgeEntry(q);
 
     if (!q) return fallback();
+
+    const conversation = conversationalAnswer(q);
+    if (conversation) return conversation;
 
     if (includesAny(q, ['motto', 'raising distinguished'])) return `RFA's motto is <strong>“${escapeHtml(KB.identity.motto)}.”</strong>`;
     if (q.includes('vision')) return escapeHtml(KB.identity.vision);
