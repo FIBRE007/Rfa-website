@@ -13,6 +13,26 @@
   const schoolSites = ['nurseryandprimaryschool', 'highschool', 'sixthform'];
   const currentSchool = schoolSites.includes(site) ? site : null;
 
+  // RFA Guide website search index v1: load the generated index of current visitor-facing RFA pages.
+  const RFA_SITE_INDEX_URL = 'https://assets.royalfamilyacademy.org/shared/js/rfa-site-index.js';
+  const RFA_SITE_INDEX_READY = window.RFA_SITE_INDEX
+    ? Promise.resolve(true)
+    : new Promise((resolve) => {
+        let settled = false;
+        const finish = (ok) => {
+          if (settled) return;
+          settled = true;
+          resolve(ok);
+        };
+        const script = document.createElement('script');
+        script.src = RFA_SITE_INDEX_URL;
+        script.async = true;
+        script.onload = () => finish(true);
+        script.onerror = () => finish(false);
+        document.head.appendChild(script);
+        setTimeout(() => finish(Boolean(window.RFA_SITE_INDEX)), 2500);
+      });
+
   function escapeHtml(value) {
     return String(value)
       .replace(/&/g, '&amp;')
@@ -67,6 +87,103 @@
 
   function includesAny(q, terms) {
     return terms.some((term) => q.includes(normalize(term)));
+  }
+
+  const SEARCH_STOP_WORDS = new Set([
+    'a', 'an', 'and', 'are', 'as', 'at', 'be', 'can', 'do', 'does', 'for', 'from', 'how',
+    'i', 'in', 'is', 'it', 'me', 'of', 'on', 'our', 'please', 'rfa', 'royal', 'family',
+    'academy', 'school', 'tell', 'that', 'the', 'their', 'this', 'to', 'us', 'what', 'when',
+    'where', 'which', 'who', 'why', 'with', 'you', 'your'
+  ]);
+
+  const SEARCH_SYNONYMS = {
+    anthem: ['song'],
+    confession: ['declaration'],
+    founder: ['founded', 'history', 'began'],
+    founded: ['founder', 'history', 'began'],
+    founders: ['founded', 'history'],
+    origin: ['history', 'began', 'founded'],
+    history: ['founded', 'began', 'origin'],
+    discipline: ['conduct', 'behaviour', 'behavior'],
+    bullying: ['harassment', 'wellbeing', 'safety'],
+    parent: ['parents', 'family'],
+    parents: ['parent', 'family']
+  };
+
+  function searchTokens(q) {
+    return normalize(q)
+      .split(' ')
+      .map((token) => token.trim())
+      .filter((token) => token.length > 1 && !SEARCH_STOP_WORDS.has(token));
+  }
+
+  function tokenVariants(token) {
+    return [token].concat(SEARCH_SYNONYMS[token] || []);
+  }
+
+  function websiteIndexAnswer(q, requestedSchool) {
+    const index = window.RFA_SITE_INDEX && Array.isArray(window.RFA_SITE_INDEX.entries)
+      ? window.RFA_SITE_INDEX.entries
+      : [];
+    if (!index.length) return null;
+
+    const tokens = searchTokens(q);
+    if (!tokens.length) return null;
+    const phrase = tokens.join(' ');
+
+    const scored = index.map((entry) => {
+      const heading = normalize(entry.heading || '');
+      const page = normalize(entry.page || '');
+      const text = normalize(entry.text || '');
+      const path = normalize(entry.path || '');
+      let score = 0;
+      let matched = 0;
+
+      tokens.forEach((token) => {
+        const variants = tokenVariants(token);
+        let tokenMatched = false;
+        variants.forEach((variant) => {
+          if (heading.includes(variant)) { score += 14; tokenMatched = true; }
+          else if (page.includes(variant)) { score += 8; tokenMatched = true; }
+          if (text.includes(variant)) { score += 5; tokenMatched = true; }
+          if (path.includes(variant)) score += 2;
+        });
+        if (tokenMatched) matched += 1;
+      });
+
+      if (phrase.length > 3) {
+        if (heading.includes(phrase)) score += 28;
+        if (page.includes(phrase)) score += 16;
+        if (text.includes(phrase)) score += 12;
+      }
+      if (requestedSchool && entry.site === requestedSchool) score += 9;
+      else if (requestedSchool && entry.site !== requestedSchool && entry.site !== 'main') score -= 4;
+
+      const requiredMatches = tokens.length <= 2 ? 1 : Math.ceil(tokens.length * 0.5);
+      if (matched < requiredMatches) score = 0;
+      return { entry, score, matched };
+    }).filter((item) => item.score > 0).sort((a, b) => b.score - a.score);
+
+    if (!scored.length || scored[0].score < 9) return null;
+    const best = scored[0];
+    const related = scored
+      .filter((item) => item.entry.url === best.entry.url && item.entry.heading === best.entry.heading)
+      .slice(0, 4);
+
+    const pieces = [];
+    related.forEach((item) => {
+      const value = String(item.entry.text || '').trim();
+      if (value && !pieces.includes(value)) pieces.push(value);
+    });
+    let text = pieces.join(' ').replace(/\s+/g, ' ').trim();
+    if (!text) return null;
+    if (text.length > 1800) {
+      const cut = text.lastIndexOf('. ', 1800);
+      text = text.slice(0, cut > 900 ? cut + 1 : 1800).trim() + '…';
+    }
+
+    const heading = best.entry.heading || best.entry.page || 'RFA website information';
+    return '<strong>' + escapeHtml(heading) + '</strong><br>' + escapeHtml(text) + '<br>' + pageLink(best.entry.url, 'View this on the RFA website');
   }
 
   function findAgeEntry(q) {
@@ -254,7 +371,10 @@
       if (includesAny(q, ['programme', 'programmes', 'curriculum', 'subject', 'subjects', 'career', 'careers', 'university destination', 'student life', 'fees', 'fee', 'requirements'])) return fallback(`The current RFA website verifies that Sixth Form provides advanced academic programmes and tailored support for university and leadership, but ${escapeHtml(KB.sixthForm.verifiedLimits)}`);
     }
 
-    if (requestedSchool && includesAny(q, ['tell me about', 'about the school', 'school information', 'what is', 'what do you offer'])) {
+    const websiteAnswer = websiteIndexAnswer(q, requestedSchool);
+    if (websiteAnswer) return websiteAnswer;
+
+    if (requestedSchool && includesAny(q, ['tell me about', 'about the school', 'school information', 'what do you offer'])) {
       const school = KB.schools.find((item) => item.key === requestedSchool);
       if (requestedSchool === 'sixthform') return `${escapeHtml(KB.sixthForm.positioning)} Entry age: <strong>${escapeHtml(KB.sixthForm.entryAge)}</strong>. ${pageLink(school.url, 'Visit Sixth Form College')}`;
       return `<strong>${escapeHtml(school.name)}</strong> serves ${escapeHtml(school.range)}. ${pageLink(school.url, `Visit ${school.name}`)}`;
@@ -465,7 +585,7 @@
     if (root.classList.contains('is-open') && !speakingTimer) setAvatarState('listening');
   });
 
-  form.addEventListener('submit', (event) => {
+  form.addEventListener('submit', async (event) => {
     event.preventDefault();
     const query = input.value.trim();
     if (!query) return;
@@ -482,6 +602,7 @@
     sendButton.disabled = true;
     setAvatarState('thinking');
 
+    await RFA_SITE_INDEX_READY;
     const html = answer(query);
     const isHandoff = html.includes("I don't have enough verified RFA information to answer that confidently");
     const thinkingDelay = reducedMotion ? 0 : 560;
