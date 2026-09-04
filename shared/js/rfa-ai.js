@@ -551,7 +551,7 @@
     img.src = src;
   });
 
-  // RFA Guide bottom conversation anchor v6: keep the newest mobile exchange immediately above the composer.
+  // RFA Guide bottom-up conversation flow v7: keep the newest mobile exchange immediately above the composer.
   const frameStyles = document.createElement('style');
   frameStyles.textContent = `
     .rfa-ai.has-frame-avatar .rfa-ai__launcher::before,
@@ -562,9 +562,16 @@
       filter:drop-shadow(0 10px 12px rgba(14,12,18,.25));
     }
     .rfa-ai__avatar-frame { display:block;object-fit:contain;pointer-events:none;user-select:none;-webkit-user-drag:none; }
-    .rfa-ai__messages-spacer { display:none; }
+    .rfa-ai__messages-list {
+      min-height:100%;
+      min-width:0;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-end;
+      gap:var(--space-2xs);
+    }
     @media(max-width:480px){
-      .rfa-ai.is-open .rfa-ai__messages-spacer { display:block;flex:0 0 auto;margin-top:auto;min-height:0;pointer-events:none; }
+      .rfa-ai.is-open .rfa-ai__messages-list { gap:.45rem; }
     }
     .rfa-ai__avatar-frame--launcher { width:100%;height:100%;transform-origin:50% 82%;animation:rfaGuideFloat 5.6s ease-in-out infinite; }
     .rfa-ai__avatar-frame--header { width:54px;height:70px;justify-self:center;object-position:50% 8%;filter:drop-shadow(0 4px 5px rgba(14,12,18,.22)); }
@@ -607,8 +614,9 @@
         <button class="rfa-ai__close" type="button" aria-label="Close RFA Guide">&times;</button>
       </div>
       <div class="rfa-ai__messages" id="rfa-ai-messages">
-        <div class="rfa-ai__messages-spacer" aria-hidden="true"></div>
-        <div class="rfa-ai__msg rfa-ai__msg--bot">Hello — I'm <strong>RFA Guide</strong>. Ask me about Nursery &amp; Primary, High School or Sixth Form. I answer from verified RFA website information. If I can't verify something, I'll connect you to RFA on WhatsApp.</div>
+        <div class="rfa-ai__messages-list" id="rfa-ai-messages-list">
+          <div class="rfa-ai__msg rfa-ai__msg--bot">Hello — I'm <strong>RFA Guide</strong>. Ask me about Nursery &amp; Primary, High School or Sixth Form. I answer from verified RFA website information. If I can't verify something, I'll connect you to RFA on WhatsApp.</div>
+        </div>
       </div>
       <div class="rfa-ai__actions">${chipsHtml}</div>
       <form class="rfa-ai__form" id="rfa-ai-form">
@@ -626,6 +634,7 @@
   const input = root.querySelector('.rfa-ai__input');
   const sendButton = root.querySelector('.rfa-ai__send');
   const messages = root.querySelector('#rfa-ai-messages');
+  const messageList = root.querySelector('#rfa-ai-messages-list');
   const avatarImages = root.querySelectorAll('.rfa-ai__avatar-frame');
   const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -807,7 +816,7 @@
     const userMsg = document.createElement('div');
     userMsg.className = 'rfa-ai__msg rfa-ai__msg--user';
     userMsg.textContent = query;
-    messages.appendChild(userMsg);
+    messageList.appendChild(userMsg);
     anchorLatestMessage();
 
     input.value = '';
@@ -824,7 +833,7 @@
       const botMsg = document.createElement('div');
       botMsg.className = 'rfa-ai__msg rfa-ai__msg--bot';
       botMsg.innerHTML = html;
-      messages.appendChild(botMsg);
+      messageList.appendChild(botMsg);
       anchorLatestMessage();
       input.disabled = false;
       sendButton.disabled = false;
