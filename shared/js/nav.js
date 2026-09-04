@@ -48,6 +48,112 @@
     document.head.appendChild(style);
   }
 
+  function ensureSchoolSwitcherStyles() {
+    if (document.getElementById('rfa-school-switcher-styles')) return;
+    const style = document.createElement('style');
+    style.id = 'rfa-school-switcher-styles';
+    style.textContent = `
+      .rfa-school-switcher{display:none;position:relative}
+      @media(min-width:980px){
+        .rfa-school-switcher{display:block;flex:0 0 auto}
+        .rfa-school-switcher__trigger{
+          display:inline-flex;align-items:center;gap:.5rem;
+          min-height:38px;padding:.58rem .78rem;
+          border:1px solid rgba(255,252,247,.48);border-radius:3px;
+          background:rgba(14,12,18,.16);color:var(--rfa-warm-white,#fffdf8);
+          font:700 .68rem/1 Inter,sans-serif;letter-spacing:.12em;text-transform:uppercase;
+          cursor:pointer;white-space:nowrap;
+          backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);
+          transition:background .2s ease,border-color .2s ease,color .2s ease;
+        }
+        .rfa-school-switcher__trigger::after{content:'⌄';font-size:.95rem;line-height:.6;transform:translateY(-1px)}
+        .rfa-school-switcher.is-open .rfa-school-switcher__trigger::after{content:'⌃'}
+        .rfa-school-switcher__menu{
+          position:absolute;right:0;top:calc(100% + .55rem);min-width:225px;
+          padding:.42rem;background:var(--rfa-warm-white,#fffdf8);
+          border:1px solid rgba(67,22,119,.16);border-radius:5px;
+          box-shadow:0 18px 38px rgba(20,12,28,.22);
+          opacity:0;visibility:hidden;transform:translateY(-5px);pointer-events:none;
+          transition:opacity .18s ease,transform .18s ease,visibility .18s;
+          z-index:2147482000;
+        }
+        .rfa-school-switcher.is-open .rfa-school-switcher__menu{
+          opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto;
+        }
+        .rfa-school-switcher__menu a{
+          display:flex;align-items:center;justify-content:space-between;gap:1rem;
+          padding:.78rem .82rem;border-radius:3px;color:#2d1742;
+          font:700 .76rem/1.25 Inter,sans-serif;letter-spacing:.035em;
+        }
+        .rfa-school-switcher__menu a:hover,.rfa-school-switcher__menu a:focus-visible{
+          background:rgba(67,22,119,.07);color:#431677;
+        }
+        .rfa-school-switcher__menu a[aria-current="true"]{
+          background:linear-gradient(135deg,rgba(198,162,78,.22),rgba(198,162,78,.10));
+          color:#431677;
+        }
+        .rfa-school-switcher__menu a[aria-current="true"]::after{content:'Current';font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:#8b6b24}
+        .site-header.is-scrolled .rfa-school-switcher__trigger,
+        .site-header.menu-open .rfa-school-switcher__trigger{
+          border-color:rgba(67,22,119,.24);background:rgba(255,255,255,.78);color:#431677;
+        }
+        .site-header__inner>.rfa-school-switcher{margin-left:auto;margin-right:.75rem}
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  function ensureSchoolSwitcher() {
+    if (!document.body) return;
+    const site = document.body.dataset.site;
+    if (site !== 'nurseryandprimaryschool' && site !== 'highschool') return;
+    if (header.querySelector('.rfa-school-switcher')) return;
+
+    ensureSchoolSwitcherStyles();
+
+    const switcher = document.createElement('div');
+    switcher.className = 'rfa-school-switcher';
+    const currentName = site === 'highschool' ? 'High School' : 'Nursery & Primary';
+    switcher.innerHTML = `
+      <button class="rfa-school-switcher__trigger" type="button" aria-expanded="false" aria-haspopup="true">Schools</button>
+      <div class="rfa-school-switcher__menu" role="menu" aria-label="Switch RFA school website">
+        <a role="menuitem" href="https://nurseryandprimaryschool.royalfamilyacademy.org/"${site === 'nurseryandprimaryschool' ? ' aria-current="true"' : ''}>Nursery &amp; Primary</a>
+        <a role="menuitem" href="https://highschool.royalfamilyacademy.org/"${site === 'highschool' ? ' aria-current="true"' : ''}>High School</a>
+      </div>
+    `;
+    switcher.dataset.currentSchool = currentName;
+
+    const actions = header.querySelector('.site-nav__actions');
+    const alternateInner = header.querySelector('.site-header__inner');
+    if (actions) actions.prepend(switcher);
+    else if (alternateInner) {
+      const alternateToggle = alternateInner.querySelector('[data-nav-toggle]');
+      alternateInner.insertBefore(switcher, alternateToggle || null);
+    } else return;
+
+    const trigger = switcher.querySelector('.rfa-school-switcher__trigger');
+    const closeSwitcher = function () {
+      switcher.classList.remove('is-open');
+      trigger.setAttribute('aria-expanded', 'false');
+    };
+
+    trigger.addEventListener('click', function (event) {
+      event.stopPropagation();
+      const open = !switcher.classList.contains('is-open');
+      switcher.classList.toggle('is-open', open);
+      trigger.setAttribute('aria-expanded', String(open));
+    });
+
+    switcher.addEventListener('click', function (event) { event.stopPropagation(); });
+    document.addEventListener('click', closeSwitcher);
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape' && switcher.classList.contains('is-open')) {
+        closeSwitcher();
+        trigger.focus();
+      }
+    });
+  }
+
   function ensureHighSchoolHeroOverlay() {
     if (!document.body || document.body.dataset.site !== 'highschool') return;
     if (document.getElementById('rfa-highschool-hero-overlay')) return;
@@ -159,6 +265,7 @@
     document.body.style.overflow = 'hidden';
   }
 
+  ensureSchoolSwitcher();
   ensureHighSchoolHeroOverlay();
   ensureHighSchoolCampusNav();
   setScrolledState();
