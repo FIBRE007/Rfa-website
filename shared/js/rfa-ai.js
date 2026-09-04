@@ -623,6 +623,63 @@
   const avatarImages = root.querySelectorAll('.rfa-ai__avatar-frame');
   const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // RFA Guide visual viewport layer v5: follow the actually visible Android/iOS viewport when the keyboard opens.
+  const mobileViewportQuery = window.matchMedia ? window.matchMedia('(max-width: 480px)') : { matches: false };
+  let mobileViewportRaf = null;
+
+  function resetMobileViewport() {
+    ['top', 'bottom', 'height', 'min-height', 'max-height'].forEach((prop) => panel.style.removeProperty(prop));
+  }
+
+  function syncMobileViewport(stickToBottom = false) {
+    if (!root.classList.contains('is-open') || !mobileViewportQuery.matches) {
+      resetMobileViewport();
+      return;
+    }
+
+    const viewport = window.visualViewport;
+    const visibleHeight = Math.max(280, Math.round(viewport ? viewport.height : window.innerHeight));
+    const visibleTop = Math.max(0, Math.round(viewport ? viewport.offsetTop : 0));
+
+    // Inline important values deliberately override mobile browser viewport quirks
+    // and the CSS 100dvh fallback while the software keyboard is visible.
+    panel.style.setProperty('top', visibleTop + 'px', 'important');
+    panel.style.setProperty('bottom', 'auto', 'important');
+    panel.style.setProperty('height', visibleHeight + 'px', 'important');
+    panel.style.setProperty('min-height', visibleHeight + 'px', 'important');
+    panel.style.setProperty('max-height', visibleHeight + 'px', 'important');
+
+    if (stickToBottom) {
+      requestAnimationFrame(() => { messages.scrollTop = messages.scrollHeight; });
+    }
+  }
+
+  function queueMobileViewport(stickToBottom = false) {
+    if (mobileViewportRaf) cancelAnimationFrame(mobileViewportRaf);
+    mobileViewportRaf = requestAnimationFrame(() => {
+      mobileViewportRaf = null;
+      syncMobileViewport(stickToBottom);
+    });
+  }
+
+  function focusComposer() {
+    try { input.focus({ preventScroll: true }); } catch (_) { input.focus(); }
+    queueMobileViewport(true);
+    // Android keyboard/browser chrome often settles over several animation frames.
+    setTimeout(() => queueMobileViewport(true), 80);
+    setTimeout(() => queueMobileViewport(true), 280);
+  }
+
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', () => queueMobileViewport(true), { passive: true });
+    window.visualViewport.addEventListener('scroll', () => queueMobileViewport(false), { passive: true });
+  }
+  window.addEventListener('resize', () => queueMobileViewport(true), { passive: true });
+  window.addEventListener('orientationchange', () => setTimeout(() => queueMobileViewport(true), 120), { passive: true });
+  if (mobileViewportQuery.addEventListener) {
+    mobileViewportQuery.addEventListener('change', () => queueMobileViewport(true));
+  }
+
   let idleTimer = null;
   let stateTimer = null;
   let speakingTimer = null;
@@ -686,12 +743,14 @@
     panel.setAttribute('aria-hidden', 'false');
     setAvatarState('greeting');
     stateTimer = setTimeout(() => setAvatarState('listening'), reducedMotion ? 0 : 700);
-    input.focus();
+    queueMobileViewport(true);
+    focusComposer();
   }
 
   function close() {
     clearStateTimers();
     root.classList.remove('is-open');
+    resetMobileViewport();
     launcher.setAttribute('aria-expanded', 'false');
     panel.setAttribute('aria-hidden', 'true');
     setAvatarState('idle');
@@ -719,6 +778,8 @@
 
   input.addEventListener('focus', () => {
     if (root.classList.contains('is-open') && !speakingTimer) setAvatarState('listening');
+    queueMobileViewport(true);
+    setTimeout(() => queueMobileViewport(true), 220);
   });
   input.addEventListener('input', () => {
     if (root.classList.contains('is-open') && !speakingTimer) setAvatarState('listening');
@@ -754,7 +815,7 @@
       messages.scrollTop = messages.scrollHeight;
       input.disabled = false;
       sendButton.disabled = false;
-      input.focus();
+      focusComposer();
 
       if (isHandoff) {
         setAvatarState('handoff');
