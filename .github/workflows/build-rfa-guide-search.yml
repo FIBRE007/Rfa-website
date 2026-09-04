@@ -14,6 +14,7 @@ on:
       - 'scripts/upgrade-rfa-guide-conversation.mjs'
       - 'scripts/upgrade-rfa-guide-viewport.mjs'
       - 'scripts/upgrade-rfa-guide-bottom-anchor.mjs'
+      - 'scripts/upgrade-rfa-guide-drag.mjs'
       - '.github/workflows/build-rfa-guide-search.yml'
   workflow_dispatch:
 
@@ -43,6 +44,9 @@ jobs:
 
       - name: Anchor latest RFA Guide messages above composer
         run: node scripts/upgrade-rfa-guide-bottom-anchor.mjs
+
+      - name: Enable draggable mobile RFA Guide launcher
+        run: node scripts/upgrade-rfa-guide-drag.mjs
 
       - name: Build verified website content index
         run: node scripts/build-rfa-search-index.mjs
