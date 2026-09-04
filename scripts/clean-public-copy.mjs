@@ -56,6 +56,11 @@ for (const file of files) {
   let text = fs.readFileSync(file, 'utf8');
   const before = text;
   for (const [from, to] of replacements) text = text.split(from).join(to);
+
+  // Decorative numbering is intentionally not used on visitor-facing RFA pages.
+  // Keep factual numbers (ages, dates, ratios, phone numbers) untouched.
+  text = text.replace(/<p\b[^>]*class=["'][^"']*\b(?:section-numeral|journey__num)\b[^"']*["'][^>]*>[\s\S]*?<\/p>/gi, '');
+
   if (text !== before) fs.writeFileSync(file, text);
 }
 
@@ -70,6 +75,9 @@ const forbidden = [
   /historical officer names/i,
   /recovered content/i,
   /archived content/i,
+  /section-numeral/i,
+  /journey__num/i,
+  /§\s*\d{1,2}/,
 ];
 
 const failures = [];
@@ -81,8 +89,8 @@ for (const file of htmlFiles) {
 }
 
 if (failures.length) {
-  console.error('Visitor-facing provenance wording remains:\n' + failures.join('\n'));
+  console.error('Visitor-facing copy check failed:\n' + failures.join('\n'));
   process.exit(1);
 }
 
-console.log(`Checked ${htmlFiles.length} visitor-facing HTML files. Provenance wording cleaned.`);
+console.log(`Checked ${htmlFiles.length} visitor-facing HTML files. Provenance wording and decorative numbering cleaned.`);
