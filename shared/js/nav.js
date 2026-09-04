@@ -120,9 +120,16 @@
     }
 
     const script = document.createElement('script');
-    script.src = 'https://assets.royalfamilyacademy.org/shared/js/archive-content.js?v=20260904-1';
+    script.src = 'https://assets.royalfamilyacademy.org/shared/js/archive-content.js?v=20260904-2';
     script.async = false;
     script.dataset.rfaArchiveContent = 'true';
+    script.addEventListener('error', function () {
+      document.documentElement.dataset.archiveContentLoad = 'failed';
+      console.error('RFA archive content failed to load:', script.src);
+    });
+    script.addEventListener('load', function () {
+      document.documentElement.dataset.archiveContentLoad = 'loaded';
+    });
     document.body.appendChild(script);
   }
 
