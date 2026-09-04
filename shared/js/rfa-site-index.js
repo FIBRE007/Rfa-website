@@ -32,7 +32,7 @@ window.RFA_SITE_INDEX = {
     {
       "site": "highschool",
       "page": "About — Royal Family Academy High School",
-      "heading": "Educated for consequence.",
+      "heading": "Educated for significance.",
       "text": "Royal Family Academy combines academic excellence, intentional Christian education, caring educators and enriching experiences to nurture faith, character, confidence, creativity, wisdom and responsibility.",
       "url": "https://highschool.royalfamilyacademy.org/about.html",
       "path": "highschool/about.html"
