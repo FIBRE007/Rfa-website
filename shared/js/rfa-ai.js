@@ -652,15 +652,14 @@
     });
   }
 
-  // RFA Guide mobile layout viewport layer v8: keep the chat panel filling the mobile page while the keyboard is open.
-  // Some Android browsers report a visualViewport height that is smaller than the
-  // actual usable webpage area, which leaves the underlying website exposed below
-  // the composer. Use the layout viewport height for the panel, and only use resize
-  // events to re-anchor the newest exchange above the composer.
+  // RFA Guide keyboard-safe mobile viewport layer v9: use the keyboard-safe visual viewport from the first mobile focus.
+  // The RFA Guide root still covers the whole page so no underlying website strip
+  // shows through, while the panel itself ends immediately above the keyboard.
   const mobileViewportQuery = window.matchMedia ? window.matchMedia('(max-width: 480px)') : { matches: false };
   let mobileViewportRaf = null;
 
   function resetMobileViewport() {
+    ['top', 'bottom', 'left', 'right', 'width', 'height', 'min-height', 'max-height', 'background', 'overflow'].forEach((prop) => root.style.removeProperty(prop));
     ['top', 'bottom', 'height', 'min-height', 'max-height'].forEach((prop) => panel.style.removeProperty(prop));
   }
 
@@ -670,13 +669,25 @@
       return;
     }
 
-    const layoutHeight = Math.max(320, Math.round(window.innerHeight || document.documentElement.clientHeight || 0));
+    // Keep an opaque full-screen layer behind the keyboard-safe chat panel.
+    root.style.setProperty('top', '0px', 'important');
+    root.style.setProperty('bottom', '0px', 'important');
+    root.style.setProperty('left', '0px', 'important');
+    root.style.setProperty('right', '0px', 'important');
+    root.style.setProperty('width', 'auto', 'important');
+    root.style.setProperty('height', 'auto', 'important');
+    root.style.setProperty('background', 'var(--rfa-warm-white)', 'important');
+    root.style.setProperty('overflow', 'hidden', 'important');
 
-    panel.style.setProperty('top', '0px', 'important');
+    const viewport = window.visualViewport;
+    const visibleHeight = Math.max(280, Math.round(viewport ? viewport.height : (window.innerHeight || document.documentElement.clientHeight || 0)));
+    const visibleTop = Math.max(0, Math.round(viewport ? viewport.offsetTop : 0));
+
+    panel.style.setProperty('top', visibleTop + 'px', 'important');
     panel.style.setProperty('bottom', 'auto', 'important');
-    panel.style.setProperty('height', layoutHeight + 'px', 'important');
-    panel.style.setProperty('min-height', layoutHeight + 'px', 'important');
-    panel.style.setProperty('max-height', layoutHeight + 'px', 'important');
+    panel.style.setProperty('height', visibleHeight + 'px', 'important');
+    panel.style.setProperty('min-height', visibleHeight + 'px', 'important');
+    panel.style.setProperty('max-height', visibleHeight + 'px', 'important');
 
     if (stickToBottom) anchorLatestMessage();
   }
@@ -691,10 +702,12 @@
 
   function focusComposer() {
     try { input.focus({ preventScroll: true }); } catch (_) { input.focus(); }
+    // Re-measure through the entire keyboard animation. The first measurement can
+    // happen before Android reports the reduced visual viewport.
     queueMobileViewport(true);
-    // Let Android finish its keyboard/browser-toolbar animation, then re-anchor.
-    setTimeout(() => queueMobileViewport(true), 100);
-    setTimeout(() => queueMobileViewport(true), 320);
+    [40, 100, 180, 320, 520].forEach((delay) => {
+      setTimeout(() => queueMobileViewport(true), delay);
+    });
   }
 
   if (window.visualViewport) {
