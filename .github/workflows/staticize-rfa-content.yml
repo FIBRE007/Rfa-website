@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'scripts/staticize-rfa-archive.mjs'
+      - 'scripts/clean-public-copy.mjs'
       - '.github/workflows/staticize-rfa-content.yml'
   workflow_dispatch:
 
@@ -23,6 +24,9 @@ jobs:
       - name: Write recovered content into static HTML
         run: node scripts/staticize-rfa-archive.mjs
 
+      - name: Remove migration provenance from visitor-facing copy
+        run: node scripts/clean-public-copy.mjs
+
       - name: Commit generated static pages
         shell: bash
         run: |
@@ -32,6 +36,6 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add highschool nurseryandprimaryschool sixthform shared/js/nav.js
-          git commit -m "Staticize recovered RFA website content"
+          git add highschool nurseryandprimaryschool sixthform shared/js/archive-content.js scripts/staticize-rfa-archive.mjs
+          git commit -m "Clean visitor-facing RFA content provenance wording"
           git push
