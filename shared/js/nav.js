@@ -100,6 +100,15 @@
     if (mobileNav) addCampusLink(mobileNav.querySelector('.mobile-nav__links'), false);
   }
 
+  function loadArchiveContent() {
+    if (document.querySelector('script[data-rfa-archive-content]')) return;
+    const script = document.createElement('script');
+    script.src = 'https://assets.royalfamilyacademy.org/shared/js/archive-content.js?v=20260904-1';
+    script.async = false;
+    script.dataset.rfaArchiveContent = 'true';
+    document.body.appendChild(script);
+  }
+
   function setScrolledState() {
     header.classList.toggle('is-scrolled', window.scrollY > SCROLL_THRESHOLD);
   }
@@ -128,6 +137,7 @@
 
   ensureHighSchoolHeroOverlay();
   ensureHighSchoolCampusNav();
+  loadArchiveContent();
   setScrolledState();
   window.addEventListener('scroll', setScrolledState, { passive: true });
 
