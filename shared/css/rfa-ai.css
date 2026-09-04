@@ -309,3 +309,82 @@
   text-align: center;
   line-height: 1.3;
 }
+
+/* ==========================================================================
+   RFA Guide mobile conversation mode
+   On phones, conversation takes priority over navigation chrome.
+   ========================================================================== */
+@media (max-width: 480px) {
+  .rfa-ai.is-open .rfa-ai__panel {
+    left: 0 !important;
+    right: 0 !important;
+    top: 0 !important;
+    bottom: auto !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    max-height: 100dvh !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .rfa-ai.has-frame-avatar.is-open .rfa-ai__header {
+    grid-template-columns: 1fr auto !important;
+    min-height: 48px !important;
+    gap: .4rem !important;
+    padding: .45rem .8rem !important;
+  }
+
+  .rfa-ai.has-frame-avatar.is-open .rfa-ai__avatar-frame--header {
+    display: none !important;
+  }
+
+  .rfa-ai.is-open .rfa-ai__title {
+    font-size: 1.08rem !important;
+    line-height: 1.15 !important;
+  }
+
+  .rfa-ai.is-open .rfa-ai__close {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    font-size: 1.35rem;
+  }
+
+  .rfa-ai.is-open .rfa-ai__actions {
+    display: none !important;
+  }
+
+  .rfa-ai.is-open .rfa-ai__messages {
+    flex: 1 1 auto;
+    padding: .6rem .7rem .45rem;
+    gap: .45rem;
+    overscroll-behavior: contain;
+    scroll-padding-bottom: 72px;
+  }
+
+  .rfa-ai.is-open .rfa-ai__msg {
+    max-width: 90%;
+    padding: .6em .75em;
+    font-size: .96rem;
+    line-height: 1.42;
+  }
+
+  .rfa-ai.is-open .rfa-ai__form {
+    min-height: 58px;
+    padding: .45rem .65rem calc(.45rem + env(safe-area-inset-bottom));
+    background: var(--rfa-warm-white);
+  }
+
+  .rfa-ai.is-open .rfa-ai__input {
+    font-size: 16px;
+    line-height: 1.35;
+    padding: .55rem 0;
+  }
+
+  .rfa-ai.is-open .rfa-ai__send {
+    width: 42px;
+    height: 42px;
+  }
+}
