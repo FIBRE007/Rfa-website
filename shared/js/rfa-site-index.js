@@ -656,14 +656,6 @@ window.RFA_SITE_INDEX = {
     {
       "site": "nurseryandprimaryschool",
       "page": "About — Royal Family Academy Nursery & Primary School",
-      "heading": "What we are building toward.",
-      "text": "Develop learners who are knowledgeable and proficient in all areas of learning. Develop learners with a biblical worldview consistent with the school's faith. Develop intellectual, social and leadership skills. Develop a heart of service and stewardship. Build a motivated and skilled faculty with appropriate qualifications/certification and professional development. Run a curriculum integrating high standards of knowledge, skills and biblical values, using pedagogy that meets global best practices. Provide adequate, safe, well-maintained and aesthetically welcoming facilities. Encourage parents to participate actively in their children's learning and school programmes.",
-      "url": "https://nurseryandprimaryschool.royalfamilyacademy.org/about.html",
-      "path": "nurseryandprimaryschool/about.html"
-    },
-    {
-      "site": "nurseryandprimaryschool",
-      "page": "About — Royal Family Academy Nursery & Primary School",
       "heading": "What We Believe",
       "text": "We believe the Bible to be the inspired and only infallible, authoritative Word of God (2 Timothy 3:16). We believe that there is one God, eternally existent in three Persons: Father, Son and Holy Spirit (1 John 5:6–8). We believe in the deity of our Lord Jesus Christ; in His virgin birth, His sinless life, His miracles, His vicarious atoning death through His shed blood, His bodily resurrection, His ascension to the right hand of the Father, and His personal return in power and glory (1 Corinthians 15:3–4; 1 Peter 2:18–24; John 3:16). We believe that, for the salvation of lost and sinful humanity, regeneration by the Holy Spirit is absolutely essential (Romans 3:21–30; Galatians 4:4–7). We believe that deliverance from sickness and every oppression of the devil is provided for in the atonement and is the privilege of all believers (Isaiah 53:4; Matthew 8:16–17; Mark 16:18; John 4:6–14; 1 Peter 2:24; Colossians 1:13; Luke 10:19). We believe that the full consummation of the Baptism of believers in the Holy Spirit is evidenced by the initial physical sign of speaking in other tongues as the Spirit gives utterance, and by the subsequent manifestation of spiritual power in public testimony and service (Acts 2:4; 10:44–46; 19:2,6; 1:8; Matthew 3:11; Galatians 5:22–23; 1 Corinthians 12:4–11; Acts 2:42–43).",
       "url": "https://nurseryandprimaryschool.royalfamilyacademy.org/about.html",
