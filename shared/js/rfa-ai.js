@@ -70,7 +70,7 @@
 
   function fallback(extra) {
     const prefix = extra ? `${extra} ` : '';
-    return `${prefix}I don't have enough verified RFA information to answer that confidently. ${whatsappLink()} at <strong>${escapeHtml(KB.contact.whatsappNumber)}</strong>, and the RFA team will help.`;
+    return `${prefix}I don't have enough verified RFA information to answer that confidently from the question as written. Please rephrase it with the school, class or topic — for example, <strong>“What is the minimum age for SH 1?”</strong> If you prefer, ${whatsappLink('chat with RFA on WhatsApp')} at <strong>${escapeHtml(KB.contact.whatsappNumber)}</strong>.`;
   }
 
   function schoolName(key) {
@@ -80,7 +80,7 @@
 
   function detectSchool(q) {
     if (/\b(sixth form|sixthform|college|17\+)\b/.test(q)) return 'sixthform';
-    if (/\b(high school|junior high|senior high|jh[123]|jhs[123]|sh[123]|shs[123])\b/.test(q)) return 'highschool';
+    if (/\b(high school|junior high|senior high|jh\s*[123]|jhs\s*[123]|sh\s*[123]|shs\s*[123])\b/.test(q)) return 'highschool';
     if (/\b(nursery|primary|creche|playgroup|pre-school|preschool|pre kindergarten|pre-kindergarten|kindergarten|grade [1-6]|grade (one|two|three|four|five|six))\b/.test(q)) return 'nurseryandprimaryschool';
     return currentSchool;
   }
@@ -121,6 +121,7 @@
     return [token].concat(SEARCH_SYNONYMS[token] || []);
   }
 
+  // RFA Guide confidence guard v2: only answer from website search when relevance is strong and unambiguous.
   function websiteIndexAnswer(q, requestedSchool) {
     const index = window.RFA_SITE_INDEX && Array.isArray(window.RFA_SITE_INDEX.entries)
       ? window.RFA_SITE_INDEX.entries
@@ -129,9 +130,15 @@
 
     const tokens = searchTokens(q);
     if (!tokens.length) return null;
+    if (tokens.length === 1 && tokens[0].length < 4) return null;
     const phrase = tokens.join(' ');
 
-    const scored = index.map((entry) => {
+    const candidates = index.filter((entry) => {
+      if (!requestedSchool) return true;
+      return entry.site === requestedSchool || entry.site === 'main';
+    });
+
+    const scored = candidates.map((entry) => {
       const heading = normalize(entry.heading || '');
       const page = normalize(entry.page || '');
       const text = normalize(entry.text || '');
@@ -143,43 +150,61 @@
         const variants = tokenVariants(token);
         let tokenMatched = false;
         variants.forEach((variant) => {
-          if (heading.includes(variant)) { score += 14; tokenMatched = true; }
-          else if (page.includes(variant)) { score += 8; tokenMatched = true; }
-          if (text.includes(variant)) { score += 5; tokenMatched = true; }
+          if (heading.includes(variant)) { score += 16; tokenMatched = true; }
+          else if (page.includes(variant)) { score += 10; tokenMatched = true; }
+          if (text.includes(variant)) { score += 4; tokenMatched = true; }
           if (path.includes(variant)) score += 2;
         });
         if (tokenMatched) matched += 1;
       });
 
       if (phrase.length > 3) {
-        if (heading.includes(phrase)) score += 28;
-        if (page.includes(phrase)) score += 16;
-        if (text.includes(phrase)) score += 12;
+        if (heading.includes(phrase)) score += 32;
+        if (page.includes(phrase)) score += 20;
+        if (text.includes(phrase)) score += 14;
       }
-      if (requestedSchool && entry.site === requestedSchool) score += 9;
-      else if (requestedSchool && entry.site !== requestedSchool && entry.site !== 'main') score -= 4;
+      if (requestedSchool && entry.site === requestedSchool) score += 10;
 
-      const requiredMatches = tokens.length <= 2 ? 1 : Math.ceil(tokens.length * 0.5);
+      const requiredMatches = tokens.length <= 3 ? tokens.length : Math.ceil(tokens.length * 0.7);
       if (matched < requiredMatches) score = 0;
+
+      if (tokens.length === 1) {
+        const token = tokens[0];
+        const variants = tokenVariants(token);
+        const strongSingleMatch = variants.some((variant) => heading.includes(variant) || page.includes(variant));
+        if (!strongSingleMatch) score = 0;
+      }
+
       return { entry, score, matched };
     }).filter((item) => item.score > 0).sort((a, b) => b.score - a.score);
 
-    if (!scored.length || scored[0].score < 9) return null;
+    const minimumScore = tokens.length === 1 ? 20 : 28;
+    if (!scored.length || scored[0].score < minimumScore) return null;
+
     const best = scored[0];
+    const second = scored.find((item) => item.entry.url !== best.entry.url || item.entry.heading !== best.entry.heading);
+    if (second && best.score - second.score < 7) return null;
+
     const related = scored
       .filter((item) => item.entry.url === best.entry.url && item.entry.heading === best.entry.heading)
       .slice(0, 4);
 
+    const requiredPieceMatches = tokens.length <= 2 ? tokens.length : Math.ceil(tokens.length * 0.6);
     const pieces = [];
     related.forEach((item) => {
       const value = String(item.entry.text || '').trim();
-      if (value && !pieces.includes(value)) pieces.push(value);
+      if (!value || pieces.includes(value)) return;
+      const normalizedValue = normalize(value);
+      const pieceMatches = tokens.filter((token) => tokenVariants(token).some((variant) => normalizedValue.includes(variant))).length;
+      if (pieceMatches >= requiredPieceMatches) pieces.push(value);
     });
-    let text = pieces.join(' ').replace(/\s+/g, ' ').trim();
+
+    if (!pieces.length) return null;
+    let text = pieces.slice(0, 2).join(' ').replace(/\s+/g, ' ').trim();
     if (!text) return null;
-    if (text.length > 1800) {
-      const cut = text.lastIndexOf('. ', 1800);
-      text = text.slice(0, cut > 900 ? cut + 1 : 1800).trim() + '…';
+    if (text.length > 900) {
+      const cut = text.lastIndexOf('. ', 900);
+      text = text.slice(0, cut > 450 ? cut + 1 : 900).trim() + '…';
     }
 
     const heading = best.entry.heading || best.entry.page || 'RFA website information';
