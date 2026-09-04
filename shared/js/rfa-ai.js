@@ -90,10 +90,15 @@
   }
 
   const SEARCH_STOP_WORDS = new Set([
-    'a', 'an', 'and', 'are', 'as', 'at', 'be', 'can', 'do', 'does', 'for', 'from', 'how',
-    'i', 'in', 'is', 'it', 'me', 'of', 'on', 'our', 'please', 'rfa', 'royal', 'family',
-    'academy', 'school', 'tell', 'that', 'the', 'their', 'this', 'to', 'us', 'what', 'when',
-    'where', 'which', 'who', 'why', 'with', 'you', 'your'
+    'a', 'an', 'and', 'are', 'as', 'at', 'be', 'can', 'could', 'do', 'does', 'for', 'from', 'get',
+    'how', 'i', 'if', 'in', 'is', 'it', 'like', 'me', 'my', 'of', 'on', 'our', 'please', 'rfa',
+    'royal', 'family', 'academy', 'school', 'tell', 'that', 'the', 'their', 'there', 'this', 'to',
+    'us', 'want', 'was', 'we', 'what', 'when', 'where', 'which', 'who', 'why', 'will', 'with',
+    'would', 'you', 'your',
+    // A parent's child is mentioned in nearly every question and carries no
+    // topical signal of its own — treating it as a stop word lets the
+    // remaining, genuinely discriminating words drive the match.
+    'child', 'children', 'kid', 'kids', 'son', 'daughter', 'wards', 'ward'
   ]);
 
   const SEARCH_SYNONYMS = {
@@ -107,7 +112,63 @@
     discipline: ['conduct', 'behaviour', 'behavior'],
     bullying: ['harassment', 'wellbeing', 'safety'],
     parent: ['parents', 'family'],
-    parents: ['parent', 'family']
+    parents: ['parent', 'family'],
+    // Everyday words visitors reach for instead of RFA's own published
+    // terminology — mapped onto the vocabulary that actually appears in the
+    // knowledge base and site index so a casual phrasing still matches it.
+    pool: ['swimming'],
+    swim: ['swimming'],
+    swimming: ['pool'],
+    library: ['e-library', 'learning support'],
+    canteen: ['cafeteria'],
+    lunch: ['cafeteria'],
+    gym: ['stadium', 'sports'],
+    playground: ['facilities'],
+    doctor: ['clinic', 'health'],
+    nurse: ['clinic', 'health'],
+    sick: ['clinic', 'health'],
+    computer: ['ict'],
+    computers: ['ict'],
+    coding: ['ict'],
+    price: ['fee', 'fees', 'tuition', 'cost'],
+    cost: ['fee', 'fees', 'tuition', 'price'],
+    pay: ['fee', 'fees', 'tuition'],
+    payment: ['fee', 'fees', 'tuition'],
+    afford: ['fee', 'fees', 'tuition'],
+    boss: ['principal', 'director', 'head', 'leadership'],
+    charge: ['head', 'leadership', 'principal', 'director'],
+    manager: ['principal', 'director', 'head'],
+    join: ['admission', 'admissions', 'apply', 'enrol', 'enroll'],
+    enter: ['admission', 'admissions', 'apply', 'enrol', 'enroll'],
+    sign: ['admission', 'admissions', 'apply', 'enrol', 'enroll', 'registration'],
+    start: ['admission', 'admissions', 'enrol', 'enroll', 'age'],
+    young: ['age', 'minimum'],
+    youngest: ['age', 'minimum'],
+    oldest: ['age', 'minimum'],
+    old: ['age', 'minimum'],
+    located: ['location', 'address'],
+    location: ['address', 'located'],
+    directions: ['location', 'address'],
+    reach: ['contact', 'phone', 'email'],
+    ring: ['phone', 'contact', 'call'],
+    activities: ['clubs', 'sports', 'events'],
+    extracurricular: ['clubs', 'sports', 'events'],
+    hobby: ['clubs', 'sports'],
+    hobbies: ['clubs', 'sports'],
+    dress: ['uniform'],
+    wear: ['uniform'],
+    transport: ['bus', 'route', 'routes', 'pickup'],
+    bus: ['transport', 'route', 'routes', 'pickup'],
+    pickup: ['bus', 'transport', 'route'],
+    safe: ['safety', 'security'],
+    security: ['safety', 'safe'],
+    church: ['chapel', 'christian formation'],
+    prayer: ['chapel', 'christian formation', 'fasting'],
+    faith: ['chapel', 'christian formation'],
+    religious: ['chapel', 'christian formation'],
+    special: ['learning support', 'discovery centre'],
+    disability: ['learning support', 'discovery centre', 'special needs'],
+    struggling: ['learning support', 'discovery centre', 'academic assistance']
   };
 
   function searchTokens(q) {
@@ -175,10 +236,55 @@
     return ' ' + normalize(value).replace(/[-']/g, ' ') + ' ';
   }
 
+  // Bounded edit-distance-<=1 check (one missing, extra or swapped letter),
+  // without building a full Levenshtein matrix — cheap enough to run as a
+  // per-word fallback. Used only once the exact substring match below fails.
+  function isCloseTypo(a, b) {
+    if (a === b) return true;
+    const lenDiff = a.length - b.length;
+    if (lenDiff < -1 || lenDiff > 1) return false;
+
+    if (a.length === b.length) {
+      const diffs = [];
+      for (let k = 0; k < a.length; k += 1) {
+        if (a[k] !== b[k]) {
+          diffs.push(k);
+          if (diffs.length > 2) return false;
+        }
+      }
+      if (diffs.length <= 1) return true;
+      // Two adjacent, swapped letters ("shcool" vs "school") is also a
+      // single typo, even though it touches two positions.
+      const [p, r] = diffs;
+      return r === p + 1 && a[p] === b[r] && a[r] === b[p];
+    }
+
+    // Lengths differ by exactly one: a single insertion or deletion.
+    let i = 0, j = 0, edits = 0;
+    while (i < a.length && j < b.length) {
+      if (a[i] === b[j]) { i += 1; j += 1; continue; }
+      edits += 1;
+      if (edits > 1) return false;
+      if (a.length > b.length) i += 1;
+      else j += 1;
+    }
+    if (i < a.length || j < b.length) edits += 1;
+    return edits <= 1;
+  }
+
   function containsSearchTerm(haystack, needle) {
     const term = normalize(needle).replace(/[-']/g, ' ').trim();
     if (!term) return false;
-    return searchableText(haystack).includes(' ' + term + ' ');
+    const text = searchableText(haystack);
+    if (text.includes(' ' + term + ' ')) return true;
+    // Single-word terms only: a misspelled question ("addmission",
+    // "recieve") should still find the right page instead of falling
+    // through to "please rephrase". Multi-word phrases skip this — typo
+    // tolerance on a whole phrase is too easy to false-positive on.
+    if (term.length >= 5 && term.indexOf(' ') === -1) {
+      return text.split(' ').some((word) => word.length >= 4 && isCloseTypo(term, word));
+    }
+    return false;
   }
 
   function buildSearchProfile(q) {
@@ -426,15 +532,25 @@
     const additions = [];
     const add = (...words) => additions.push(...words);
 
-    if (/\bhow old\b|\bold enough\b|\bwhat age\b|\bage limit\b/.test(q)) add('age', 'minimum', 'eligibility');
-    if (/\bhow (?:do|can) i apply\b|\bhow (?:do|can) we apply\b|\benrol(?:l)? my child\b|\bregister my child\b/.test(q)) add('admission', 'application', 'registration');
-    if (/\bwhat do (?:you|they) teach\b|\bwhat subjects are (?:there|offered)\b|\bsubjects offered\b/.test(q)) add('curriculum', 'subjects');
-    if (/\bwho (?:runs|leads|heads)\b|\bwho is in charge\b/.test(q)) add('leadership');
-    if (/\bwhere (?:are you|is rfa|is the school)\b/.test(q)) add('location', 'address');
-    if (/\bwhen does (?:school|rfa) open\b|\bwhat time does (?:school|rfa) open\b/.test(q)) add('opening time', 'school day');
-    if (/\bwhen does (?:school|rfa) close\b|\bwhat time does (?:school|rfa) close\b/.test(q)) add('closing time', 'school day');
-    if (/\bspecial education\b|\badditional learning needs\b/.test(q)) add('special needs', 'learning support');
+    if (/\bhow old\b|\bold enough\b|\bwhat age\b|\bage limit\b|\bhow young\b|\byoungest age\b|\bearliest age\b|\bwhat's the (?:min|minimum) age\b|\bhow many years old\b|\bis (?:she|he|my \w+) old enough\b/.test(q)) add('age', 'minimum', 'eligibility');
+    if (/\bhow (?:do|can) i apply\b|\bhow (?:do|can) we apply\b|\benrol(?:l)? my child\b|\bregister my child\b|\bhow (?:do|can) i (?:register|sign up|get (?:my|our) \w+ in)\b|\bsteps to (?:enrol|enroll|join|apply)\b|\bprocess to (?:join|enrol|enroll|apply)\b|\bwant to join\b|\bhow to join\b/.test(q)) add('admission', 'application', 'registration');
+    if (/\bwhat do (?:you|they) teach\b|\bwhat subjects are (?:there|offered)\b|\bsubjects offered\b|\bwhat will (?:my|our) \w+ learn\b|\bwhat classes\b|\bwhat do (?:you|they) study\b|\bdo you teach\b/.test(q)) add('curriculum', 'subjects');
+    if (/\bwho (?:runs|leads|heads|owns)\b|\bwho is in charge\b|\bwho'?s in charge\b|\bwho'?s the (?:boss|head|principal)\b|\bpoint of contact\b/.test(q)) add('leadership');
+    if (/\bwhere (?:are you|is rfa|is the school)\b|\bhow (?:do i|can i) find you\b|\bhow do i get there\b|\bdirections to\b/.test(q)) add('location', 'address');
+    if (/\bwhen does (?:school|rfa) open\b|\bwhat time does (?:school|rfa) open\b|\bwhat time (?:does it|do classes) start\b|\bwhat time do (?:you|they) begin\b/.test(q)) add('opening time', 'school day');
+    if (/\bwhen does (?:school|rfa) close\b|\bwhat time does (?:school|rfa) close\b|\bwhat time (?:does it|do classes) end\b|\bwhen do (?:you|they) close\b/.test(q)) add('closing time', 'school day');
+    if (/\bspecial education\b|\badditional learning needs\b|\blearning difficult(?:y|ies)\b|\bslow learners?\b|\bhelp for (?:my|our) \w+\b/.test(q)) add('special needs', 'learning support');
     if (/\bcan (?:my|our) (?:child|son|daughter) (?:enter|be admitted|apply)\b/.test(q)) add('age', 'eligibility', 'admission');
+    if (/\bhow much (?:do i|does it|will it|would it) (?:pay|cost)\b|\bwhat'?s the (?:tuition|price)\b|\bwhat does it cost\b|\bcan i afford\b/.test(q)) add('fee', 'fees', 'tuition');
+    if (/\bhow do (?:i|we) (?:reach|contact|get in touch with) you\b|\bwhat'?s your (?:phone|number|email)\b|\bcan i call\b/.test(q)) add('contact', 'phone', 'address');
+    if (/\bdo you (?:provide|have) (?:a )?(?:school )?bus\b|\bhow do (?:they|children|kids) get to school\b|\bis there pickup\b|\bschool transport\b/.test(q)) add('bus', 'transport', 'route');
+    if (/\bdo you have a (?:pool|swimming pool|library|clinic|gym|canteen)\b|\bwhat facilities\b|\bis there a (?:pool|library|clinic|gym|canteen)\b/.test(q)) add('facilities', 'campus');
+    if (/\bis (?:it|the school|rfa) safe\b|\bhow do you (?:handle|deal with|prevent) bullying\b|\bwhat if (?:my|our) \w+ is bullied\b/.test(q)) add('safety', 'bullying', 'wellbeing');
+    if (/\bis there a uniform\b|\bwhat do (?:they|students|pupils) wear\b|\bdress code\b/.test(q)) add('uniform');
+    if (/\bwhat activities\b|\bextracurricular\b|\bafter[- ]school activities\b|\bwhat can (?:my|our) \w+ do (?:after|outside) (?:school|class)\b/.test(q)) add('clubs', 'sports', 'events');
+    if (/\bis (?:the school|rfa) accredited\b|\bis (?:the school|rfa) recognized\b|\bis (?:the school|rfa) registered\b/.test(q)) add('acsi', 'accredited', 'accreditation');
+    if (/\bis (?:this|it|rfa) a christian school\b|\bdo you have chapel\b|\bis there bible (?:class|study)\b|\bdo you pray\b/.test(q)) add('chapel', 'christian formation');
+    if (/\bwhat do (?:you|rfa) believe\b|\bwhat'?s your philosophy\b|\bwhat'?s the school motto\b/.test(q)) add('mission', 'vision', 'values', 'motto');
 
     return additions.length ? normalize(q + ' ' + additions.join(' ')) : q;
   }
