@@ -112,12 +112,12 @@ window.RFA_KNOWLEDGE = {
       { stage: 'Grade 6', aliases: ['grade six'], minAge: '10.4 years' }
     ],
     highSchool: [
-      { stage: 'Junior High 1', aliases: ['jh1', 'jhs1', 'junior high one'], minAge: '11 years' },
-      { stage: 'Junior High 2', aliases: ['jh2', 'jhs2', 'junior high two'], minAge: '12 years' },
-      { stage: 'Junior High 3', aliases: ['jh3', 'jhs3', 'junior high three'], minAge: '13 years' },
-      { stage: 'Senior High 1', aliases: ['sh1', 'shs1', 'senior high one'], minAge: '14 years' },
-      { stage: 'Senior High 2', aliases: ['sh2', 'shs2', 'senior high two'], minAge: '15 years' },
-      { stage: 'Senior High 3', aliases: ['sh3', 'shs3', 'senior high three'], minAge: '16 years' }
+      { stage: 'Junior High 1', aliases: ['jh1', 'jh 1', 'jhs1', 'jhs 1', 'junior high one'], minAge: '11 years' },
+      { stage: 'Junior High 2', aliases: ['jh2', 'jh 2', 'jhs2', 'jhs 2', 'junior high two'], minAge: '12 years' },
+      { stage: 'Junior High 3', aliases: ['jh3', 'jh 3', 'jhs3', 'jhs 3', 'junior high three'], minAge: '13 years' },
+      { stage: 'Senior High 1', aliases: ['sh1', 'sh 1', 'shs1', 'shs 1', 'senior high one'], minAge: '14 years' },
+      { stage: 'Senior High 2', aliases: ['sh2', 'sh 2', 'shs2', 'shs 2', 'senior high two'], minAge: '15 years' },
+      { stage: 'Senior High 3', aliases: ['sh3', 'sh 3', 'shs3', 'shs 3', 'senior high three'], minAge: '16 years' }
     ],
     sixthForm: [{ stage: 'Sixth Form College', aliases: ['sixth form'], minAge: '17+' }]
   },
