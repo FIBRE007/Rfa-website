@@ -11,6 +11,7 @@ on:
       - 'scripts/build-rfa-search-index.mjs'
       - 'scripts/upgrade-rfa-guide-search.mjs'
       - 'scripts/upgrade-rfa-guide-intent.mjs'
+      - 'scripts/upgrade-rfa-guide-conversation.mjs'
       - '.github/workflows/build-rfa-guide-search.yml'
   workflow_dispatch:
 
@@ -31,6 +32,9 @@ jobs:
 
       - name: Upgrade RFA Guide semantic intent
         run: node scripts/upgrade-rfa-guide-intent.mjs
+
+      - name: Upgrade RFA Guide conversation handling
+        run: node scripts/upgrade-rfa-guide-conversation.mjs
 
       - name: Build verified website content index
         run: node scripts/build-rfa-search-index.mjs
