@@ -13,6 +13,7 @@ on:
       - 'scripts/upgrade-rfa-guide-intent.mjs'
       - 'scripts/upgrade-rfa-guide-conversation.mjs'
       - 'scripts/upgrade-rfa-guide-viewport.mjs'
+      - 'scripts/upgrade-rfa-guide-bottom-anchor.mjs'
       - '.github/workflows/build-rfa-guide-search.yml'
   workflow_dispatch:
 
@@ -39,6 +40,9 @@ jobs:
 
       - name: Upgrade RFA Guide mobile viewport handling
         run: node scripts/upgrade-rfa-guide-viewport.mjs
+
+      - name: Anchor latest RFA Guide messages above composer
+        run: node scripts/upgrade-rfa-guide-bottom-anchor.mjs
 
       - name: Build verified website content index
         run: node scripts/build-rfa-search-index.mjs
