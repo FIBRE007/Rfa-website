@@ -231,7 +231,7 @@ window.RFA_SITE_INDEX = {
     },
     {
       "site": "highschool",
-      "page": "Admissions — Royal Family Academy High School",
+      "page": "Admissions | RFA High School",
       "heading": "Confirm eligibility.",
       "text": "Class Minimum age Junior High 1 11 years Junior High 2 12 years Junior High 3 13 years Senior High 1 14 years Senior High 2 15 years Senior High 3 16 years High School admissions line: +234 811 605 5399 · info@royalfamilyacademy.org",
       "url": "https://highschool.royalfamilyacademy.org/admissions.html",
@@ -239,7 +239,7 @@ window.RFA_SITE_INDEX = {
     },
     {
       "site": "highschool",
-      "page": "Admissions — Royal Family Academy High School",
+      "page": "Admissions | RFA High School",
       "heading": "More detail when you need it.",
       "text": "The simple admission journey remains at the top of the page. These expandable notes preserve the fuller information from the former website. Admission may involve review of previous school records, age and the last successfully completed class, an academic or placement assessment, an informal interview where appropriate, and confirmation that a place is available in the requested class. Where appropriate, an offer may be conditional on identified academic or developmental needs being supported. Classes are formed to maintain balanced learning groups; the former admission guidance states that requests for a particular teacher or class are not normally accommodated. Age appropriateness is considered alongside academic assessment and previous educational experience. The current age tables for each RFA school remain the first reference point. Admission is open without discrimination on the basis of race, colour, nationality or ethnic origin.",
       "url": "https://highschool.royalfamilyacademy.org/admissions.html",
@@ -247,7 +247,7 @@ window.RFA_SITE_INDEX = {
     },
     {
       "site": "highschool",
-      "page": "Admissions — Royal Family Academy High School",
+      "page": "Admissions | RFA High School",
       "heading": "Verify age → Assess → Offer → Onboard.",
       "text": "Verify Age Confirm against the Junior/Senior High age table. Assessment Age-appropriateness and academic assessment. Offer Families receive an admission offer. Registration Registration with the High School office. Onboarding Welcome into the RFA community.",
       "url": "https://highschool.royalfamilyacademy.org/admissions.html",
