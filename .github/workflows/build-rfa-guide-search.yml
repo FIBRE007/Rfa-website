@@ -1,0 +1,46 @@
+name: Build RFA Guide website search
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'main/**/*.html'
+      - 'nurseryandprimaryschool/**/*.html'
+      - 'highschool/**/*.html'
+      - 'sixthform/**/*.html'
+      - 'scripts/build-rfa-search-index.mjs'
+      - 'scripts/upgrade-rfa-guide-search.mjs'
+      - '.github/workflows/build-rfa-guide-search.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-search:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Upgrade RFA Guide search logic
+        run: node scripts/upgrade-rfa-guide-search.mjs
+
+      - name: Build verified website content index
+        run: node scripts/build-rfa-search-index.mjs
+
+      - name: Commit generated RFA Guide search files
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo "RFA Guide search files are already current."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add shared/js/rfa-ai.js shared/js/rfa-site-index.js _headers
+          git commit -m "Build RFA Guide website content search"
+          git pull --rebase origin main
+          git push origin main
