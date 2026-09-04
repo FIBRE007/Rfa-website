@@ -31,6 +31,35 @@
     }).join(', ');
   }
 
+  function extensionFallback(path) {
+    if (!path || ABSOLUTE_URL.test(path)) return null;
+
+    var match = path.match(/^(.*)\.(jpe?g)(\?.*)?$/i);
+    if (!match) return null;
+
+    var stem = match[1];
+    var ext = match[2].toLowerCase();
+    var query = match[3] || '';
+    return stem + (ext === 'jpeg' ? '.jpg' : '.jpeg') + query;
+  }
+
+  function buildCandidates(slot, src) {
+    var candidates = [src];
+    var explicit = slot.getAttribute('data-src-fallback');
+
+    if (explicit) {
+      explicit.split(',').forEach(function (candidate) {
+        candidate = candidate.trim();
+        if (candidate && candidates.indexOf(candidate) === -1) candidates.push(candidate);
+      });
+    }
+
+    var alternate = extensionFallback(src);
+    if (alternate && candidates.indexOf(alternate) === -1) candidates.push(alternate);
+
+    return candidates;
+  }
+
   function reveal(slot, img) {
     if (img.parentNode !== slot) slot.appendChild(img);
     img.classList.add('is-loaded');
@@ -64,33 +93,54 @@
     if (!src) return;
     slot.setAttribute('data-media-mounted', 'true');
 
+    var candidates = buildCandidates(slot, src);
+    var candidateIndex = 0;
     var img = new Image();
     img.decoding = 'async';
     img.alt = slot.getAttribute('data-alt') || '';
     img.loading = shouldLoadEagerly(slot) ? 'eager' : 'lazy';
+
+    function loadCandidate(index) {
+      candidateIndex = index;
+
+      // A srcset tied to the original extension can prevent the fallback URL
+      // from being tried cleanly, so use it only for the primary candidate.
+      if (index === 0 && slot.hasAttribute('data-srcset')) {
+        img.srcset = resolveSrcset(slot.getAttribute('data-srcset'));
+      } else {
+        img.removeAttribute('srcset');
+      }
+
+      if (slot.hasAttribute('data-sizes')) {
+        img.sizes = slot.getAttribute('data-sizes');
+      }
+
+      img.src = resolveUrl(candidates[index]);
+    }
 
     img.onload = function () {
       reveal(slot, img);
     };
 
     img.onerror = function () {
+      var nextIndex = candidateIndex + 1;
+      if (nextIndex < candidates.length) {
+        if (window.console && typeof window.console.warn === 'function') {
+          window.console.warn('[RFA media] Trying fallback image after load failure:', resolveUrl(candidates[candidateIndex]));
+        }
+        loadCandidate(nextIndex);
+        return;
+      }
+
       if (img.parentNode === slot) slot.removeChild(img);
       slot.removeAttribute('data-media-mounted');
       if (window.console && typeof window.console.warn === 'function') {
-        window.console.warn('[RFA media] Image failed to load:', resolveUrl(src));
+        window.console.warn('[RFA media] Image failed to load after fallbacks:', candidates.map(resolveUrl));
       }
     };
 
     slot.appendChild(img);
-
-    if (slot.hasAttribute('data-srcset')) {
-      img.srcset = resolveSrcset(slot.getAttribute('data-srcset'));
-    }
-    if (slot.hasAttribute('data-sizes')) {
-      img.sizes = slot.getAttribute('data-sizes');
-    }
-
-    img.src = resolveUrl(src);
+    loadCandidate(0);
 
     if (img.complete && img.naturalWidth > 0) {
       reveal(slot, img);
