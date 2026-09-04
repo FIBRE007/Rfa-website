@@ -13,25 +13,40 @@
   const schoolSites = ['nurseryandprimaryschool', 'highschool', 'sixthform'];
   const currentSchool = schoolSites.includes(site) ? site : null;
 
-  // RFA Guide website search index v1: load the generated index of current visitor-facing RFA pages.
-  const RFA_SITE_INDEX_URL = 'https://assets.royalfamilyacademy.org/shared/js/rfa-site-index.js';
-  const RFA_SITE_INDEX_READY = window.RFA_SITE_INDEX
-    ? Promise.resolve(true)
-    : new Promise((resolve) => {
-        let settled = false;
-        const finish = (ok) => {
-          if (settled) return;
-          settled = true;
-          resolve(ok);
-        };
-        const script = document.createElement('script');
-        script.src = RFA_SITE_INDEX_URL;
-        script.async = true;
-        script.onload = () => finish(true);
-        script.onerror = () => finish(false);
-        document.head.appendChild(script);
-        setTimeout(() => finish(Boolean(window.RFA_SITE_INDEX)), 2500);
-      });
+  // Shared loader for the generated, async-fetched RFA Guide data files (the
+  // website search index and the keyword/synonym map below) — same
+  // load-once, don't-block-forever contract for both.
+  function loadGeneratedAsset(url, globalKey) {
+    return window[globalKey]
+      ? Promise.resolve(true)
+      : new Promise((resolve) => {
+          let settled = false;
+          const finish = (ok) => {
+            if (settled) return;
+            settled = true;
+            resolve(ok);
+          };
+          const script = document.createElement('script');
+          script.src = url;
+          script.async = true;
+          script.onload = () => finish(true);
+          script.onerror = () => finish(false);
+          document.head.appendChild(script);
+          setTimeout(() => finish(Boolean(window[globalKey])), 2500);
+        });
+  }
+
+  // RFA Guide website search index v1: the generated index of current visitor-facing RFA pages.
+  const RFA_SITE_INDEX_READY = loadGeneratedAsset('https://assets.royalfamilyacademy.org/shared/js/rfa-site-index.js', 'RFA_SITE_INDEX');
+
+  // RFA Guide keyword map v1: a large, site-content-grounded set of extra
+  // synonyms/casual phrasings (built by scripts/build-rfa-keyword-map.mjs)
+  // merged into SEARCH_SYNONYMS below once loaded, so visitors' own wording
+  // — not just RFA's published terminology — reaches the right answer.
+  const RFA_KEYWORD_MAP_READY = loadGeneratedAsset('https://assets.royalfamilyacademy.org/shared/js/rfa-keyword-map.js', 'RFA_KEYWORD_SYNONYMS').then((ok) => {
+    if (ok && window.RFA_KEYWORD_SYNONYMS) Object.assign(SEARCH_SYNONYMS, window.RFA_KEYWORD_SYNONYMS);
+    return ok;
+  });
 
   function escapeHtml(value) {
     return String(value)
@@ -1318,7 +1333,7 @@
     sendButton.disabled = true;
     setAvatarState('thinking');
 
-    await RFA_SITE_INDEX_READY;
+    await Promise.all([RFA_SITE_INDEX_READY, RFA_KEYWORD_MAP_READY]);
     const html = answer(query);
     const isHandoff = html.includes("I don't have enough verified RFA information to answer that confidently");
     const thinkingDelay = reducedMotion ? 0 : 560;
