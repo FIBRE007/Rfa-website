@@ -290,6 +290,11 @@
   }
 }
 
+/* Force the corrected blink frame to bypass any previously cached brighter version. */
+.rfa-ai[data-avatar-state="blink"] .rfa-ai__avatar-frame {
+  content: url('https://media.royalfamilyacademy.org/rfa-guide/rfa-guide-blink.webp?v=20260904-blink-corrected-1');
+}
+
 /* ==========================================================================
    ACSI badge fallback text — shape/layout/status live in gateway.css
    (the badge only appears on the main gateway, styled as a rectangular
