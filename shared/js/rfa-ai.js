@@ -551,6 +551,7 @@
     img.src = src;
   });
 
+  // RFA Guide bottom conversation anchor v6: keep the newest mobile exchange immediately above the composer.
   const frameStyles = document.createElement('style');
   frameStyles.textContent = `
     .rfa-ai.has-frame-avatar .rfa-ai__launcher::before,
@@ -561,6 +562,10 @@
       filter:drop-shadow(0 10px 12px rgba(14,12,18,.25));
     }
     .rfa-ai__avatar-frame { display:block;object-fit:contain;pointer-events:none;user-select:none;-webkit-user-drag:none; }
+    .rfa-ai__messages-spacer { display:none; }
+    @media(max-width:480px){
+      .rfa-ai.is-open .rfa-ai__messages-spacer { display:block;flex:0 0 auto;margin-top:auto;min-height:0;pointer-events:none; }
+    }
     .rfa-ai__avatar-frame--launcher { width:100%;height:100%;transform-origin:50% 82%;animation:rfaGuideFloat 5.6s ease-in-out infinite; }
     .rfa-ai__avatar-frame--header { width:54px;height:70px;justify-self:center;object-position:50% 8%;filter:drop-shadow(0 4px 5px rgba(14,12,18,.22)); }
     .rfa-ai.has-frame-avatar .rfa-ai__header { grid-template-columns:54px 1fr auto!important;min-height:74px; }
@@ -602,6 +607,7 @@
         <button class="rfa-ai__close" type="button" aria-label="Close RFA Guide">&times;</button>
       </div>
       <div class="rfa-ai__messages" id="rfa-ai-messages">
+        <div class="rfa-ai__messages-spacer" aria-hidden="true"></div>
         <div class="rfa-ai__msg rfa-ai__msg--bot">Hello — I'm <strong>RFA Guide</strong>. Ask me about Nursery &amp; Primary, High School or Sixth Form. I answer from verified RFA website information. If I can't verify something, I'll connect you to RFA on WhatsApp.</div>
       </div>
       <div class="rfa-ai__actions">${chipsHtml}</div>
@@ -622,6 +628,15 @@
   const messages = root.querySelector('#rfa-ai-messages');
   const avatarImages = root.querySelectorAll('.rfa-ai__avatar-frame');
   const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function anchorLatestMessage() {
+    if (!root.classList.contains('is-open')) return;
+    const settle = () => { messages.scrollTop = messages.scrollHeight; };
+    requestAnimationFrame(() => {
+      settle();
+      requestAnimationFrame(settle);
+    });
+  }
 
   // RFA Guide visual viewport layer v5: follow the actually visible Android/iOS viewport when the keyboard opens.
   const mobileViewportQuery = window.matchMedia ? window.matchMedia('(max-width: 480px)') : { matches: false };
@@ -649,9 +664,7 @@
     panel.style.setProperty('min-height', visibleHeight + 'px', 'important');
     panel.style.setProperty('max-height', visibleHeight + 'px', 'important');
 
-    if (stickToBottom) {
-      requestAnimationFrame(() => { messages.scrollTop = messages.scrollHeight; });
-    }
+    if (stickToBottom) anchorLatestMessage();
   }
 
   function queueMobileViewport(stickToBottom = false) {
@@ -795,7 +808,7 @@
     userMsg.className = 'rfa-ai__msg rfa-ai__msg--user';
     userMsg.textContent = query;
     messages.appendChild(userMsg);
-    messages.scrollTop = messages.scrollHeight;
+    anchorLatestMessage();
 
     input.value = '';
     input.disabled = true;
@@ -812,7 +825,7 @@
       botMsg.className = 'rfa-ai__msg rfa-ai__msg--bot';
       botMsg.innerHTML = html;
       messages.appendChild(botMsg);
-      messages.scrollTop = messages.scrollHeight;
+      anchorLatestMessage();
       input.disabled = false;
       sendButton.disabled = false;
       focusComposer();
