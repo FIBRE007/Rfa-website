@@ -10,6 +10,7 @@ on:
       - 'sixthform/**/*.html'
       - 'scripts/build-rfa-search-index.mjs'
       - 'scripts/upgrade-rfa-guide-search.mjs'
+      - 'scripts/upgrade-rfa-guide-intent.mjs'
       - '.github/workflows/build-rfa-guide-search.yml'
   workflow_dispatch:
 
@@ -28,6 +29,9 @@ jobs:
       - name: Upgrade RFA Guide search logic
         run: node scripts/upgrade-rfa-guide-search.mjs
 
+      - name: Upgrade RFA Guide semantic intent
+        run: node scripts/upgrade-rfa-guide-intent.mjs
+
       - name: Build verified website content index
         run: node scripts/build-rfa-search-index.mjs
 
@@ -39,8 +43,8 @@ jobs:
             exit 0
           fi
           git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add shared/js/rfa-ai.js shared/js/rfa-site-index.js _headers
+          git config user.email "41898282+FIBRE007@users.noreply.github.com"
+          git add shared/js/rfa-ai.js shared/js/rfa-knowledge.js shared/js/rfa-site-index.js _headers
           git commit -m "Build RFA Guide website content search"
           git pull --rebase origin main
           git push origin main
