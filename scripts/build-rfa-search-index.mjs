@@ -11,6 +11,7 @@ const SITES = [
 
 const PLACEHOLDER_RE = /INSERT VERIFIED|INSERT RFA-APPROVED|Verify before publication|Content note:|Pending RFA approval|placeholder/i;
 const SKIP_TEXT_RE = /^(read more|learn more|explore|view more|back to top|menu|close|open menu|skip to content)$/i;
+const LABEL_CLASS_RE = /\bclass\s*=\s*["'][^"']*(?:eyebrow|archive-kicker|pillar__index|card__eyebrow|section-kicker)[^"']*["']/i;
 
 function walk(dir) {
   if (!fs.existsSync(dir)) return [];
@@ -50,10 +51,15 @@ function removeNonContent(html) {
 }
 
 function pageTitle(html, fallback) {
-  const h1 = html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i);
-  if (h1) return textOnly(h1[1]);
   const title = html.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i);
-  return title ? textOnly(title[1]).replace(/\s*\|\s*Royal Family Academy.*$/i, '') : fallback;
+  if (title) {
+    return textOnly(title[1])
+      .replace(/^\s*About\s*[—-]\s*/i, 'About — ')
+      .replace(/\s*\|\s*Royal Family Academy.*$/i, '')
+      .trim();
+  }
+  const h1 = html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i);
+  return h1 ? textOnly(h1[1]) : fallback;
 }
 
 function pageUrl(site, filePath) {
@@ -65,7 +71,7 @@ function pageUrl(site, filePath) {
 function makeChunks(html, title) {
   const mainMatch = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i);
   const source = removeNonContent(mainMatch ? mainMatch[1] : html);
-  const blockRe = /<(h[1-4]|p|li|summary|blockquote|td|th)\b[^>]*>([\s\S]*?)<\/\1>/gi;
+  const blockRe = /<(h[1-4]|p|li|summary|blockquote|td|th)\b([^>]*)>([\s\S]*?)<\/\1>/gi;
   const entries = [];
   let heading = title;
   let bucket = [];
@@ -82,7 +88,8 @@ function makeChunks(html, title) {
   let match;
   while ((match = blockRe.exec(source))) {
     const tag = match[1].toLowerCase();
-    const text = textOnly(match[2]);
+    const attrs = match[2] || '';
+    const text = textOnly(match[3]);
     if (!text || PLACEHOLDER_RE.test(text) || SKIP_TEXT_RE.test(text)) continue;
 
     if (/^h[1-4]$/.test(tag)) {
@@ -92,6 +99,7 @@ function makeChunks(html, title) {
     }
 
     if (tag === 'summary') continue;
+    if (tag === 'p' && LABEL_CLASS_RE.test(attrs)) continue;
     if (text.length < 3) continue;
 
     if (bucketChars + text.length > 1400) flush();
