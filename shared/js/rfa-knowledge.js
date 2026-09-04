@@ -1,9 +1,9 @@
 /**
  * RFA Knowledge Base — single source of truth for RFA Guide.
  *
- * Everything here is drawn from current RFA website content. RFA Guide is
- * retrieval-only: it answers from this verified data and sends visitors to
- * RFA WhatsApp whenever a fact is not available or the question is unclear.
+ * Current 2026 website information takes precedence. Historical WordPress
+ * content is used only where it adds confirmed school information without
+ * contradicting newer RFA content.
  */
 window.RFA_KNOWLEDGE = {
   identity: {
@@ -13,6 +13,15 @@ window.RFA_KNOWLEDGE = {
     mission: 'To take each child through an educational programme using a systematic application of the word of God and an integrated educational curriculum to impact society.',
     coreValue: 'Leadership, anchored on Discipline, Excellence, Hard Work, Integrity and Innovation.',
     values: ['Discipline', 'Excellence', 'Hard Work', 'Integrity', 'Innovation']
+  },
+
+  history: {
+    organisation: 'Royal Family Academy Abuja is a subsidiary of Family Ministries International (FMI) and was born from the vision of the late Pastor Ina Omakwu.',
+    nurseryCommissioned: 'The Nursery section was commissioned on Friday, 27 September 2002 by Pastors Ina and Sarah Omakwu.',
+    academicStart: 'Academic activities commenced on Monday, 30 September 2002 with 29 pupils and 17 staff members.',
+    primaryStart: 'The Primary section commenced in 2003 as the school expanded.',
+    highSchoolStart: 'The High School was inaugurated on 24 September 2007 at Wuye, Abuja.',
+    sixthFormStart: 'RFA Sixth Form College was inaugurated on Wednesday, 20 March 2024.'
   },
 
   acsi: {
@@ -31,6 +40,9 @@ window.RFA_KNOWLEDGE = {
     generalEmail: 'info@royalfamilyacademy.org',
     address: 'Plot 648 Idris Gidado St, Wuye, Abuja',
     highSchoolAdmissionsPhone: '+234 811 605 5399',
+    sixthFormPhones: ['+234 816 338 3329', '+234 803 632 2129', '+234 809 575 2626'],
+    sixthFormEmail: 'rfa6thform@royalfamilyacademy.org',
+    sixthFormAddress: 'RFA Sixth Form College, Plot 648, Idris Gidado Street, Wuye, Abuja, Nigeria',
     whatsappNumber: '+234 818 253 5981',
     whatsappDigits: '2348182535981'
   },
@@ -73,13 +85,14 @@ window.RFA_KNOWLEDGE = {
 
   admissionsSteps: {
     nurseryAndPrimary: ['Age check against the current age table', 'Age-appropriateness and academic assessment', 'Offer', 'Registration with the Nursery or Primary office', 'Onboarding into the RFA community'],
-    highSchool: ['Verify age against the Junior/Senior High age table', 'Age-appropriateness and academic assessment', 'Offer', 'Registration with the High School office', 'Onboarding into the RFA community']
+    highSchool: ['Verify age against the Junior/Senior High age table', 'Age-appropriateness and academic assessment', 'Offer', 'Registration with the High School office', 'Onboarding into the RFA community'],
+    sixthForm: ['Choose the appropriate Sixth Form pathway', 'Speak with Sixth Form Admissions to confirm current entry requirements and programme availability', 'Follow the current application and onboarding guidance provided by the college']
   },
 
   admissionsNotes: {
     grade6: 'Admission into Grade 6 is generally not available to new entrants. Exceptions may be considered for pupils transferring from schools where Grade 5 is the terminal class, former RFA pupils in good standing, international students, and pupils whose health circumstances require special consideration.',
     nonDiscrimination: 'RFA admits students from diverse races, colours, nationalities and ethnic origins in accordance with its Non-Discrimination Policy.',
-    sixthForm: 'The current website verifies Sixth Form as serving students aged 17+. Detailed current entry, assessment, application, fees and programme requirements are not yet published as verified content.'
+    sixthForm: 'Sixth Form serves students aged 17+. Admission is ongoing. Current programme-specific entry requirements should be confirmed directly with the Sixth Form admissions team.'
   },
 
   ages: {
@@ -141,7 +154,8 @@ window.RFA_KNOWLEDGE = {
   learningSupport: {
     discoveryCentre: ['Speech & language development', 'Autism management & strategies', 'Individualized Education Program', 'Assessment & evaluation', 'Parental support & counselling', 'Occupational therapy', 'Daily living skills', 'Individualized learning', 'Resource room', 'One-on-one support', 'Learning aids'],
     discoveryNote: 'The Discovery Centre tailors programmes to each child’s unique combination of needs and is licensed under NILD Educational Therapy.',
-    aas: 'Academic Assistance Sessions provide one-to-one instructional intervention to close learning gaps. Sessions run before or after school at no extra cost and encourage parent partnership.'
+    aas: 'Academic Assistance Sessions provide one-to-one instructional intervention to close learning gaps. Sessions run before or after school at no extra cost and encourage parent partnership.',
+    eLibrary: 'The RFA e-Library provides digital books, magazines and video resources for access beyond the classroom. Scholastic Literacy Pro is one of the literacy resources used, with secure student logins for tailored materials.'
   },
 
   nurseryPrimaryStudentLife: {
@@ -154,17 +168,19 @@ window.RFA_KNOWLEDGE = {
     excursions: 'Local and international trips support the academic and non-academic curriculum. Details are announced in advance and signed parental consent is required.'
   },
 
-  nurseryPrimaryFacilities: ['Magnificent school auditorium', 'Air-conditioned classrooms with student cubicles', 'ICT laboratories', 'Science laboratories', 'Home Economics / Home Management laboratories', 'Arts studios', 'Discovery Centre', 'Montessori room', 'Cafeteria', 'Clinic', 'Stadium with track and field facilities'],
+  nurseryPrimaryFacilities: ['Magnificent school auditorium', 'Air-conditioned classrooms with student cubicles', 'ICT laboratories', 'Science laboratories', 'Home Economics / Home Management laboratories', 'Arts studios', 'Discovery Centre', 'Montessori room', 'Cafeteria', 'Clinic', 'Swimming pool', 'Stadium with track and field facilities'],
 
   parentInformation: {
-    partnership: 'Parents are involved through the Parenting Institute and other avenues.',
+    partnership: 'Parents are involved through the Parenting Institute, Parent–Teacher Conferences, Breakfast Meetings and other school-home partnership avenues.',
+    parentTeacherConferences: 'Formal Parent–Teacher Conferences are held shortly after term examinations and after midterm assessments to discuss academic, behavioural, spiritual, emotional and developmental progress.',
+    breakfastMeetings: 'Breakfast Meetings bring parents and school leadership together for programme updates, feedback, relationship-building and collaboration.',
     policies: ['Admission Policy', 'Homework / Assignment Policy', 'Non-Discrimination Policy', 'Student conduct & discipline', 'Health & safety', 'Visitors-on-campus procedures', 'Complaint procedures'],
     busRoutes: ['Wuye', 'Utako', 'Jabi', 'Zone II', 'Savannah Estate', 'Garki II', 'Wuse II', 'Mabushi/Jabi Lake', 'Prince and Princess', 'Games Village', 'Kado Estate', 'Gwarinpa', 'Lokogoma', 'Sunny Vale', 'Apo', 'Sun-city', 'Life Camp', 'CITEC', 'Kuchingoro']
   },
 
   highSchoolAcademics: {
-    juniorSubjects: ['Mathematics', 'English Studies', 'Basic Science', 'Basic Technology', 'Christian Religious Studies', 'Social Studies', 'Business Studies', 'Computer/ICT', 'Agricultural Science', 'Physical & Health Education', 'Cultural & Creative Arts', 'Music', 'French', 'Hausa', 'Yoruba', 'Igbo', 'Civic Education', 'Literature'],
-    seniorSubjects: ['General Mathematics', 'English Language', 'Civil Education', 'Fishery', 'Dyeing & Bleaching', 'Brick Laying', 'Biology', 'Chemistry', 'Physics', 'Further Mathematics', 'Agriculture', 'Physical Education', 'Health Science', 'ICT', 'Technical Drawing', 'Yoruba', 'Hausa', 'Igbo', 'Literature-in-English', 'Geography', 'Government', 'Christian Religious Studies', 'Visual Arts', 'Music', 'French', 'Economics', 'Accounting', 'Commerce'],
+    juniorSubjects: ['Mathematics', 'English Studies', 'Basic Science', 'Basic Technology', 'Christian Religious Studies', 'Social Studies', 'Business Studies', 'Computer/ICT', 'Agricultural Science', 'Physical & Health Education', 'Cultural & Creative Arts', 'Music', 'French', 'Hausa', 'Yoruba', 'Igbo', 'Civic Education', 'Literature', 'Home Economics', 'History'],
+    seniorSubjects: ['General Mathematics', 'English Language', 'Civic Education', 'Fishery', 'Dyeing & Bleaching', 'Brick Laying', 'Biology', 'Chemistry', 'Physics', 'Further Mathematics', 'Agriculture', 'Physical Education', 'Health Science', 'ICT', 'Technical Drawing', 'Yoruba', 'Hausa', 'Igbo', 'Literature-in-English', 'Geography', 'Government', 'Christian Religious Studies', 'Visual Arts', 'Music', 'French', 'Mandarin', 'Economics', 'Accounting', 'Commerce'],
     assessment: ['Homework', 'Standards for written work', 'Continuous assessment / mid-term examination', 'End-of-term examination', 'Pre-mock and mock examination', 'Progress reports', 'International examinations']
   },
 
@@ -172,18 +188,22 @@ window.RFA_KNOWLEDGE = {
     modelUN: 'Model United Nations gives students opportunities to debate current international issues and represent RFA at junior UN-member level.',
     dukeOfEdinburgh: 'The Duke of Edinburgh Award offers challenges, team play, intellectual curiosity, service and academic development. Students begin the Bronze cadre at age 14 before progressing to Silver.',
     spiritualFormation: ['Chapel every Friday across the school — compulsory', 'Students Mentoring Sessions every Wednesday — compulsory for all High School students', 'Whole-school fasting on the first Friday of resumption', 'Senior High 3 Retreat', 'Valedictory Service / Graduation Ceremonies', 'Discipleship Training Sessions'],
-    clubs: ['International Relations Club', 'Model United Nations', 'Duke of Edinburgh Award'],
+    clubs: ['International Relations Club', 'Model United Nations', 'Duke of Edinburgh Award', 'Literacy & Debating', 'Scouts', 'JETS', 'Music', 'Drama', 'Photography', 'Young Farmers', 'Homemakers', 'Languages', 'ICT'],
+    sports: ['Stadium with track and field facilities', 'Swimming pool', 'Table tennis', 'Badminton', 'Basketball'],
+    saturdaySportsAcademy: ['Football', 'Basketball', 'Taekwondo'],
+    houses: ['Red', 'Green', 'Yellow', 'Blue'],
     events: ['Nigeria Independence Day', 'Inter-House Sports Days', 'Festival of Art', 'Christian Variety Day', 'Leadership Week', 'Subject exhibitions & fairs', 'Community service', 'Mission outreach', 'Christmas Carol', 'Board Room Conferences', 'Science Fair', 'Bible Week', 'Literacy Week', 'School clubs', 'Graduation / Prize Giving']
   },
 
   highSchoolSafety: {
-    conduct: ['Caring and respectful conduct is expected of every student', 'Diligence in classwork, homework, projects and revision', 'Attendance at academic and co-curricular programmes', 'Attendance and punctuality are compulsory under the handbook rules'],
-    wellbeing: ['Zero tolerance for bullying, rude/unruly behaviour or abuse of any form', 'Health and safety, fire drills, security, harassment/bullying, internet use and electronic-device rules are documented in the handbook', 'Visitors must follow campus sign-in procedures'],
+    conduct: ['Caring and respectful conduct is expected of every student', 'Diligence in classwork, homework, projects and revision', 'Attendance at academic and co-curricular programmes', 'Assembly, Chapel and Class Devotion are compulsory'],
+    attendance: ['Students are expected to be in school by 7:45am', 'Arrival after 7:55am activates the school’s late-coming procedures before returning to class'],
+    wellbeing: ['Zero tolerance for bullying, rude/unruly behaviour or abuse of any form', 'Food and drinks are taken only in designated areas', 'Mobile phones and electronic gadgets are not permitted except with a teacher’s permission', 'Students participate in emergency and safety drills', 'Visitors must follow campus sign-in procedures'],
     parentPartnership: 'Parent–Teacher Conferences and Parent/Teacher Progressive Forum are documented parent-engagement mechanisms.',
     policies: ['Admission Policy', 'Homework / Assignment Policy', 'Non-Discrimination Policy', 'Student conduct & discipline', 'Health & safety', 'Internet / electronic-device rules', 'Visitors-on-campus procedures', 'Complaint procedures']
   },
 
-  highSchoolFacilities: ['Air-conditioned classrooms with student cubicles', 'Science laboratories', 'ICT laboratories', 'Home Economics / Home Management laboratories', 'Arts studios', 'School auditorium', 'Cafeteria', 'School clinic', 'Stadium with track and field facilities'],
+  highSchoolFacilities: ['Air-conditioned classrooms with student cubicles', 'Science laboratories', 'ICT laboratories', 'Home Economics / Home Management laboratories', 'Arts studios', 'School auditorium', 'Cafeteria', 'School clinic', 'Swimming pool', 'Stadium with track and field facilities'],
 
   leadership: {
     nurseryandprimaryschool: [
@@ -213,7 +233,14 @@ window.RFA_KNOWLEDGE = {
 
   sixthForm: {
     entryAge: '17+',
-    positioning: 'Advanced academic programmes and tailored support for students aged 17+, preparing them for university and leadership.',
-    verifiedLimits: 'Detailed current Sixth Form curriculum, admissions requirements, fees, student-life details, university destinations and careers-guidance processes are not yet published as verified website content.'
+    inaugurated: '20 March 2024',
+    positioning: 'A focused pre-university environment combining advanced academic pathways, tailored support, character development and preparation for university and leadership.',
+    programmes: ['International University Foundation', 'Cambridge A Level', 'Ontario Secondary School Diploma (OSSD)', 'SAT', 'IELTS', 'UTME (JAMB Tutorial)'],
+    destinations: 'RFA Sixth Form prepares students for opportunities in Nigeria and internationally, including pathways toward universities in the UK, USA, Canada and beyond.',
+    advantages: ['Qualified and experienced teachers', 'Preparation for local and international examinations', 'Academic excellence alongside character development', 'A secure learning environment within the RFA campus in Abuja'],
+    admissions: 'Admission is ongoing. Programme-specific requirements and availability should be confirmed directly with Sixth Form Admissions.',
+    phones: ['+234 816 338 3329', '+234 803 632 2129', '+234 809 575 2626'],
+    email: 'rfa6thform@royalfamilyacademy.org',
+    address: 'Plot 648, Idris Gidado Street, Wuye, Abuja, Nigeria'
   }
 };
