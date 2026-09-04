@@ -1,0 +1,103 @@
+/* Royal Family Academy High School — two-row desktop header
+   Identity + visit action on the first row; navigation on the second row.
+   Mobile keeps the existing compact hamburger header. */
+
+@media (min-width: 980px) {
+  body[data-site="highschool"] .site-header {
+    padding-block: .8rem .65rem;
+  }
+
+  body[data-site="highschool"] .site-nav {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "identity action"
+      "navigation navigation";
+    align-items: center;
+    column-gap: 2rem;
+    row-gap: .72rem;
+  }
+
+  body[data-site="highschool"] .site-nav__mark {
+    grid-area: identity;
+    justify-self: start;
+  }
+
+  body[data-site="highschool"] .site-nav__mark-word {
+    font-size: clamp(1.55rem, 2vw, 1.9rem);
+    letter-spacing: .035em;
+  }
+
+  body[data-site="highschool"] .site-nav__mark-sub {
+    margin-top: .28rem;
+    font-size: .66rem;
+    letter-spacing: .18em;
+  }
+
+  body[data-site="highschool"] .site-nav__actions {
+    grid-area: action;
+    justify-self: end;
+  }
+
+  body[data-site="highschool"] .site-nav__links {
+    grid-area: navigation;
+    width: 100%;
+    justify-content: center;
+    gap: clamp(.95rem, 1.75vw, 1.9rem);
+    padding-top: .72rem;
+    border-top: 1px solid rgba(255, 252, 247, .24);
+  }
+
+  body[data-site="highschool"] .site-header.is-scrolled .site-nav__links,
+  body[data-site="highschool"] .site-header.menu-open .site-nav__links {
+    border-top-color: rgba(45, 23, 66, .14);
+  }
+
+  /* A deliberately distinctive visit action: rectangular, gold and more
+     substantial than the ordinary navigation links. */
+  body[data-site="highschool"] .site-nav__actions .btn {
+    display: inline-flex;
+    min-height: 44px;
+    padding: .82em 1.45em;
+    border-radius: 3px;
+    border: 1px solid rgba(255, 252, 247, .72) !important;
+    background: linear-gradient(135deg, #caa346 0%, #e7c96f 58%, #f0d98c 100%);
+    color: #2d1742 !important;
+    font-size: .77rem;
+    font-weight: 800;
+    letter-spacing: .14em;
+    box-shadow:
+      inset 5px 0 0 #431677,
+      0 10px 24px rgba(14, 12, 18, .22);
+    transition: transform var(--dur-fast) var(--ease-out-soft),
+                box-shadow var(--dur-fast) var(--ease-out-soft),
+                color var(--dur-fast) var(--ease-out-soft);
+  }
+
+  body[data-site="highschool"] .site-nav__actions .btn::before {
+    background: #fffaf0 !important;
+  }
+
+  body[data-site="highschool"] .site-nav__actions .btn::after {
+    content: '↗';
+    margin-left: .55rem;
+    font-size: .95em;
+    line-height: 1;
+  }
+
+  body[data-site="highschool"] .site-nav__actions .btn:hover,
+  body[data-site="highschool"] .site-nav__actions .btn:focus-visible {
+    color: #431677 !important;
+    transform: translateY(-2px);
+    box-shadow:
+      inset 5px 0 0 #431677,
+      0 14px 30px rgba(14, 12, 18, .28);
+  }
+
+  body[data-site="highschool"] .site-header.is-scrolled .site-nav__actions .btn {
+    border-color: rgba(67, 22, 119, .25) !important;
+    box-shadow:
+      inset 5px 0 0 #431677,
+      0 8px 20px rgba(45, 23, 66, .14);
+  }
+}
