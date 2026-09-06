@@ -1,3 +1,6 @@
+/highschool/admissions.html
+  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
+
 /shared/js/nav.js
   Cache-Control: no-store, no-cache, must-revalidate, max-age=0
 
