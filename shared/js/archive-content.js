@@ -1,5 +1,5 @@
 /**
- * Restores useful institutional content from the former RFA website without
+ * Provides useful institutional content without
  * turning the current site into a wall of text. Long-form material is kept
  * behind accessible native <details> controls and school leadership stays
  * near the top of each About page.
