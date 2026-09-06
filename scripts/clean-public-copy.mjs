@@ -5,6 +5,7 @@ const roots = ['highschool','nurseryandprimaryschool','sixthform'];
 const sourceFiles = ['shared/js/archive-content.js','scripts/staticize-rfa-archive.mjs'];
 
 const replacements = [
+  ["The simple admission journey remains at the top of the page. These expandable notes preserve the fuller information from the former website.", "The simple admission journey remains at the top of the page. These expandable notes provide additional information for families who need more detail."],
   ["The former RFA framework describes outcomes across four connected areas. Open any area to see the complete set of expectations.", "RFA's expected student outcomes are organised across four connected areas. Open any area to see the complete set of expectations."],
   ["The former school FAQ published a High School planning ratio of approximately 15 learners to 1 teacher.", "The High School planning ratio is approximately 15 learners to 1 teacher."],
   ["The published school guide lists a High School planning ratio of approximately 15 learners to 1 teacher.", "The High School planning ratio is approximately 15 learners to 1 teacher."],
@@ -65,6 +66,9 @@ for (const file of files) {
 }
 
 const forbidden = [
+  /former website/i,
+  /former admission guidance/i,
+  /former RFA website/i,
   /former site/i,
   /former school FAQ/i,
   /former FAQ/i,
