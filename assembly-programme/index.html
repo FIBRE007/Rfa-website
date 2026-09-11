@@ -54,12 +54,24 @@ h1 span{display:block;color:var(--gold-2)}
 .section-title{display:flex;align-items:center;gap:14px;margin:28px 0 13px;color:var(--gold-2);font-family:"Cormorant Garamond",Georgia,serif;font-size:1.65rem;font-weight:700}
 .section-title::before,.section-title::after{content:"";height:1px;background:var(--line);flex:1}
 .programme{border:1px solid rgba(216,177,76,.28);border-radius:22px;overflow:hidden;background:rgba(17,8,43,.58);box-shadow:0 22px 60px rgba(0,0,0,.18);backdrop-filter:blur(12px)}
-.item{display:grid;grid-template-columns:155px minmax(0,1fr);gap:20px;padding:20px 22px;border-bottom:1px solid rgba(255,255,255,.07);align-items:center}
+.item{display:grid;grid-template-columns:155px minmax(0,1fr);gap:20px;padding:20px 22px;border-bottom:1px solid rgba(255,255,255,.07);align-items:start}
 .item:last-child{border-bottom:0}
 .item:hover{background:rgba(255,255,255,.025)}
-.time{color:var(--gold-2);font-weight:700;font-size:.92rem;white-space:nowrap}
+.time{color:var(--gold-2);font-weight:700;font-size:.92rem;white-space:nowrap;padding-top:3px}
 .title{font-family:"Cormorant Garamond",Georgia,serif;font-size:1.42rem;font-weight:700;line-height:1.12;color:#fff}
 .person{margin-top:5px;font-size:.86rem;color:var(--muted);line-height:1.45}
+.lyrics-list{display:grid;gap:9px;margin-top:14px}
+.lyrics-block{border:1px solid rgba(216,177,76,.24);border-radius:14px;background:rgba(255,255,255,.035);overflow:hidden}
+.lyrics-block[open]{background:rgba(255,255,255,.052);border-color:rgba(216,177,76,.42)}
+.lyrics-block summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 14px;color:var(--gold-2);font-weight:700;font-size:.9rem;user-select:none}
+.lyrics-block summary::-webkit-details-marker{display:none}
+.lyrics-block summary::after{content:"+";display:grid;place-items:center;flex:0 0 28px;width:28px;height:28px;border:1px solid rgba(216,177,76,.42);border-radius:50%;font-size:1rem;line-height:1;color:var(--gold-2)}
+.lyrics-block[open] summary::after{content:"−"}
+.lyrics-body{padding:2px 14px 16px;border-top:1px solid rgba(255,255,255,.065);color:#f8f4fb;font-size:.89rem;line-height:1.65}
+.stanza{padding-top:12px}
+.stanza + .stanza{margin-top:10px;border-top:1px solid rgba(255,255,255,.07)}
+.stanza-label{display:block;margin-bottom:5px;color:var(--gold-2);font-weight:700;font-size:.77rem;letter-spacing:.08em;text-transform:uppercase}
+.lyric-lines{margin:0;white-space:normal}
 .note{margin-top:22px;padding:15px 17px;border-left:3px solid var(--gold);border-radius:10px;background:rgba(255,255,255,.045);color:var(--muted);font-size:.9rem;line-height:1.55}
 footer{text-align:center;margin-top:30px;color:#b9aec2;font-size:.76rem;letter-spacing:.05em}
 footer strong{color:var(--gold-2)}
@@ -72,6 +84,8 @@ footer strong{color:var(--gold-2)}
   .title{font-size:1.3rem}
   .session{font-size:.78rem}
   .intro{font-size:.9rem}
+  .lyrics-block summary{font-size:.88rem;padding:11px 12px}
+  .lyrics-body{font-size:.86rem;padding:2px 12px 14px}
 }
 @media print{
   body{background:#fff;color:#111}
@@ -82,6 +96,8 @@ footer strong{color:var(--gold-2)}
   .programme{box-shadow:none;background:#fff;border-color:#bbb}
   .item{border-bottom-color:#ddd}
   .person,.intro,.note,footer{color:#444}
+  .lyrics-block{background:#fff;border-color:#bbb}
+  .lyrics-body{color:#111}
 }
 </style>
 </head>
@@ -112,7 +128,106 @@ footer strong{color:var(--gold-2)}
       <div class="time">8:02 – 8:10 AM</div>
       <div>
         <div class="title">School Anthem · National Anthem · Congregational Hymn</div>
-        <div class="person">Praise, My Soul, the King of Heaven</div>
+        <div class="person">Tap any section below to view the full text.</div>
+
+        <div class="lyrics-list">
+          <details class="lyrics-block">
+            <summary>School Anthem</summary>
+            <div class="lyrics-body">
+              <div class="stanza">
+                <span class="stanza-label">Stanza 1</span>
+                <p class="lyric-lines">We are the leaders of tomorrow<br>
+                We are here to possess this land<br>
+                We can’t be conquered and we cannot fail<br>
+                We are Royal seeds.</p>
+              </div>
+              <div class="stanza">
+                <span class="stanza-label">Stanza 2</span>
+                <p class="lyric-lines">This is the centre of excellence<br>
+                Where God is raising leaders<br>
+                Leaders who will stand out from the crowd<br>
+                In the country and in the world.<br>
+                We can’t be conquered and we cannot fail<br>
+                We are Royal seeds.</p>
+              </div>
+            </div>
+          </details>
+
+          <details class="lyrics-block">
+            <summary>National Anthem</summary>
+            <div class="lyrics-body">
+              <div class="stanza">
+                <span class="stanza-label">Stanza 1</span>
+                <p class="lyric-lines">Nigeria, we hail thee,<br>
+                Our own dear native land,<br>
+                Though tribe and tongue may differ,<br>
+                In brotherhood, we stand,<br>
+                Nigerians all, and proud to serve<br>
+                Our sovereign Motherland.</p>
+              </div>
+              <div class="stanza">
+                <span class="stanza-label">Stanza 2</span>
+                <p class="lyric-lines">Our flag shall be a symbol<br>
+                That truth and justice reign,<br>
+                In peace or battle honour'd,<br>
+                And this we count as gain,<br>
+                To hand on to our children<br>
+                A banner without stain.</p>
+              </div>
+              <div class="stanza">
+                <span class="stanza-label">Stanza 3</span>
+                <p class="lyric-lines">O God of all creation,<br>
+                Grant this our one request,<br>
+                Help us to build a nation<br>
+                Where no man is oppressed,<br>
+                And so with peace and plenty<br>
+                Nigeria may be blessed.</p>
+              </div>
+            </div>
+          </details>
+
+          <details class="lyrics-block">
+            <summary>Congregational Hymn — Praise, My Soul, the King of Heaven</summary>
+            <div class="lyrics-body">
+              <div class="stanza">
+                <span class="stanza-label">Verse 1</span>
+                <p class="lyric-lines">PRAISE, my soul, the King of heaven;<br>
+                To His feet thy tribute bring;<br>
+                Ransomed, healed, restored, forgiven,<br>
+                Who like thee His praise shall sing?<br>
+                Praise Him! Praise Him!<br>
+                Praise the everlasting King!</p>
+              </div>
+              <div class="stanza">
+                <span class="stanza-label">Verse 2</span>
+                <p class="lyric-lines">Praise Him for His grace and favour<br>
+                To our fathers in distress;<br>
+                Praise Him, still the same as ever,<br>
+                Slow to chide, and swift to bless:<br>
+                Praise Him! Praise Him!<br>
+                Glorious in His faithfulness!</p>
+              </div>
+              <div class="stanza">
+                <span class="stanza-label">Verse 3</span>
+                <p class="lyric-lines">Father-like He tends and spares us,<br>
+                Well our feeble frame He knows;<br>
+                In His bands He gently bears us,<br>
+                Rescues us from all our foes:<br>
+                Praise Him! Praise Him!<br>
+                Widely as His mercy flows.</p>
+              </div>
+              <div class="stanza">
+                <span class="stanza-label">Verse 4</span>
+                <p class="lyric-lines">Angels, help us to adore Him,<br>
+                Ye behold Him face to face!<br>
+                Sun and moon, bow down before Him!<br>
+                Dwellers all in time and space,<br>
+                Praise Him! Praise Him!<br>
+                Praise with us the God of grace!</p>
+              </div>
+            </div>
+          </details>
+        </div>
       </div>
     </article>
     <article class="item">
