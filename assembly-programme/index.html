@@ -6,263 +6,47 @@
 <meta name="theme-color" content="#2d0751">
 <title>Whole School Assembly Programme | Royal Family Academy</title>
 <meta name="description" content="Royal Family Academy Whole School Assembly programme for the 2026–2027 Session, Joy Term.">
-<link rel="icon" type="image/png" href="rfa-logo.png">
+<link rel="icon" type="image/png" href="https://media.royalfamilyacademy.org/academy/rfa-logo.png?v=assembly-20260911">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --purple:#2d0751;
-  --purple-2:#4a0c78;
-  --navy:#071a3d;
-  --gold:#d8b14c;
-  --gold-2:#f2cf73;
-  --cream:#fff9eb;
-  --muted:#d9d1df;
-  --line:rgba(216,177,76,.26);
-  --card:rgba(255,255,255,.055);
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  margin:0;
-  min-height:100vh;
-  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  color:var(--cream);
-  background:
-    radial-gradient(circle at 50% -10%, rgba(160,72,190,.24), transparent 32%),
-    linear-gradient(145deg,var(--purple) 0%,#1d083b 50%,var(--navy) 100%);
-}
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  background:
-    linear-gradient(135deg, transparent 0 72%, rgba(216,177,76,.05) 72.2% 72.4%, transparent 72.6%),
-    radial-gradient(circle at 0% 100%, rgba(122,35,164,.18), transparent 30%);
-}
-.wrap{width:min(940px,calc(100% - 28px));margin:0 auto;padding:34px 0 56px;position:relative}
-.hero{text-align:center;padding:8px 0 28px}
-.logo{width:118px;max-width:28vw;height:auto;filter:drop-shadow(0 8px 18px rgba(0,0,0,.24))}
-.eyebrow{margin:14px 0 8px;color:var(--gold-2);font-size:.78rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase}
-h1{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(2.35rem,8vw,4.4rem);line-height:.94;margin:0;color:var(--cream);letter-spacing:.01em}
-h1 span{display:block;color:var(--gold-2)}
-.session{margin:16px 0 0;font-size:.92rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
-.term{display:inline-flex;align-items:center;gap:10px;margin-top:15px;padding:8px 19px;border:1px solid rgba(216,177,76,.72);border-radius:999px;color:var(--gold-2);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.8rem;background:rgba(11,18,52,.28)}
-.intro{margin:0 auto 20px;max-width:680px;text-align:center;color:var(--muted);line-height:1.65;font-size:.96rem}
-.section-title{display:flex;align-items:center;gap:14px;margin:28px 0 13px;color:var(--gold-2);font-family:"Cormorant Garamond",Georgia,serif;font-size:1.65rem;font-weight:700}
-.section-title::before,.section-title::after{content:"";height:1px;background:var(--line);flex:1}
-.programme{border:1px solid rgba(216,177,76,.28);border-radius:22px;overflow:hidden;background:rgba(17,8,43,.58);box-shadow:0 22px 60px rgba(0,0,0,.18);backdrop-filter:blur(12px)}
-.item{display:grid;grid-template-columns:155px minmax(0,1fr);gap:20px;padding:20px 22px;border-bottom:1px solid rgba(255,255,255,.07);align-items:start}
-.item:last-child{border-bottom:0}
-.item:hover{background:rgba(255,255,255,.025)}
-.time{color:var(--gold-2);font-weight:700;font-size:.92rem;white-space:nowrap;padding-top:3px}
-.title{font-family:"Cormorant Garamond",Georgia,serif;font-size:1.42rem;font-weight:700;line-height:1.12;color:#fff}
-.person{margin-top:5px;font-size:.86rem;color:var(--muted);line-height:1.45}
-.lyrics-list{display:grid;gap:9px;margin-top:14px}
-.lyrics-block{border:1px solid rgba(216,177,76,.24);border-radius:14px;background:rgba(255,255,255,.035);overflow:hidden}
-.lyrics-block[open]{background:rgba(255,255,255,.052);border-color:rgba(216,177,76,.42)}
-.lyrics-block summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 14px;color:var(--gold-2);font-weight:700;font-size:.9rem;user-select:none}
-.lyrics-block summary::-webkit-details-marker{display:none}
-.lyrics-block summary::after{content:"+";display:grid;place-items:center;flex:0 0 28px;width:28px;height:28px;border:1px solid rgba(216,177,76,.42);border-radius:50%;font-size:1rem;line-height:1;color:var(--gold-2)}
-.lyrics-block[open] summary::after{content:"−"}
-.lyrics-body{padding:2px 14px 16px;border-top:1px solid rgba(255,255,255,.065);color:#f8f4fb;font-size:.89rem;line-height:1.65}
-.stanza{padding-top:12px}
-.stanza + .stanza{margin-top:10px;border-top:1px solid rgba(255,255,255,.07)}
-.stanza-label{display:block;margin-bottom:5px;color:var(--gold-2);font-weight:700;font-size:.77rem;letter-spacing:.08em;text-transform:uppercase}
-.lyric-lines{margin:0;white-space:normal}
-.note{margin-top:22px;padding:15px 17px;border-left:3px solid var(--gold);border-radius:10px;background:rgba(255,255,255,.045);color:var(--muted);font-size:.9rem;line-height:1.55}
-footer{text-align:center;margin-top:30px;color:#b9aec2;font-size:.76rem;letter-spacing:.05em}
-footer strong{color:var(--gold-2)}
-@media(max-width:640px){
-  .wrap{width:min(100% - 20px,940px);padding-top:22px}
-  .hero{padding-bottom:20px}
-  .logo{width:94px}
-  .item{grid-template-columns:1fr;gap:7px;padding:17px 18px}
-  .time{font-size:.82rem}
-  .title{font-size:1.3rem}
-  .session{font-size:.78rem}
-  .intro{font-size:.9rem}
-  .lyrics-block summary{font-size:.88rem;padding:11px 12px}
-  .lyrics-body{font-size:.86rem;padding:2px 12px 14px}
-}
-@media print{
-  body{background:#fff;color:#111}
-  body::before{display:none}
-  .wrap{width:100%;padding:0}
-  .hero,.intro,.programme,.note{color:#111}
-  h1,.title{color:#111}
-  .programme{box-shadow:none;background:#fff;border-color:#bbb}
-  .item{border-bottom-color:#ddd}
-  .person,.intro,.note,footer{color:#444}
-  .lyrics-block{background:#fff;border-color:#bbb}
-  .lyrics-body{color:#111}
-}
+:root{--purple:#2d0751;--navy:#071a3d;--gold:#d8b14c;--gold2:#f2cf73;--cream:#fff9eb;--muted:#d9d1df;--line:rgba(216,177,76,.26)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--cream);background:radial-gradient(circle at 50% -10%,rgba(160,72,190,.24),transparent 32%),linear-gradient(145deg,var(--purple) 0%,#1d083b 50%,var(--navy) 100%)}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(135deg,transparent 0 72%,rgba(216,177,76,.05) 72.2% 72.4%,transparent 72.6%),radial-gradient(circle at 0% 100%,rgba(122,35,164,.18),transparent 30%)}
+.wrap{width:min(940px,calc(100% - 28px));margin:auto;padding:34px 0 56px;position:relative}.hero{text-align:center;padding:8px 0 28px}.logo{display:block;width:118px;max-width:28vw;height:auto;margin:0 auto;filter:drop-shadow(0 8px 18px rgba(0,0,0,.24))}.eyebrow{margin:14px 0 8px;color:var(--gold2);font-size:.78rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase}h1{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(2.35rem,8vw,4.4rem);line-height:.94;margin:0;color:var(--cream)}h1 span{display:block;color:var(--gold2)}.session{margin:16px 0 0;font-size:.92rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}.term{display:inline-flex;margin-top:15px;padding:8px 19px;border:1px solid rgba(216,177,76,.72);border-radius:999px;color:var(--gold2);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.8rem;background:rgba(11,18,52,.28)}.intro{margin:0 auto 20px;max-width:680px;text-align:center;color:var(--muted);line-height:1.65;font-size:.96rem}.section-title{display:flex;align-items:center;gap:14px;margin:28px 0 13px;color:var(--gold2);font-family:"Cormorant Garamond",Georgia,serif;font-size:1.65rem}.section-title:before,.section-title:after{content:"";height:1px;background:var(--line);flex:1}.programme{border:1px solid rgba(216,177,76,.28);border-radius:22px;overflow:hidden;background:rgba(17,8,43,.58);box-shadow:0 22px 60px rgba(0,0,0,.18);backdrop-filter:blur(12px)}.item{display:grid;grid-template-columns:155px minmax(0,1fr);gap:20px;padding:20px 22px;border-bottom:1px solid rgba(255,255,255,.07);align-items:start}.item:last-child{border-bottom:0}.time{color:var(--gold2);font-weight:700;font-size:.92rem;white-space:nowrap;padding-top:3px}.title{font-family:"Cormorant Garamond",Georgia,serif;font-size:1.42rem;font-weight:700;line-height:1.12;color:#fff}.person{margin-top:5px;font-size:.86rem;color:var(--muted);line-height:1.45}.lyrics-list{display:grid;gap:9px;margin-top:14px}.lyrics-block{border:1px solid rgba(216,177,76,.24);border-radius:14px;background:rgba(255,255,255,.035);overflow:hidden}.lyrics-block[open]{background:rgba(255,255,255,.052);border-color:rgba(216,177,76,.42)}.lyrics-block summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 14px;color:var(--gold2);font-weight:700;font-size:.9rem}.lyrics-block summary::-webkit-details-marker{display:none}.lyrics-block summary:after{content:"+";display:grid;place-items:center;flex:0 0 28px;width:28px;height:28px;border:1px solid rgba(216,177,76,.42);border-radius:50%}.lyrics-block[open] summary:after{content:"−"}.lyrics-body{padding:2px 14px 16px;border-top:1px solid rgba(255,255,255,.065);color:#f8f4fb;font-size:.89rem;line-height:1.65}.stanza{padding-top:12px}.stanza+.stanza{margin-top:10px;border-top:1px solid rgba(255,255,255,.07)}.stanza-label{display:block;margin-bottom:5px;color:var(--gold2);font-weight:700;font-size:.77rem;letter-spacing:.08em;text-transform:uppercase}.lyric-lines{margin:0}.note{margin-top:22px;padding:15px 17px;border-left:3px solid var(--gold);border-radius:10px;background:rgba(255,255,255,.045);color:var(--muted);font-size:.9rem;line-height:1.55}footer{text-align:center;margin-top:30px;color:#b9aec2;font-size:.76rem}footer strong{color:var(--gold2)}
+@media(max-width:640px){.wrap{width:min(100% - 20px,940px);padding-top:22px}.logo{width:94px}.item{grid-template-columns:1fr;gap:7px;padding:17px 18px}.time{font-size:.82rem}.title{font-size:1.3rem}.session{font-size:.78rem}.intro{font-size:.9rem}.lyrics-block summary{font-size:.88rem}.lyrics-body{font-size:.86rem}}
 </style>
 </head>
 <body>
 <main class="wrap">
-  <header class="hero">
-    <img class="logo" src="rfa-logo.png" alt="Royal Family Academy logo">
-    <div class="eyebrow">Royal Family Academy</div>
-    <h1>Whole School <span>Assembly</span></h1>
-    <p class="session">2026–2027 Session</p>
-    <div class="term">Joy Term</div>
-  </header>
-
-  <p class="intro">Welcome to the Whole School Assembly. Please follow the programme below for the order of events.</p>
-
-  <h2 class="section-title">Programme of Events</h2>
-
-  <section class="programme" aria-label="Whole School Assembly programme">
-    <article class="item">
-      <div class="time">7:45 – 8:00 AM</div>
-      <div><div class="title">Interlude: School Choir</div></div>
-    </article>
-    <article class="item">
-      <div class="time">8:00 – 8:02 AM</div>
-      <div><div class="title">Opening Prayer</div></div>
-    </article>
-    <article class="item">
-      <div class="time">8:02 – 8:10 AM</div>
-      <div>
-        <div class="title">National Anthem · School Anthem · Congregational Hymn</div>
-        <div class="person">Tap any section below to view the full text.</div>
-
-        <div class="lyrics-list">
-          <details class="lyrics-block">
-            <summary>National Anthem</summary>
-            <div class="lyrics-body">
-              <div class="stanza">
-                <span class="stanza-label">Stanza 1</span>
-                <p class="lyric-lines">Nigeria, we hail thee,<br>
-                Our own dear native land,<br>
-                Though tribe and tongue may differ,<br>
-                In brotherhood, we stand,<br>
-                Nigerians all, are proud to serve<br>
-                Our sovereign Motherland.</p>
-              </div>
-            </div>
-          </details>
-
-          <details class="lyrics-block">
-            <summary>School Anthem</summary>
-            <div class="lyrics-body">
-              <div class="stanza">
-                <span class="stanza-label">Stanza 1</span>
-                <p class="lyric-lines">We are the leaders of tomorrow<br>
-                We are here to possess this land<br>
-                We can’t be conquered and we cannot fail<br>
-                We are Royal seeds.</p>
-              </div>
-              <div class="stanza">
-                <span class="stanza-label">Stanza 2</span>
-                <p class="lyric-lines">This is the centre of excellence<br>
-                Where God is raising leaders<br>
-                Leaders who will stand out from the crowd<br>
-                In the country and in the world.<br>
-                We can’t be conquered and we cannot fail<br>
-                We are Royal seeds.</p>
-              </div>
-            </div>
-          </details>
-
-          <details class="lyrics-block">
-            <summary>Congregational Hymn — Praise, My Soul, the King of Heaven</summary>
-            <div class="lyrics-body">
-              <div class="stanza">
-                <span class="stanza-label">Verse 1</span>
-                <p class="lyric-lines">PRAISE, my soul, the King of heaven;<br>
-                To His feet thy tribute bring;<br>
-                Ransomed, healed, restored, forgiven,<br>
-                Who like thee His praise shall sing?<br>
-                Praise Him! Praise Him!<br>
-                Praise the everlasting King!</p>
-              </div>
-              <div class="stanza">
-                <span class="stanza-label">Verse 2</span>
-                <p class="lyric-lines">Praise Him for His grace and favour<br>
-                To our fathers in distress;<br>
-                Praise Him, still the same as ever,<br>
-                Slow to chide, and swift to bless:<br>
-                Praise Him! Praise Him!<br>
-                Glorious in His faithfulness!</p>
-              </div>
-              <div class="stanza">
-                <span class="stanza-label">Verse 3</span>
-                <p class="lyric-lines">Father-like He tends and spares us,<br>
-                Well our feeble frame He knows;<br>
-                In His bands He gently bears us,<br>
-                Rescues us from all our foes:<br>
-                Praise Him! Praise Him!<br>
-                Widely as His mercy flows.</p>
-              </div>
-              <div class="stanza">
-                <span class="stanza-label">Verse 4</span>
-                <p class="lyric-lines">Angels, help us to adore Him,<br>
-                Ye behold Him face to face!<br>
-                Sun and moon, bow down before Him!<br>
-                Dwellers all in time and space,<br>
-                Praise Him! Praise Him!<br>
-                Praise with us the God of grace!</p>
-              </div>
-            </div>
-          </details>
-        </div>
-      </div>
-    </article>
-    <article class="item">
-      <div class="time">8:10 – 8:20 AM</div>
-      <div><div class="title">Director’s Welcome Address</div></div>
-    </article>
-    <article class="item">
-      <div class="time">8:20 – 8:25 AM</div>
-      <div>
-        <div class="title">Thanksgiving Prayer</div>
-        <div class="person">Bursar: Dr Kingsley Sweetwilliams</div>
-      </div>
-    </article>
-    <article class="item">
-      <div class="time">8:25 – 8:35 AM</div>
-      <div>
-        <div class="title">Introduction of School Leadership</div>
-        <div class="person">Director</div>
-      </div>
-    </article>
-    <article class="item">
-      <div class="time">8:35 – 8:40 AM</div>
-      <div>
-        <div class="title">Worship Song</div>
-        <div class="person">School Choir</div>
-      </div>
-    </article>
-    <article class="item">
-      <div class="time">8:40 – 9:00 AM</div>
-      <div>
-        <div class="title">Exhortation</div>
-        <div class="person">Master Achabejoh T. Basil</div>
-      </div>
-    </article>
-    <article class="item">
-      <div class="time">9:00 – 9:10 AM</div>
-      <div>
-        <div class="title">Prayer of Consecration</div>
-        <div class="person">Pastor Monica Oladunjoye</div>
-      </div>
-    </article>
-    <article class="item">
-      <div class="time">9:10 – 9:15 AM</div>
-      <div>
-        <div class="title">Announcements / Closing Prayer</div>
-        <div class="person">Ms. Betha Nwaiwu</div>
-      </div>
-    </article>
-  </section>
-
-  <div class="note">Please keep this page open during the assembly. Times are scheduled programme slots and may shift slightly as the event progresses.</div>
-
-  <footer><strong>Royal Family Academy</strong> · Raising Distinguished Leaders</footer>
+<header class="hero">
+<img class="logo" src="https://media.royalfamilyacademy.org/academy/rfa-logo.png?v=assembly-20260911" alt="Royal Family Academy logo">
+<div class="eyebrow">Royal Family Academy</div>
+<h1>Whole School <span>Assembly</span></h1>
+<p class="session">2026–2027 Session</p>
+<div class="term">Joy Term</div>
+</header>
+<p class="intro">Welcome to the Whole School Assembly. Please follow the programme below for the order of events.</p>
+<h2 class="section-title">Programme of Events</h2>
+<section class="programme" aria-label="Whole School Assembly programme">
+<article class="item"><div class="time">7:45 – 8:00 AM</div><div><div class="title">Interlude: School Choir</div></div></article>
+<article class="item"><div class="time">8:00 – 8:02 AM</div><div><div class="title">Opening Prayer</div></div></article>
+<article class="item"><div class="time">8:02 – 8:10 AM</div><div><div class="title">National Anthem · School Anthem · Congregational Hymn</div><div class="person">Tap any section below to view the full text.</div><div class="lyrics-list">
+<details class="lyrics-block"><summary>National Anthem</summary><div class="lyrics-body"><div class="stanza"><span class="stanza-label">Stanza 1</span><p class="lyric-lines">Nigeria, we hail thee,<br>Our own dear native land,<br>Though tribe and tongue may differ,<br>In brotherhood, we stand,<br>Nigerians all, are proud to serve<br>Our sovereign Motherland.</p></div></div></details>
+<details class="lyrics-block"><summary>School Anthem</summary><div class="lyrics-body"><div class="stanza"><span class="stanza-label">Stanza 1</span><p class="lyric-lines">We are the leaders of tomorrow<br>We are here to possess this land<br>We can’t be conquered and we cannot fail<br>We are Royal seeds.</p></div><div class="stanza"><span class="stanza-label">Stanza 2</span><p class="lyric-lines">This is the centre of excellence<br>Where God is raising leaders<br>Leaders who will stand out from the crowd<br>In the country and in the world.<br>We can’t be conquered and we cannot fail<br>We are Royal seeds.</p></div></div></details>
+<details class="lyrics-block"><summary>Congregational Hymn — Praise, My Soul, the King of Heaven</summary><div class="lyrics-body"><div class="stanza"><span class="stanza-label">Verse 1</span><p class="lyric-lines">PRAISE, my soul, the King of heaven;<br>To His feet thy tribute bring;<br>Ransomed, healed, restored, forgiven,<br>Who like thee His praise shall sing?<br>Praise Him! Praise Him!<br>Praise the everlasting King!</p></div><div class="stanza"><span class="stanza-label">Verse 2</span><p class="lyric-lines">Praise Him for His grace and favour<br>To our fathers in distress;<br>Praise Him, still the same as ever,<br>Slow to chide, and swift to bless:<br>Praise Him! Praise Him!<br>Glorious in His faithfulness!</p></div><div class="stanza"><span class="stanza-label">Verse 3</span><p class="lyric-lines">Father-like He tends and spares us,<br>Well our feeble frame He knows;<br>In His bands He gently bears us,<br>Rescues us from all our foes:<br>Praise Him! Praise Him!<br>Widely as His mercy flows.</p></div><div class="stanza"><span class="stanza-label">Verse 4</span><p class="lyric-lines">Angels, help us to adore Him,<br>Ye behold Him face to face!<br>Sun and moon, bow down before Him!<br>Dwellers all in time and space,<br>Praise Him! Praise Him!<br>Praise with us the God of grace!</p></div></div></details>
+</div></div></article>
+<article class="item"><div class="time">8:10 – 8:20 AM</div><div><div class="title">Director’s Welcome Address</div></div></article>
+<article class="item"><div class="time">8:20 – 8:25 AM</div><div><div class="title">Thanksgiving Prayer</div><div class="person">Bursar: Dr Kingsley Sweetwilliams</div></div></article>
+<article class="item"><div class="time">8:25 – 8:35 AM</div><div><div class="title">Introduction of School Leadership</div><div class="person">Director</div></div></article>
+<article class="item"><div class="time">8:35 – 8:40 AM</div><div><div class="title">Worship Song</div><div class="person">School Choir</div></div></article>
+<article class="item"><div class="time">8:40 – 9:00 AM</div><div><div class="title">Exhortation</div><div class="person">Master Achabejoh T. Basil</div></div></article>
+<article class="item"><div class="time">9:00 – 9:10 AM</div><div><div class="title">Prayer of Consecration</div><div class="person">Pastor Monica Oladunjoye</div></div></article>
+<article class="item"><div class="time">9:10 – 9:15 AM</div><div><div class="title">Announcements / Closing Prayer</div><div class="person">Ms. Betha Nwaiwu</div></div></article>
+</section>
+<div class="note">Please keep this page open during the assembly. Times are scheduled programme slots and may shift slightly as the event progresses.</div>
+<footer><strong>Royal Family Academy</strong> · Raising Distinguished Leaders</footer>
 </main>
 </body>
 </html>
