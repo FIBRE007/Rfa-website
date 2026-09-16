@@ -45,6 +45,27 @@
     height: 100% !important;
   }
 }
+.gateway__socials a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  opacity: 0.82;
+  border-bottom: 0;
+  transition: opacity var(--dur-fast), transform var(--dur-fast);
+}
+.gateway__socials a:hover,
+.gateway__socials a:focus-visible {
+  opacity: 1;
+  transform: translateY(-1px);
+  border-color: transparent;
+}
+.gateway__socials img {
+  display: block;
+  width: 16px;
+  height: 16px;
+}
 </style>
 
 <script type="application/ld+json">
@@ -110,10 +131,13 @@
 
   <div class="gateway__bottom gateway__reveal">
     <div class="gateway__socials" aria-label="Official RFA social accounts">
-      <span title="Pending verified official account links">Facebook</span>
-      <span title="Pending verified official account links">Instagram</span>
-      <span title="Pending verified official account links">YouTube</span>
-      <span title="Pending verified official account links">LinkedIn</span>
+      <a href="https://www.facebook.com/share/19gJ92joBo/" target="_blank" rel="noopener noreferrer" aria-label="Royal Family Academy on Facebook" title="Facebook"><img src="https://cdn.simpleicons.org/facebook/fff" alt="" width="16" height="16"></a>
+      <a href="https://www.instagram.com/royalfamilyacademy?stkn=ZGpsam1hdG4zYzRp" target="_blank" rel="noopener noreferrer" aria-label="Royal Family Academy on Instagram" title="Instagram"><img src="https://cdn.simpleicons.org/instagram/fff" alt="" width="16" height="16"></a>
+      <a href="https://tiktok.com/@royalfamilyacademy24" target="_blank" rel="noopener noreferrer" aria-label="Royal Family Academy on TikTok" title="TikTok"><img src="https://cdn.simpleicons.org/tiktok/fff" alt="" width="16" height="16"></a>
+      <a href="https://x.com/royalfamilyacad" target="_blank" rel="noopener noreferrer" aria-label="Royal Family Academy on X" title="X"><img src="https://cdn.simpleicons.org/x/fff" alt="" width="16" height="16"></a>
+      <a href="https://www.linkedin.com/company/royalfamilyacademy/" target="_blank" rel="noopener noreferrer" aria-label="Royal Family Academy on LinkedIn" title="LinkedIn"><img src="https://cdn.simpleicons.org/linkedin/fff" alt="" width="16" height="16"></a>
+      <a href="https://www.threads.com/@royalfamilyacademy" target="_blank" rel="noopener noreferrer" aria-label="Royal Family Academy on Threads" title="Threads"><img src="https://cdn.simpleicons.org/threads/fff" alt="" width="16" height="16"></a>
+      <a href="https://youtube.com/@royalfamilyacademy5960?si=bwHIC_rIftcXdTC6" target="_blank" rel="noopener noreferrer" aria-label="Royal Family Academy on YouTube" title="YouTube"><img src="https://cdn.simpleicons.org/youtube/fff" alt="" width="16" height="16"></a>
     </div>
   </div>
 </main>
