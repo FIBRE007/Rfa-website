@@ -4,8 +4,8 @@
  * changes. Merged into rfa-ai.js's SEARCH_SYNONYMS at runtime.
  *
  * 5000 entries: 125 curated semantic synonyms,
- * 1541 plural/singular forms, 3334 bounded typo variants,
- * drawn from 619 knowledge-base words and 1295 distinct
+ * 1535 plural/singular forms, 3340 bounded typo variants,
+ * drawn from 619 knowledge-base words and 1289 distinct
  * words across every page of all four Royal Family Academy sites.
  */
 window.RFA_KEYWORD_SYNONYMS = {
@@ -218,6 +218,9 @@ window.RFA_KEYWORD_SYNONYMS = {
   "acitvities": [
     "activities"
   ],
+  "acitvity": [
+    "activity"
+  ],
   "acivities": [
     "activities"
   ],
@@ -299,8 +302,14 @@ window.RFA_KEYWORD_SYNONYMS = {
   "actviities": [
     "activities"
   ],
+  "actviity": [
+    "activity"
+  ],
   "actvities": [
     "activities"
+  ],
+  "additionals": [
+    "additional"
   ],
   "adebolas": [
     "adebola"
@@ -1001,6 +1010,9 @@ window.RFA_KEYWORD_SYNONYMS = {
   ],
   "atcivities": [
     "activities"
+  ],
+  "atcivity": [
+    "activity"
   ],
   "athem": [
     "anthem"
@@ -3468,6 +3480,9 @@ window.RFA_KEYWORD_SYNONYMS = {
   "dayses": [
     "days"
   ],
+  "deail": [
+    "detail"
+  ],
   "deailed": [
     "detailed"
   ],
@@ -3476,6 +3491,9 @@ window.RFA_KEYWORD_SYNONYMS = {
   ],
   "deaths": [
     "death"
+  ],
+  "deatil": [
+    "detail"
   ],
   "deatiled": [
     "detailed"
@@ -3645,6 +3663,9 @@ window.RFA_KEYWORD_SYNONYMS = {
   "detais": [
     "details"
   ],
+  "detal": [
+    "detail"
+  ],
   "detaled": [
     "detailed"
   ],
@@ -3657,11 +3678,17 @@ window.RFA_KEYWORD_SYNONYMS = {
   "detals": [
     "details"
   ],
+  "detial": [
+    "detail"
+  ],
   "detialed": [
     "detailed"
   ],
   "detials": [
     "details"
+  ],
+  "detil": [
+    "detail"
   ],
   "detiled": [
     "detailed"
@@ -4293,11 +4320,17 @@ window.RFA_KEYWORD_SYNONYMS = {
   "dstinguished": [
     "distinguished"
   ],
+  "dtail": [
+    "detail"
+  ],
   "dtailed": [
     "detailed"
   ],
   "dtails": [
     "details"
+  ],
+  "dteail": [
+    "detail"
   ],
   "dteailed": [
     "detailed"
@@ -5333,9 +5366,6 @@ window.RFA_KEYWORD_SYNONYMS = {
   "extras": [
     "extra"
   ],
-  "facebooks": [
-    "facebook"
-  ],
   "faciilties": [
     "facilities"
   ],
@@ -5622,17 +5652,11 @@ window.RFA_KEYWORD_SYNONYMS = {
   "fomed": [
     "formed"
   ],
-  "fomer": [
-    "former"
-  ],
   "fomration": [
     "formation"
   ],
   "fomred": [
     "formed"
-  ],
-  "fomrer": [
-    "former"
   ],
   "fondation": [
     "foundation"
@@ -5660,12 +5684,6 @@ window.RFA_KEYWORD_SYNONYMS = {
   ],
   "foremd": [
     "formed"
-  ],
-  "foremr": [
-    "former"
-  ],
-  "forer": [
-    "former"
   ],
   "formaion": [
     "formation"
@@ -5698,9 +5716,6 @@ window.RFA_KEYWORD_SYNONYMS = {
     "formed"
   ],
   "formers": [
-    "former"
-  ],
-  "formr": [
     "former"
   ],
   "forms": [
@@ -5830,9 +5845,6 @@ window.RFA_KEYWORD_SYNONYMS = {
   "frmed": [
     "formed"
   ],
-  "frmer": [
-    "former"
-  ],
   "frnch": [
     "french"
   ],
@@ -5844,9 +5856,6 @@ window.RFA_KEYWORD_SYNONYMS = {
   ],
   "fromed": [
     "formed"
-  ],
-  "fromer": [
-    "former"
   ],
   "fsating": [
     "fasting"
@@ -5862,9 +5871,6 @@ window.RFA_KEYWORD_SYNONYMS = {
   ],
   "fulfillings": [
     "fulfilling"
-  ],
-  "fullers": [
-    "fuller"
   ],
   "fulls": [
     "full"
@@ -7145,9 +7151,6 @@ window.RFA_KEYWORD_SYNONYMS = {
   "inspireds": [
     "inspired"
   ],
-  "instagrams": [
-    "instagram"
-  ],
   "installment": [
     "fee",
     "fees"
@@ -8226,9 +8229,6 @@ window.RFA_KEYWORD_SYNONYMS = {
   ],
   "lines": [
     "line"
-  ],
-  "linkedins": [
-    "linkedin"
   ],
   "liteacy": [
     "literacy"
@@ -10631,9 +10631,6 @@ window.RFA_KEYWORD_SYNONYMS = {
   ],
   "presents": [
     "present"
-  ],
-  "preserves": [
-    "preserve"
   ],
   "presonal": [
     "personal"
@@ -14142,10 +14139,19 @@ window.RFA_KEYWORD_SYNONYMS = {
   "traditionses": [
     "traditions"
   ],
+  "traiing": [
+    "training"
+  ],
   "traiinng": [
     "training"
   ],
+  "trainig": [
+    "training"
+  ],
   "trainings": [
+    "training"
+  ],
+  "trainng": [
     "training"
   ],
   "trainnig": [
@@ -14687,9 +14693,6 @@ window.RFA_KEYWORD_SYNONYMS = {
   "wears": [
     "wear"
   ],
-  "websites": [
-    "website"
-  ],
   "wedensday": [
     "wednesday"
   ],
@@ -15104,9 +15107,6 @@ window.RFA_KEYWORD_SYNONYMS = {
   ],
   "yourba": [
     "yoruba"
-  ],
-  "youtubes": [
-    "youtube"
   ],
   "yrouba": [
     "yoruba"
