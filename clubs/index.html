@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#431677">
+  <meta name="description" content="Royal Family Academy club registration for the 2026/2027 session.">
+  <title>Club Registration | Royal Family Academy</title>
+  <link rel="icon" href="https://media.royalfamilyacademy.org/academy/rfa-logo.png">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="https://www.royalfamilyacademy.org" aria-label="Royal Family Academy home">
+        <img src="https://media.royalfamilyacademy.org/academy/rfa-logo.png" alt="Royal Family Academy logo">
+        <span><strong>Royal Family Academy</strong><small>Raising distinguished leaders</small></span>
+      </a>
+      <span class="session-pill">2026/2027 Session</span>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero__copy">
+          <p class="eyebrow">Joy Term • Student Life</p>
+          <h1>Club Registration</h1>
+          <p>Choose the club that best matches the learner’s section. Only clubs approved for the selected section will be shown.</p>
+          <div class="hero__notes">
+            <span>One registration per learner</span>
+            <span>Section eligibility enforced</span>
+            <span>Club capacity displayed clearly</span>
+          </div>
+        </div>
+        <div class="hero__mark" aria-hidden="true">RFA</div>
+      </section>
+
+      <section class="content-grid">
+        <div class="panel panel--form">
+          <div class="panel__heading">
+            <p class="eyebrow">Register</p>
+            <h2>Learner details</h2>
+            <p>Enter the learner’s information, then select from the eligible clubs.</p>
+          </div>
+
+          <form id="clubForm" novalidate>
+            <div class="form-grid">
+              <label class="field field--wide">
+                <span>Student full name</span>
+                <input id="studentName" name="studentName" type="text" autocomplete="name" required placeholder="Enter full name">
+              </label>
+
+              <label class="field">
+                <span>Admission / Student ID</span>
+                <input id="studentId" name="studentId" type="text" required placeholder="e.g. RFA/2026/001">
+              </label>
+
+              <label class="field">
+                <span>Section</span>
+                <select id="section" name="section" required>
+                  <option value="">Select section</option>
+                  <option value="nursery">Nursery</option>
+                  <option value="lower-primary">Lower Primary</option>
+                  <option value="upper-primary">Upper Primary</option>
+                  <option value="high-school">High School</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span>Class</span>
+                <select id="classLevel" name="classLevel" required disabled>
+                  <option value="">Select section first</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span>Club</span>
+                <select id="club" name="club" required disabled>
+                  <option value="">Select section first</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span>Parent / Guardian phone <em>optional</em></span>
+                <input id="guardianPhone" name="guardianPhone" type="tel" autocomplete="tel" placeholder="e.g. 0803 000 0000">
+              </label>
+
+              <label class="field">
+                <span>Parent / Guardian email <em>optional</em></span>
+                <input id="guardianEmail" name="guardianEmail" type="email" autocomplete="email" placeholder="name@example.com">
+              </label>
+            </div>
+
+            <div id="clubSummary" class="selection-summary" hidden></div>
+            <div id="formMessage" class="form-message" role="status" aria-live="polite"></div>
+
+            <button id="submitButton" class="submit-button" type="submit">
+              <span>Submit registration</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+            <p class="privacy-note">The information entered here is used only for school club registration and administration.</p>
+          </form>
+        </div>
+
+        <aside class="panel panel--clubs">
+          <div class="panel__heading panel__heading--clubs">
+            <div>
+              <p class="eyebrow">Club directory</p>
+              <h2>Available clubs</h2>
+            </div>
+            <select id="directoryFilter" aria-label="Filter club directory">
+              <option value="all">All sections</option>
+              <option value="nursery">Nursery</option>
+              <option value="lower-primary">Lower Primary</option>
+              <option value="upper-primary">Upper Primary</option>
+              <option value="high-school">High School</option>
+            </select>
+          </div>
+          <div id="clubDirectory" class="club-directory"></div>
+        </aside>
+      </section>
+    </main>
+
+    <footer>
+      <span>Royal Family Academy • Abuja</span>
+      <a href="https://www.royalfamilyacademy.org">royalfamilyacademy.org</a>
+    </footer>
+  </div>
+
+  <dialog id="successDialog" class="success-dialog">
+    <div class="success-dialog__icon">✓</div>
+    <p class="eyebrow">Registration received</p>
+    <h2>Club choice submitted</h2>
+    <p id="successText"></p>
+    <button id="closeDialog" type="button">Done</button>
+  </dialog>
+
+  <script src="./app.js" defer></script>
+</body>
+</html>
