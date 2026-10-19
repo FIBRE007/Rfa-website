@@ -231,6 +231,84 @@
     });
   }
 
+
+  /* The official Edves portal is available from every school header. */
+  function ensureSchoolPortalLinks() {
+    const portalUrl = 'https://rfa.edves.net/';
+    const actions = header.querySelector('.site-nav__actions');
+    const links = mobileNav && mobileNav.querySelector('.mobile-nav__links');
+    if (!actions && !links) return;
+
+    if (!document.getElementById('rfa-school-portal-styles')) {
+      const style = document.createElement('style');
+      style.id = 'rfa-school-portal-styles';
+      style.textContent = `
+        .site-nav__actions .rfa-portal-action{display:none}
+        @media(min-width:980px){
+          .site-nav__actions .rfa-portal-action{
+            display:inline-flex;align-items:center;justify-content:center;gap:.35rem;
+            min-height:40px;padding:.65rem .9rem;border:1px solid #d4b45e;
+            border-radius:3px;background:rgba(14,12,18,.24);
+            color:#fff4d4;font:700 .71rem/1.2 Inter,sans-serif;
+            letter-spacing:.085em;text-transform:uppercase;white-space:nowrap;
+            text-decoration:none;transition:background .2s ease,color .2s ease;
+          }
+          .site-nav__actions .rfa-portal-action:hover,
+          .site-nav__actions .rfa-portal-action:focus-visible{
+            background:#e3c672;color:#2d1742;
+          }
+          .site-header.is-scrolled .rfa-portal-action,
+          .site-header.menu-open .rfa-portal-action{
+            background:#fffaf0;color:#431677;border-color:#b68c2e;
+          }
+          /* Keep Sixth Form's navigation spacious when the portal action is added. */
+          body[data-site="sixthform"] .site-nav{
+            display:grid;grid-template-columns:minmax(0,1fr) auto;
+            grid-template-areas:"identity actions" "navigation navigation";
+            align-items:center;column-gap:2rem;row-gap:.65rem;
+          }
+          body[data-site="sixthform"] .site-nav__mark{grid-area:identity}
+          body[data-site="sixthform"] .site-nav__actions{grid-area:actions;justify-self:end}
+          body[data-site="sixthform"] .site-nav__links{
+            grid-area:navigation;width:100%;justify-content:center;
+            padding-top:.65rem;border-top:1px solid rgba(255,252,247,.24);
+          }
+          body[data-site="sixthform"] .site-header.is-scrolled .site-nav__links{
+            border-top-color:rgba(45,23,66,.14);
+          }
+        }
+        .mobile-nav__links .rfa-portal-mobile{
+          color:#431677;font-weight:700;
+          text-decoration:underline;text-decoration-color:#c6a24e;
+          text-decoration-thickness:2px;text-underline-offset:.2em;
+        }
+      `;
+      document.head.appendChild(style);
+    }
+
+    if (actions && !actions.querySelector('.rfa-portal-action')) {
+      const portalAction = document.createElement('a');
+      portalAction.className = 'rfa-portal-action';
+      portalAction.href = portalUrl;
+      portalAction.target = '_blank';
+      portalAction.rel = 'noopener noreferrer';
+      portalAction.setAttribute('aria-label', 'Open School Portal in a new tab');
+      portalAction.textContent = 'School Portal ↗';
+      actions.prepend(portalAction);
+    }
+
+    if (links && !links.querySelector('.rfa-portal-mobile')) {
+      const portalLink = document.createElement('a');
+      portalLink.className = 'rfa-portal-mobile';
+      portalLink.href = portalUrl;
+      portalLink.target = '_blank';
+      portalLink.rel = 'noopener noreferrer';
+      portalLink.setAttribute('aria-label', 'Open School Portal in a new tab');
+      portalLink.textContent = 'School Portal ↗';
+      links.prepend(portalLink);
+    }
+  }
+
   function ensureHighSchoolHeroOverlay() {
     if (!document.body || document.body.dataset.site !== 'highschool') return;
     if (document.getElementById('rfa-highschool-hero-overlay')) return;
@@ -342,6 +420,7 @@
     document.body.style.overflow = 'hidden';
   }
 
+  ensureSchoolPortalLinks();
   ensureHighSchoolHeroOverlay();
   ensureHighSchoolCampusNav();
   ensureSchoolSwitcher();
