@@ -4,8 +4,8 @@
  * changes. Merged into rfa-ai.js's SEARCH_SYNONYMS at runtime.
  *
  * 5000 entries: 125 curated semantic synonyms,
- * 1535 plural/singular forms, 3340 bounded typo variants,
- * drawn from 619 knowledge-base words and 1289 distinct
+ * 1536 plural/singular forms, 3339 bounded typo variants,
+ * drawn from 619 knowledge-base words and 1290 distinct
  * words across every page of all four Royal Family Academy sites.
  */
 window.RFA_KEYWORD_SYNONYMS = {
@@ -301,9 +301,6 @@ window.RFA_KEYWORD_SYNONYMS = {
   ],
   "actviities": [
     "activities"
-  ],
-  "actviity": [
-    "activity"
   ],
   "actvities": [
     "activities"
@@ -10243,6 +10240,9 @@ window.RFA_KEYWORD_SYNONYMS = {
   ],
   "portait": [
     "portrait"
+  ],
+  "portals": [
+    "portal"
   ],
   "portarit": [
     "portrait"
