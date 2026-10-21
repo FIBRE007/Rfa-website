@@ -39,7 +39,7 @@ window.RFA_KNOWLEDGE = {
     generalPhone: '+234 818 253 5981 / +234 818 711 1069',
     generalEmail: 'info@royalfamilyacademy.org',
     address: 'Plot 648 Idris Gidado St, Wuye, Abuja',
-    highSchoolAdmissionsPhone: '+234 811 605 5399',
+    highSchoolAdmissionsPhone: '+234 818 700 2651',
     sixthFormPhones: ['+234 816 338 3329', '+234 803 632 2129', '+234 809 575 2626'],
     sixthFormEmail: 'rfa6thform@royalfamilyacademy.org',
     sixthFormAddress: 'RFA Sixth Form College, Plot 648, Idris Gidado Street, Wuye, Abuja, Nigeria',
