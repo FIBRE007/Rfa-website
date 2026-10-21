@@ -233,7 +233,7 @@ window.RFA_SITE_INDEX = {
       "site": "highschool",
       "page": "Admissions | RFA High School",
       "heading": "Confirm eligibility.",
-      "text": "Class Minimum age Junior High 1 11 years Junior High 2 12 years Junior High 3 13 years Senior High 1 14 years Senior High 2 15 years Senior High 3 16 years High School admissions line: +234 811 605 5399 · info@royalfamilyacademy.org",
+      "text": "Class Minimum age Junior High 1 11 years Junior High 2 12 years Junior High 3 13 years Senior High 1 14 years Senior High 2 15 years Senior High 3 16 years High School admissions line: +234 818 700 2651 · info@royalfamilyacademy.org",
       "url": "https://highschool.royalfamilyacademy.org/admissions.html",
       "path": "highschool/admissions.html"
     },
@@ -289,7 +289,7 @@ window.RFA_SITE_INDEX = {
       "site": "highschool",
       "page": "Contact & Visit — Royal Family Academy High School",
       "heading": "High School Admissions",
-      "text": "+234 811 605 5399 info@royalfamilyacademy.org",
+      "text": "+234 818 700 2651 info@royalfamilyacademy.org",
       "url": "https://highschool.royalfamilyacademy.org/contact.html",
       "path": "highschool/contact.html"
     },
