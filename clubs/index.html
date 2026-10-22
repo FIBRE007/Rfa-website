@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en-NG">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#431677">
+  <link rel="icon" type="image/png" href="https://media.royalfamilyacademy.org/academy/rfa-logo.png">
+  <link rel="apple-touch-icon" href="https://media.royalfamilyacademy.org/academy/rfa-logo.png">
+  <title>Club Registration | Royal Family Academy</title>
+  <meta name="description" content="Register for Royal Family Academy clubs and co-curricular activities.">
+  <link rel="canonical" href="https://clubs.royalfamilyacademy.org/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Royal Family Academy">
+  <meta property="og:title" content="Club Registration | Royal Family Academy">
+  <meta property="og:description" content="Choose an eligible club and complete your Royal Family Academy club registration.">
+  <meta property="og:url" content="https://clubs.royalfamilyacademy.org/">
+  <meta property="og:image" content="https://media.royalfamilyacademy.org/academy/og-cover.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to club registration</a>
+
+  <header class="site-header">
+    <a class="brand" href="https://royalfamilyacademy.org/" aria-label="Royal Family Academy home">
+      <img src="https://media.royalfamilyacademy.org/academy/rfa-logo.png" alt="Royal Family Academy logo">
+      <span>
+        <strong>Royal Family Academy</strong>
+        <small>Raising Distinguished Leaders</small>
+      </span>
+    </a>
+    <span class="header-badge">Club Registration</span>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero__glow hero__glow--one"></div>
+      <div class="hero__glow hero__glow--two"></div>
+      <div class="hero__content">
+        <p class="eyebrow">2026–2027 Session</p>
+        <h1 id="page-title">Find your club.<br><span>Grow your gifts.</span></h1>
+        <p class="hero__intro">Choose your class to see the clubs available to you. Club capacities are limited and registration is subject to availability.</p>
+        <div class="hero__chips" aria-label="Registration highlights">
+          <span>Section-aware choices</span>
+          <span>Capacity limits</span>
+          <span>One club per learner</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="registration-shell" aria-label="Club registration form">
+      <div class="registration-card">
+        <div class="progress" aria-label="Registration progress">
+          <div class="progress__item is-active" data-progress="1"><span>1</span><em>Student</em></div>
+          <div class="progress__line"></div>
+          <div class="progress__item" data-progress="2"><span>2</span><em>Choose club</em></div>
+          <div class="progress__line"></div>
+          <div class="progress__item" data-progress="3"><span>3</span><em>Confirm</em></div>
+        </div>
+
+        <section class="step is-active" data-step="1" aria-labelledby="student-heading">
+          <div class="step-heading">
+            <p class="step-kicker">Step 1</p>
+            <h2 id="student-heading">Tell us who is registering</h2>
+            <p>Enter the learner's admission number and current class. The live version will verify the learner against the school portal before registration is submitted.</p>
+          </div>
+
+          <form id="student-form" class="form-grid" novalidate>
+            <label class="field field--wide">
+              <span>Admission Number / Student ID</span>
+              <input id="admission-number" name="admissionNumber" type="text" autocomplete="off" placeholder="e.g. RFA/2026/001" required>
+              <small>Use the learner's official school admission number.</small>
+            </label>
+
+            <label class="field">
+              <span>Current Class</span>
+              <select id="class-code" name="classCode" required>
+                <option value="">Select class</option>
+                <optgroup label="Nursery">
+                  <option value="KG">Kindergarten</option>
+                </optgroup>
+                <optgroup label="Primary">
+                  <option value="G1">Grade 1</option>
+                  <option value="G2">Grade 2</option>
+                  <option value="G3">Grade 3</option>
+                  <option value="G4">Grade 4</option>
+                  <option value="G5">Grade 5</option>
+                  <option value="G6">Grade 6</option>
+                </optgroup>
+                <optgroup label="High School">
+                  <option value="JH1">Junior High 1</option>
+                  <option value="JH2">Junior High 2</option>
+                  <option value="JH3">Junior High 3</option>
+                  <option value="SH1">Senior High 1</option>
+                  <option value="SH2">Senior High 2</option>
+                  <option value="SH3">Senior High 3</option>
+                </optgroup>
+              </select>
+            </label>
+
+            <label class="field">
+              <span>Learner's Name <em>optional for preview</em></span>
+              <input id="student-name" name="studentName" type="text" autocomplete="name" placeholder="Full name">
+            </label>
+
+            <div class="form-actions field--wide">
+              <button class="button button--primary" type="submit">Show available clubs <span aria-hidden="true">→</span></button>
+            </div>
+          </form>
+        </section>
+
+        <section class="step" data-step="2" aria-labelledby="clubs-heading" hidden>
+          <div class="step-heading step-heading--row">
+            <div>
+              <p class="step-kicker">Step 2</p>
+              <h2 id="clubs-heading">Choose one club</h2>
+              <p id="eligibility-note">Clubs shown below match the selected class.</p>
+            </div>
+            <button class="text-button" type="button" data-back="1">Change student</button>
+          </div>
+
+          <div id="connection-notice" class="notice notice--info" role="status" hidden></div>
+          <div id="clubs-grid" class="clubs-grid" aria-live="polite"></div>
+
+          <div class="sticky-selection" id="sticky-selection" hidden>
+            <div>
+              <small>Selected club</small>
+              <strong id="selected-club-name">None</strong>
+            </div>
+            <button class="button button--primary" id="continue-button" type="button" disabled>Continue <span aria-hidden="true">→</span></button>
+          </div>
+        </section>
+
+        <section class="step" data-step="3" aria-labelledby="confirm-heading" hidden>
+          <div class="step-heading step-heading--row">
+            <div>
+              <p class="step-kicker">Step 3</p>
+              <h2 id="confirm-heading">Confirm your registration</h2>
+              <p>Check the details carefully before submitting.</p>
+            </div>
+            <button class="text-button" type="button" data-back="2">Change club</button>
+          </div>
+
+          <div class="review-card">
+            <dl>
+              <div><dt>Learner</dt><dd id="review-student">—</dd></div>
+              <div><dt>Admission No.</dt><dd id="review-admission">—</dd></div>
+              <div><dt>Class</dt><dd id="review-class">—</dd></div>
+              <div><dt>Selected club</dt><dd id="review-club">—</dd></div>
+              <div><dt>Club capacity</dt><dd id="review-capacity">—</dd></div>
+            </dl>
+          </div>
+
+          <label class="consent">
+            <input id="confirm-checkbox" type="checkbox">
+            <span>I confirm that the information above is correct and understand that registration is subject to the club's available capacity.</span>
+          </label>
+
+          <div id="submit-message" class="notice" role="status" hidden></div>
+
+          <div class="form-actions">
+            <button class="button button--primary" id="submit-registration" type="button" disabled>Submit registration</button>
+          </div>
+        </section>
+
+        <section class="step success-panel" data-step="success" aria-labelledby="success-heading" hidden>
+          <div class="success-icon" aria-hidden="true">✓</div>
+          <p class="step-kicker">Registration received</p>
+          <h2 id="success-heading">Your club choice has been submitted.</h2>
+          <p id="success-copy">A confirmation will be shown here when the portal completes the registration.</p>
+          <button class="button button--secondary" id="start-over" type="button">Register another learner</button>
+        </section>
+      </div>
+
+      <aside class="info-card" aria-labelledby="rules-title">
+        <p class="eyebrow">Before you register</p>
+        <h2 id="rules-title">Club selection rules</h2>
+        <div class="rule-list">
+          <div><span>01</span><p><strong>Choose one club.</strong> The portal should block duplicate active registrations for the same learner.</p></div>
+          <div><span>02</span><p><strong>Section restrictions apply.</strong> Lower Primary clubs are for Grades 1–3; Upper Primary clubs are for Grades 4–5; Nursery clubs are for Kindergarten pupils.</p></div>
+          <div><span>03</span><p><strong>Capacity is limited.</strong> Once a club reaches its maximum membership, it should no longer accept registrations.</p></div>
+          <div><span>04</span><p><strong>Portal data remains authoritative.</strong> Final availability and learner details should come from the existing RFA portal.</p></div>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <footer>
+    <img src="https://media.royalfamilyacademy.org/academy/rfa-logo.png" alt="" aria-hidden="true">
+    <div>
+      <strong>Royal Family Academy, Abuja</strong>
+      <span>Raising Distinguished Leaders</span>
+    </div>
+    <a href="https://royalfamilyacademy.org/">Main website</a>
+  </footer>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
